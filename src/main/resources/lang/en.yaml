@@ -1,0 +1,17 @@
+page-not-found:
+  title: "Page not found"
+  content: "The requested page could not be found!"
+
+week-page.title: "Week %s - %s"
+
+week:
+  nothing-planed: Nothing planed
+
+weekday:
+  Monday: Monday
+  Tuesday: Tuesday
+  Wednesday: Wednesday
+  Thursday: Thursday
+  Friday: Friday
+  Saturday: Saturday
+  Sunday: Sunday

@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - 8080:80
+    links:
+      - mysql
+    environment:
+      TZ: Europe/Berlin
+      DATABASE_HOST: mysql
+      DATABASE_NAME: mealplan
+      DATABASE_USERNAME: mealplan
+      DATABASE_PASSWORD: mealplan
+
+  mysql:
+    image: mariadb
+    volumes:
+      - ./database.sql:/docker-entrypoint-initdb.d/10-db.sql:ro
+    environment:
+      TZ: Europe/Berlin
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: mealplan
+      MYSQL_USER: mealplan
+      MYSQL_PASSWORD: mealplan

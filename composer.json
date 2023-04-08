@@ -1,0 +1,29 @@
+{
+  "name": "programie/meal-plan",
+  "description": "Webapp for managing meal plans",
+  "type": "project",
+  "require": {
+    "php": ">=8.2",
+    "altorouter/altorouter": "^2.0",
+    "guzzlehttp/guzzle": "^7.5",
+    "twig/twig": "^3.5",
+    "symfony/asset": "^6.2",
+    "ext-json": "*",
+    "symfony/yaml": "^6.2",
+    "doctrine/orm": "^2.14",
+    "symfony/cache": "^6.2"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "mealplan\\": "src/main/php/mealplan"
+    }
+  },
+  "authors": [
+    {
+      "name": "Michael Wieland",
+      "email": "git@selfcoders.com"
+    }
+  ],
+  "minimum-stability": "stable"
+}

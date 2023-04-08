@@ -1,0 +1,38 @@
+{% extends "page.twig" %}
+
+{% block title %}{{ tr("week-page.title", startDate.formatForDisplay, endDate.formatForDisplay) }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-auto"><a href="/{{ currentSpace.id }}/{{ previousWeek.formatForUrl }}"><i class="fa-solid fa-caret-left"></i></a></div>
+            <div class="col-auto me-auto mx-auto" id="week-current-date-container">
+                {{ startDate.formatForDisplay }} - {{ endDate.formatForDisplay }}
+                <input type="date" id="week-date-selection"/>
+            </div>
+            <div class="col-auto"><a href="/{{ currentSpace.id }}/{{ nextWeek.formatForUrl }}"><i class="fa-solid fa-caret-right"></i></a></div>
+        </div>
+
+        <div>
+            {% for day in days %}
+                <h2>{{ day.title }}</h2>
+
+
+                    <div class="list-group">
+                        {% for typeId, meals in day.meals %}
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col">{{ mealTypes[typeId] }}</div>
+                                    <div class="col">
+                                        {% for meal in meals %}
+                                            <p>{{ meal.text }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

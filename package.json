@@ -1,0 +1,34 @@
+{
+  "name": "mealplan",
+  "description": "Webapp for managing meal plans",
+  "homepage": "https://selfcoders.com",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@popperjs/core": "^2.11.7",
+    "@types/bootstrap": "^5.2.6",
+    "bootstrap": "^5.3.0-alpha3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.2.5",
+    "clean-webpack-plugin": "^3.0.0",
+    "css": "^3.0.0",
+    "css-loader": "^5.2.4",
+    "file-loader": "^6.2.0",
+    "loader": "^2.1.1",
+    "mini-css-extract-plugin": "^1.6.0",
+    "node-sass": "^8.0.0",
+    "postcss-loader": "^5.3.0",
+    "sass-loader": "^13.0.0",
+    "style-loader": "^2.0.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
+    "webpack": "^5.37.1",
+    "webpack-assets-manifest": "^5.0.6",
+    "webpack-cli": "^4.7.0"
+  },
+  "scripts": {
+    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack --mode production",
+    "build-dev": "NODE_OPTIONS=--openssl-legacy-provider webpack --mode development",
+    "watch": "NODE_OPTIONS=--openssl-legacy-provider webpack --mode development --watch"
+  }
+}
