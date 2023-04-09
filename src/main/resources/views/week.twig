@@ -22,7 +22,7 @@
                     <h2 class="mb-2">{{ day.title }}</h2>
 
                     {% if day.meals|length %}
-                        <div class="list-group">
+                        <div class="list-group list-group-flush">
                             {% for typeId, meals in day.meals %}
                                 <div class="list-group-item">
                                     <div class="row">
