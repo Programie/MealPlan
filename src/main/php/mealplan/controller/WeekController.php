@@ -16,14 +16,14 @@ class WeekController
 {
     public function redirectToPageWithSpaceId(int $spaceId)
     {
-        header(sprintf("Location: /%d/%s", $spaceId, (new Date)->getStartOfWeek()->format("Y-m-d")));
+        header(sprintf("Location: /space/%d/week/%s", $spaceId, (new Date)->getStartOfWeek()->format("Y-m-d")));
     }
 
     public function redirectToPage()
     {
         $space = Database::getEntityManager()->getRepository(Space::class)->findOneBy([], ["id" => "ASC"]);
 
-        header(sprintf("Location: /%d/%s", $space->getId(), (new Date)->getStartOfWeek()->format("Y-m-d")));
+        header(sprintf("Location: /space/%d/week/%s", $space->getId(), (new Date)->getStartOfWeek()->format("Y-m-d")));
     }
 
     public function getPage(int $spaceId, string $date)

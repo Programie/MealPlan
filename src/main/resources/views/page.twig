@@ -27,7 +27,13 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     {% for space in spaces %}
-                                        <li><a class="dropdown-item" href="/{{ space.id }}/{{ date.format("Y-m-d") }}">{{ space.name }}</a></li>
+                                        {% if startDate %}
+                                            {% set url = "/space/#{space.id}/week/#{startDate.formatForUrl}" %}
+                                        {% else %}
+                                            {% set url = "/space/#{space.id}" %}
+                                        {% endif %}
+
+                                        <li><a class="dropdown-item" href="{{ url }}">{{ space.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </li>
