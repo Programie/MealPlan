@@ -18,40 +18,38 @@
 
 {% block content %}
     <div class="container">
-        <div>
-            <table class="table table-striped" id="week-table">
-                <thead>
-                    <tr>
-                        <th></th>
+        <table class="table table-striped" id="week-table">
+            <thead>
+                <tr>
+                    <th></th>
 
-                        {% for type in mealTypes %}
-                            <th class="week-meal-type">{{ type }}</th>
+                    {% for type in mealTypes %}
+                        <th class="week-meal-type">{{ type }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for day in days %}
+                    <tr>
+                        <th class="week-day">{{ day.title }}</th>
+
+                        {% for typeId, _ in mealTypes %}
+                            <td>
+                                {% for meal in day.meals[typeId] %}
+                                    <div>
+                                        {% if meal.url %}
+                                            <a href="{{ meal.url }}" target="_blank" class="icon-link icon-link-hover">{{ meal.text }}</a>
+                                        {% else %}
+                                            {{ meal.text }}
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </td>
                         {% endfor %}
                     </tr>
-                </thead>
-
-                <tbody>
-                    {% for day in days %}
-                        <tr>
-                            <th class="week-day">{{ day.title }}</th>
-
-                            {% for typeId, _ in mealTypes %}
-                                <td>
-                                    {% for meal in day.meals[typeId] %}
-                                        <div>
-                                            {% if meal.url %}
-                                                <a href="{{ meal.url }}" target="_blank" class="icon-link icon-link-hover">{{ meal.text }}</a>
-                                            {% else %}
-                                                {{ meal.text }}
-                                            {% endif %}
-                                        </div>
-                                    {% endfor %}
-                                </td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
