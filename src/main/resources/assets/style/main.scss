@@ -63,3 +63,7 @@ main {
 #week-edit-button:hover {
     transform: rotate(-90deg);
 }
+
+@media print {
+    @import "print.scss";
+}

@@ -1,0 +1,27 @@
+* {
+    background-color: #fff !important;
+    color: #000 !important;
+    --bs-table-striped-bg: #fff !important;
+    text-decoration: none !important;
+}
+
+.btn,
+.navbar-brand,
+#space-dropdown,
+#week-edit-button {
+    display: none;
+}
+
+main,
+main .container {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#week-date-container {
+    width: 100%;
+}
+
+table tr {
+    border-bottom-width: 2px;
+}
