@@ -4,6 +4,10 @@ page-not-found:
 
 week-page.title: "Woche %s - %s"
 select-space: "Space auswählen"
+goto-week:
+  previous: "Zur vorherigen Woche springen"
+  current: "Zur aktuellen Woche springen"
+  next: "Zur nächsten Woche springen"
 
 week:
   nothing-planed: Nichts geplant

@@ -4,6 +4,10 @@ page-not-found:
 
 week-page.title: "Week %s - %s"
 select-space: "Select space"
+goto-week:
+  previous: "Goto previous week"
+  current: "Goto current week"
+  next: "Goto next week"
 
 week:
   nothing-planed: Nothing planed

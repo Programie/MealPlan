@@ -3,7 +3,7 @@ import "../style/main.scss";
 import "bootstrap";
 
 window.onload = () => {
-    document.querySelector("#week-current-date-container").addEventListener("click", () => {
+    document.querySelector("#week-current-date").addEventListener("click", () => {
         (document.querySelector("#week-date-selection") as HTMLInputElement).showPicker();
     });
 

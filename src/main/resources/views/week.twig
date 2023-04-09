@@ -5,14 +5,15 @@
 {% block content %}
     <div class="container">
         <div class="row pb-3">
-            <div class="col-auto"><a href="/space/{{ currentSpace.id }}/week/{{ previousWeek.formatForUrl }}" class="btn btn-secondary px-3"><i class="fa-solid fa-caret-left"></i></a></div>
+            <div class="col-auto"><a href="/space/{{ currentSpace.id }}/week/{{ previousWeek.formatForUrl }}" class="btn btn-secondary px-3" title="{{ tr("goto-week.previous") }}"><i class="fa-solid fa-caret-left"></i></a></div>
             <div class="col-auto mx-auto d-flex">
                 <div id="week-current-date-container" class="align-self-center fs-3" role="button">
-                    <span>{{ startDate.formatForDisplay }} - {{ endDate.formatForDisplay }}</span>
+                    <span id="week-current-date">{{ startDate.formatForDisplay }} - {{ endDate.formatForDisplay }}</span>
+                    <a href="/space/{{ currentSpace.id }}/week/{{ now.formatForUrl }}" class="btn btn-secondary" title="{{ tr("goto-week.current") }}"><i class="fa fa-calendar-week"></i></a>
                     <input type="date" id="week-date-selection"/>
                 </div>
             </div>
-            <div class="col-auto"><a href="/space/{{ currentSpace.id }}/week/{{ nextWeek.formatForUrl }}" class="btn btn-secondary px-3"><i class="fa-solid fa-caret-right"></i></a></div>
+            <div class="col-auto"><a href="/space/{{ currentSpace.id }}/week/{{ nextWeek.formatForUrl }}" class="btn btn-secondary px-3" title="{{ tr("goto-week.next") }}"><i class="fa-solid fa-caret-right"></i></a></div>
         </div>
 
         <div>
