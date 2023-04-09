@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="dark">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -12,31 +12,30 @@
 
     <body>
         <header>
-            <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+            <nav class="navbar navbar-expand-md navbar-dark bg-primary sticky-top">
                 <div class="container py-2">
-                    <div class="mx-md-auto">
-                        <div class="collapse navbar-collapse" id="navbar-collapse">
-                            <ul class="navbar-nav">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">{{ currentSpace.name }}</a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        {% for space in spaces %}
-                                            <li><a class="dropdown-item" href="/{{ space.id }}/{{ date.format("Y-m-d") }}">{{ space.name }}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                    <span class="navbar-brand">MealPlan</span>
+                    <div class="collapse navbar-collapse" id="navbar-collapse">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">{{ currentSpace.name }}</a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    {% for space in spaces %}
+                                        <li><a class="dropdown-item" href="/{{ space.id }}/{{ date.format("Y-m-d") }}">{{ space.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
                 </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
             </nav>
         </header>
 
-        <main>
+        <main class="pt-3">
             {% block content %}{% endblock %}
         </main>
     </body>

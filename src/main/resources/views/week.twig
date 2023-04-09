@@ -4,20 +4,22 @@
 
 {% block content %}
     <div class="container">
-        <div class="row">
-            <div class="col-auto"><a href="/{{ currentSpace.id }}/{{ previousWeek.formatForUrl }}"><i class="fa-solid fa-caret-left"></i></a></div>
-            <div class="col-auto me-auto mx-auto" id="week-current-date-container">
-                {{ startDate.formatForDisplay }} - {{ endDate.formatForDisplay }}
-                <input type="date" id="week-date-selection"/>
+        <div class="row pb-3">
+            <div class="col-auto"><a href="/{{ currentSpace.id }}/{{ previousWeek.formatForUrl }}" class="btn btn-secondary px-3"><i class="fa-solid fa-caret-left"></i></a></div>
+            <div class="col-auto mx-auto d-flex">
+                <div id="week-current-date-container" class="align-self-center" role="button">
+                    <span>{{ startDate.formatForDisplay }} - {{ endDate.formatForDisplay }}</span>
+                    <input type="date" id="week-date-selection"/>
+                </div>
             </div>
-            <div class="col-auto"><a href="/{{ currentSpace.id }}/{{ nextWeek.formatForUrl }}"><i class="fa-solid fa-caret-right"></i></a></div>
+            <div class="col-auto"><a href="/{{ currentSpace.id }}/{{ nextWeek.formatForUrl }}" class="btn btn-secondary px-3"><i class="fa-solid fa-caret-right"></i></a></div>
         </div>
 
         <div>
             {% for day in days %}
                 <h2>{{ day.title }}</h2>
 
-
+                {% if day.meals|length %}
                     <div class="list-group">
                         {% for typeId, meals in day.meals %}
                             <div class="list-group-item">
@@ -25,13 +27,22 @@
                                     <div class="col">{{ mealTypes[typeId] }}</div>
                                     <div class="col">
                                         {% for meal in meals %}
-                                            <p>{{ meal.text }}</p>
+                                            <div>
+                                                {% if meal.url %}
+                                                    <a href="{{ meal.url }}" target="_blank">{{ meal.text }}</a>
+                                                {% else %}
+                                                    {{ meal.text }}
+                                                {% endif %}
+                                            </div>
                                         {% endfor %}
                                     </div>
                                 </div>
                             </div>
                         {% endfor %}
                     </div>
+                {% else %}
+                    <p>{{ tr("week.nothing-planed") }}</p>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
