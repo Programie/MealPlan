@@ -17,35 +17,37 @@
 
         <div>
             {% for day in days %}
-                <h2>{{ day.title }}</h2>
+                <div class="week-day-container">
+                    <h2>{{ day.title }}</h2>
 
-                {% if day.meals|length %}
-                    <div class="list-group">
-                        {% for typeId, meals in day.meals %}
-                            <div class="list-group-item">
-                                <div class="row">
-                                    <div class="col">{{ mealTypes[typeId] }}</div>
-                                    <div class="col">
-                                        {% for meal in meals %}
-                                            <div>
-                                                {% if meal.url %}
-                                                    <a href="{{ meal.url }}" target="_blank" class="icon-link icon-link-hover">
+                    {% if day.meals|length %}
+                        <div class="list-group">
+                            {% for typeId, meals in day.meals %}
+                                <div class="list-group-item">
+                                    <div class="row">
+                                        <div class="col">{{ mealTypes[typeId] }}</div>
+                                        <div class="col">
+                                            {% for meal in meals %}
+                                                <div>
+                                                    {% if meal.url %}
+                                                        <a href="{{ meal.url }}" target="_blank" class="icon-link icon-link-hover">
+                                                            {{ meal.text }}
+                                                            <i class="fa fa-globe"></i>
+                                                        </a>
+                                                    {% else %}
                                                         {{ meal.text }}
-                                                        <i class="fa fa-globe"></i>
-                                                    </a>
-                                                {% else %}
-                                                    {{ meal.text }}
-                                                {% endif %}
-                                            </div>
-                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <p>{{ tr("week.nothing-planed") }}</p>
-                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>{{ tr("week.nothing-planed") }}</p>
+                    {% endif %}
+                </div>
             {% endfor %}
         </div>
     </div>

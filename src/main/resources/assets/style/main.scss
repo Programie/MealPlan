@@ -16,3 +16,11 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
     margin: 0 auto;
     visibility: hidden;
 }
+
+.week-day-container {
+    margin-top: 3rem;
+}
+
+.week-day-container:first-child {
+    margin-top: 0;
+}
