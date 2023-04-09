@@ -3,6 +3,7 @@ page-not-found:
   content: "The requested page could not be found!"
 
 week-page.title: "Week %s - %s"
+select-space: "Select space"
 
 week:
   nothing-planed: Nothing planed
