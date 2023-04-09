@@ -29,7 +29,10 @@
                                         {% for meal in meals %}
                                             <div>
                                                 {% if meal.url %}
-                                                    <a href="{{ meal.url }}" target="_blank">{{ meal.text }}</a>
+                                                    <a href="{{ meal.url }}" target="_blank" class="icon-link icon-link-hover">
+                                                        {{ meal.text }}
+                                                        <i class="fa fa-globe"></i>
+                                                    </a>
                                                 {% else %}
                                                     {{ meal.text }}
                                                 {% endif %}
