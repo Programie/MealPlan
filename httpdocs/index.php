@@ -13,7 +13,8 @@ TwigRenderer::init();
 $router = new AltoRouter;
 
 $router->map("GET", "/", [WeekController::class, "redirectToPage"]);
-$router->map("GET", "/[i:spaceId]/[:date]", [WeekController::class, "getPage"]);
+$router->map("GET", "/[i:spaceId]/?", [WeekController::class, "redirectToPageWithSpaceId"]);
+$router->map("GET", "/[i:spaceId]/[:date]/?", [WeekController::class, "getPage"]);
 $router->map("GET", "/[i:spaceId]/[:date].json", [WeekController::class, "getJson"]);
 
 $match = $router->match();

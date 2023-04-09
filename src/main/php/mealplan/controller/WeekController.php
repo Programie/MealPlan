@@ -14,6 +14,11 @@ use mealplan\TwigRenderer;
 
 class WeekController
 {
+    public function redirectToPageWithSpaceId(int $spaceId)
+    {
+        header(sprintf("Location: /%d/%s", $spaceId, (new Date)->getStartOfWeek()->format("Y-m-d")));
+    }
+
     public function redirectToPage()
     {
         $space = Database::getEntityManager()->getRepository(Space::class)->findOneBy([], ["id" => "ASC"]);
