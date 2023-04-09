@@ -1,6 +1,6 @@
 import "../style/main.scss";
 
-import * as bootstrap from "bootstrap";
+import "bootstrap";
 
 window.onload = () => {
     document.querySelector("#week-current-date-container").addEventListener("click", () => {
