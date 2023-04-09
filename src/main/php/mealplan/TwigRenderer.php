@@ -26,7 +26,6 @@ class TwigRenderer
         self::$twig = new Environment($loader);
 
         self::$twig->addGlobal("spaces", Database::getEntityManager()->getRepository(Space::class)->findAll());
-        self::$twig->addGlobal("now", new Date);
 
         self::$twig->addFunction(new TwigFunction("asset", function (string $path) use ($assetsPackage) {
             return $assetsPackage->getUrl($path);

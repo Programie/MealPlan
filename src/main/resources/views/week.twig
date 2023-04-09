@@ -9,7 +9,7 @@
             <div class="col-auto mx-auto d-flex">
                 <div id="week-current-date-container" class="align-self-center fs-3" role="button">
                     <span id="week-current-date">{{ startDate.formatForDisplay }} - {{ endDate.formatForDisplay }}</span>
-                    <a href="/space/{{ currentSpace.id }}/week/{{ now.formatForUrl }}" class="btn btn-secondary" title="{{ tr("goto-week.current") }}"><i class="fa fa-calendar-week"></i></a>
+                    <a href="/space/{{ currentSpace.id }}/week/{{ nowWeek.formatForUrl }}" class="btn btn-secondary" title="{{ tr("goto-week.current") }}"><i class="fa fa-calendar-week"></i></a>
                     <input type="date" id="week-date-selection"/>
                 </div>
             </div>
