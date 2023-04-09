@@ -2,13 +2,34 @@ const path = require("path");
 const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
+const scriptRoot = "./src/main/resources/assets/script";
 
 module.exports = {
-    entry: "./src/main/resources/assets/script/main.ts",
+    entry: {
+        "week": `${scriptRoot}/week-view.ts`,
+        "error-page": `${scriptRoot}/error-page.ts`
+    },
     output: {
         path: path.resolve(__dirname, "httpdocs/assets"),
         publicPath: "/assets/",
         filename: "[name].[hash].js"
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                styles: {
+                    name: "styles",
+                    type: "css/mini-extract",
+                    chunks: "all",
+                    enforce: true
+                },
+                vendor: {
+                    test: /[\\/]node_modules[\\/].*\.js$/,
+                    name: "vendor",
+                    chunks: "all",
+                }
+            }
+        }
     },
     devtool: "source-map",
     plugins: [

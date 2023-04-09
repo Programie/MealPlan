@@ -48,6 +48,6 @@ class TwigRenderer
      */
     public static function render(string $name, array $context = []): string
     {
-        return self::$twig->render($name . ".twig", $context);
+        return self::$twig->render($name . ".twig", ["assetEntryPoint" => $name] + $context);
     }
 }

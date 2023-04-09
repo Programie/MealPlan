@@ -6,8 +6,9 @@
 
         <title>{% block title %}{% endblock %} - Meal Plan</title>
 
-        <link rel="stylesheet" href="{{ asset("main.css") }}"/>
-        <script src="{{ asset("main.js") }}"></script>
+        <link rel="stylesheet" href="{{ asset("styles.css") }}"/>
+        <script src="{{ asset("vendor.js") }}"></script>
+        <script src="{{ asset("#{assetEntryPoint}.js") }}"></script>
     </head>
 
     <body>
