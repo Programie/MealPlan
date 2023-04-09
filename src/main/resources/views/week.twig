@@ -2,54 +2,56 @@
 
 {% block title %}{{ tr("week-page.title", startDate.formatForDisplay, endDate.formatForDisplay) }}{% endblock %}
 
+{% block navbar %}
+    <div class="row ms-auto me-auto" id="week-date-container">
+        <div class="col-auto"><a href="/space/{{ currentSpace.id }}/week/{{ previousWeek.formatForUrl }}" class="btn btn-primary px-3" title="{{ tr("goto-week.previous") }}"><i class="fa-solid fa-caret-left"></i></a></div>
+        <div class="col-auto mx-auto d-flex">
+            <div id="week-current-date-container" class="align-self-center" role="button">
+                <span class="align-middle bold" id="week-current-date">{{ startDate.formatForDisplay }} - {{ endDate.formatForDisplay }}</span>
+                <a href="/space/{{ currentSpace.id }}/week/{{ nowWeek.formatForUrl }}" class="btn btn-primary" title="{{ tr("goto-week.current") }}"><i class="fa fa-calendar-week"></i></a>
+                <input type="date" id="week-date-selection"/>
+            </div>
+        </div>
+        <div class="col-auto"><a href="/space/{{ currentSpace.id }}/week/{{ nextWeek.formatForUrl }}" class="btn btn-primary px-3" title="{{ tr("goto-week.next") }}"><i class="fa-solid fa-caret-right"></i></a></div>
+    </div>
+{% endblock %}
+
 {% block content %}
     <div class="container">
-        <div class="row pb-3">
-            <div class="col-auto"><a href="/space/{{ currentSpace.id }}/week/{{ previousWeek.formatForUrl }}" class="btn btn-secondary px-3" title="{{ tr("goto-week.previous") }}"><i class="fa-solid fa-caret-left"></i></a></div>
-            <div class="col-auto mx-auto d-flex">
-                <div id="week-current-date-container" class="align-self-center fs-3" role="button">
-                    <span id="week-current-date">{{ startDate.formatForDisplay }} - {{ endDate.formatForDisplay }}</span>
-                    <a href="/space/{{ currentSpace.id }}/week/{{ nowWeek.formatForUrl }}" class="btn btn-secondary" title="{{ tr("goto-week.current") }}"><i class="fa fa-calendar-week"></i></a>
-                    <input type="date" id="week-date-selection"/>
-                </div>
-            </div>
-            <div class="col-auto"><a href="/space/{{ currentSpace.id }}/week/{{ nextWeek.formatForUrl }}" class="btn btn-secondary px-3" title="{{ tr("goto-week.next") }}"><i class="fa-solid fa-caret-right"></i></a></div>
-        </div>
-
         <div>
-            {% for day in days %}
-                <div class="week-day-container">
-                    <h2 class="mb-2">{{ day.title }}</h2>
+            <table class="table table-striped" id="week-table">
+                <thead>
+                    <tr>
+                        <th></th>
 
-                    {% if day.meals|length %}
-                        <div class="list-group list-group-flush">
-                            {% for typeId, meals in day.meals %}
-                                <div class="list-group-item">
-                                    <div class="row">
-                                        <div class="col">{{ mealTypes[typeId] }}</div>
-                                        <div class="col">
-                                            {% for meal in meals %}
-                                                <div>
-                                                    {% if meal.url %}
-                                                        <a href="{{ meal.url }}" target="_blank" class="icon-link icon-link-hover">
-                                                            {{ meal.text }}
-                                                            <i class="fa fa-globe"></i>
-                                                        </a>
-                                                    {% else %}
-                                                        {{ meal.text }}
-                                                    {% endif %}
-                                                </div>
-                                            {% endfor %}
+                        {% for type in mealTypes %}
+                            <th class="week-meal-type">{{ type }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for day in days %}
+                        <tr>
+                            <th class="week-day">{{ day.title }}</th>
+
+                            {% for typeId, _ in mealTypes %}
+                                <td>
+                                    {% for meal in day.meals[typeId] %}
+                                        <div>
+                                            {% if meal.url %}
+                                                <a href="{{ meal.url }}" target="_blank" class="icon-link icon-link-hover">{{ meal.text }}</a>
+                                            {% else %}
+                                                {{ meal.text }}
+                                            {% endif %}
                                         </div>
-                                    </div>
-                                </div>
+                                    {% endfor %}
+                                </td>
                             {% endfor %}
-                        </div>
-                    {% else %}
-                        <p>{{ tr("week.nothing-planed") }}</p>
-                    {% endif %}
-                </div>
-            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

@@ -1,3 +1,9 @@
+$header-font-size: 1.5rem;
+
+$navbar-dark-color: white;
+$navbar-padding-y: 0;
+$navbar-brand-font-size: $header-font-size;
+
 @import "~bootstrap/scss/bootstrap";
 
 $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
@@ -6,8 +12,18 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
+main {
+    padding-top: 3rem;
+}
+
+#space-dropdown {
+    font-size: $header-font-size;
+}
+
 #week-current-date-container {
     position: relative;
+    font-size: $header-font-size;
+    color: white;
 }
 
 #week-date-selection {
@@ -17,10 +33,18 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
     visibility: hidden;
 }
 
-.week-day-container {
-    margin-top: 3rem;
+.week-meal-type, .week-day {
+    font-size: 1.5rem;
 }
 
-.week-day-container:first-child {
-    margin-top: 0;
+#week-table thead {
+    background-color: $gray-800;
+}
+
+#week-table th, #week-table td {
+    padding: 1.5rem;
+}
+
+.navbar-nav .dropdown-menu {
+    margin-top: 8px;
 }
