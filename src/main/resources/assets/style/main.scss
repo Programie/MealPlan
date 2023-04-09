@@ -48,3 +48,18 @@ main {
 .navbar-nav .dropdown-menu {
     margin-top: 8px;
 }
+
+#week-edit-button {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    padding: 0;
+    transition: transform 500ms;
+}
+
+#week-edit-button:hover {
+    transform: rotate(-90deg);
+}
