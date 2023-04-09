@@ -56,8 +56,8 @@ class WeekController
         return TwigRenderer::render("week", [
             "currentSpace" => $currentSpace,
             "nowWeek" => (new Date)->getStartOfWeek(),
-            "previousWeek" => $date->getPreviousWeek(),
-            "nextWeek" => $date->getNextWeek(),
+            "previousWeek" => $date->getPreviousWeek()->getStartOfWeek(),
+            "nextWeek" => $date->getNextWeek()->getStartOfWeek(),
             "startDate" => $startDate,
             "endDate" => $endDate,
             "mealTypes" => $mealTypes,
