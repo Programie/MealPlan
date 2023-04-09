@@ -32,8 +32,6 @@ class WeekController
 
         $date = new Date($date);
 
-        $spaces = $entityManager->getRepository(Space::class)->findAll();
-
         /**
          * @var $currentSpace Space
          */
@@ -56,7 +54,6 @@ class WeekController
         }
 
         return TwigRenderer::render("week", [
-            "spaces" => $spaces,
             "currentSpace" => $currentSpace,
             "previousWeek" => $date->getPreviousWeek(),
             "nextWeek" => $date->getNextWeek(),

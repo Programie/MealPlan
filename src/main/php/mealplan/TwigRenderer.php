@@ -1,6 +1,7 @@
 <?php
 namespace mealplan;
 
+use mealplan\model\Space;
 use Symfony\Component\Asset\Package;
 use Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy;
 use Twig\Environment;
@@ -23,6 +24,8 @@ class TwigRenderer
         $loader = new FilesystemLoader(VIEWS_ROOT);
 
         self::$twig = new Environment($loader);
+
+        self::$twig->addGlobal("spaces", Database::getEntityManager()->getRepository(Space::class)->findAll());
 
         self::$twig->addFunction(new TwigFunction("asset", function (string $path) use ($assetsPackage) {
             return $assetsPackage->getUrl($path);
