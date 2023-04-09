@@ -12,6 +12,14 @@ goto-week:
 week:
   nothing-planed: Nothing planed
 
+edit:
+  add-meal: "Add meal"
+  save: "Save"
+  cancel: "Cancel"
+  dropdown:
+    link: "Link"
+    notification: "Notification"
+
 weekday:
   Monday: Monday
   Tuesday: Tuesday

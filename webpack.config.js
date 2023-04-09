@@ -7,6 +7,7 @@ const scriptRoot = "./src/main/resources/assets/script";
 module.exports = {
     entry: {
         "week": `${scriptRoot}/week-view.ts`,
+        "week-edit": `${scriptRoot}/week-edit.ts`,
         "error-page": `${scriptRoot}/error-page.ts`
     },
     output: {

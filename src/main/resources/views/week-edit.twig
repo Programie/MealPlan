@@ -1,0 +1,68 @@
+{% extends "page.twig" %}
+
+{% block title %}{{ tr("week-page.title", startDate.formatForDisplay, endDate.formatForDisplay) }}{% endblock %}
+
+{% block navbar %}
+    <div class="row ms-auto me-auto" id="week-date-container">
+        <div class="col-auto mx-auto d-flex">
+            <div id="week-current-date-container" class="align-self-center">
+                <span class="align-middle bold" id="week-current-date">{{ startDate.formatForDisplay }} - {{ endDate.formatForDisplay }}</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <table class="table table-striped" id="week-table">
+            <thead>
+                <tr>
+                    <th></th>
+
+                    {% for type in mealTypes %}
+                        <th class="week-meal-type">{{ type }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for day in days %}
+                    <tr data-date="{{ day.date.formatForKey }}">
+                        <th class="week-day">{{ day.title }}</th>
+
+                        {% for typeId, _ in mealTypes %}
+                            <td class="text-center" data-type="{{ typeId }}">
+                                {% for meal in day.meals[typeId] %}
+                                    {% include "week-edit-meal.twig" with {
+                                        "id": meal.id,
+                                        "text": meal.text,
+                                        "date": meal.date.formatForKey,
+                                        "url": meal.url,
+                                        "type": meal.type.id
+                                    } only %}
+                                {% endfor %}
+
+                                <button type="button" class="btn btn-primary btn-sm week-edit-meal-add" title="{{ tr("edit.add-meal") }}"><i class="fa fa-plus"></i></button>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="floating-button-container">
+        <button class="btn btn-success floating-button" id="week-edit-save-button" title="{{ tr("edit.save") }}"><i class="fa fa-check"></i></button>
+        <a href="/space/{{ currentSpace.id }}/week/{{ startDate.formatForUrl }}" class="btn btn-danger floating-button" title="{{ tr("edit.cancel") }}"><i class="fa fa-xmark"></i></a>
+    </div>
+
+    <script type="x-tmpl-mustache" id="week-edit-meal-template">
+        {% include "week-edit-meal.twig" with {
+            "id": "{{ id }}",
+            "text": "{{ text }}",
+            "date": "{{ date }}",
+            "url": "{{ url }}",
+            "type": "{{ type }}"
+        } only %}
+    </script>
+{% endblock %}

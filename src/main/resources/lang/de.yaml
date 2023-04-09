@@ -12,6 +12,14 @@ goto-week:
 week:
   nothing-planed: Nichts geplant
 
+edit:
+  add-meal: "Mahlzeit hinzufügen"
+  save: "Speichern"
+  cancel: "Abbrechen"
+  dropdown:
+    link: "Link"
+    notification: "Benachrichtigung"
+
 weekday:
   Monday: Montag
   Tuesday: Dienstag

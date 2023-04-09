@@ -65,6 +65,45 @@ class WeekController
         ]);
     }
 
+    public function getEditPage(int $spaceId, string $date)
+    {
+        $entityManager = Database::getEntityManager();
+
+        $date = new Date($date);
+
+        /**
+         * @var $currentSpace Space
+         */
+        $currentSpace = $entityManager->getRepository(Space::class)->find($spaceId);
+        if ($currentSpace === null) {
+            throw new NotFoundException;
+        }
+
+        $startDate = $date->getStartOfWeek();
+        $endDate = $date->getEndOfWeek();
+
+        $mealTypes = [];
+
+        /**
+         * @var $mealTypeRows MealType[]
+         */
+        $mealTypeRows = $entityManager->getRepository(MealType::class)->findAll();
+        foreach ($mealTypeRows as $mealType) {
+            $mealTypes[$mealType->getId()] = $mealType->getName();
+        }
+
+        return TwigRenderer::render("week-edit", [
+            "currentSpace" => $currentSpace,
+            "nowWeek" => (new Date)->getStartOfWeek(),
+            "previousWeek" => $date->getPreviousWeek()->getStartOfWeek(),
+            "nextWeek" => $date->getNextWeek()->getStartOfWeek(),
+            "startDate" => $startDate,
+            "endDate" => $endDate,
+            "mealTypes" => $mealTypes,
+            "days" => $this->getPerDayMeals($currentSpace, $startDate, $endDate)
+        ]);
+    }
+
     public function getJson(int $spaceId, string $date)
     {
         $entityManager = Database::getEntityManager();
@@ -119,6 +158,7 @@ class WeekController
 
             $days[$date->formatForKey()] = [
                 "title" => Translation::tr(sprintf("weekday.%s", $date->format("l"))),
+                "date" => $date,
                 "meals" => $perDayAndTypeMeals[$date->formatForKey()] ?? []
             ];
         }

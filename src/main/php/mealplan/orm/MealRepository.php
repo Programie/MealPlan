@@ -28,4 +28,17 @@ class MealRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findBySpaceGroupedByText(Space $space): array
+    {
+        $queryBuilder = $this->createQueryBuilder("meal");
+
+        return $queryBuilder
+            ->select("meal")
+            ->where("meal.space = :space")
+            ->groupBy("meal.text")
+            ->setParameter(":space", $space->getId())
+            ->getQuery()
+            ->getResult();
+    }
 }
