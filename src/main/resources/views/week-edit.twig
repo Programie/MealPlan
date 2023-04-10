@@ -32,15 +32,17 @@
 
                         {% for typeId, _ in mealTypes %}
                             <td class="text-center" data-type="{{ typeId }}">
-                                {% for meal in day.meals[typeId] %}
-                                    {% include "week-edit-meal.twig" with {
-                                        "id": meal.id,
-                                        "text": meal.text,
-                                        "date": meal.date.formatForKey,
-                                        "url": meal.url,
-                                        "type": meal.type.id
-                                    } only %}
-                                {% endfor %}
+                                <div class="week-edit-meal-container">
+                                    {% for meal in day.meals[typeId] %}
+                                        {% include "week-edit-meal.twig" with {
+                                            "id": meal.id,
+                                            "text": meal.text,
+                                            "date": meal.date.formatForKey,
+                                            "url": meal.url,
+                                            "type": meal.type.id
+                                        } only %}
+                                    {% endfor %}
+                                </div>
 
                                 <button type="button" class="btn btn-primary btn-sm week-edit-meal-add" title="{{ tr("edit.add-meal") }}"><i class="fa fa-plus"></i></button>
                             </td>
@@ -55,6 +57,28 @@
         <button class="btn btn-success floating-button" id="week-edit-save-button" title="{{ tr("edit.save") }}"><i class="fa fa-check"></i></button>
         <a href="/space/{{ currentSpace.id }}/week/{{ startDate.formatForUrl }}" class="btn btn-danger floating-button" title="{{ tr("edit.cancel") }}"><i class="fa fa-xmark"></i></a>
     </div>
+
+    {% embed "modal.twig" with {"id": "week-edit-url-modal", "title": tr("edit.link.modal-title")} %}
+        {% block body %}
+            <p>{{ tr("edit.link.modal-text") }}</p>
+
+            <div class="form-floating">
+                <input type="url" class="form-control" id="week-edit-url-input" placeholder="{{ tr("edit.link.label") }}"/>
+                <label for="week-edit-url-input" class="form-label">{{ tr("edit.link.label") }}</label>
+            </div>
+        {% endblock %}
+    {% endembed %}
+
+    {% embed "modal.twig" with {"id": "week-edit-notification-modal", "title": tr("edit.notification.modal-title")} %}
+        {% block body %}
+            <p>{{ tr("edit.notification.modal-text") }}</p>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="week-edit-notification-enable"/>
+                <label class="form-check-label" for="week-edit-notification-enable">{{ tr("edit.notification.enable") }}</label>
+            </div>
+        {% endblock %}
+    {% endembed %}
 
     <script type="x-tmpl-mustache" id="week-edit-meal-template">
         {% include "week-edit-meal.twig" with {

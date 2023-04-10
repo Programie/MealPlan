@@ -17,8 +17,20 @@ edit:
   save: "Speichern"
   cancel: "Abbrechen"
   dropdown:
-    link: "Link"
-    notification: "Benachrichtigung"
+    link: "Link bearbeiten"
+    notification: "Benachrichtigung konfigurieren"
+  link:
+    modal-title: "Link bearbeiten"
+    modal-text: "Gebe die Adresse ein mit welcher die Mahlzeit verlinkt werden soll."
+    label: "Link"
+  notification:
+    modal-title: "Benachrichtigung konfigurieren"
+    modal-text: "Wähle aus ob du über diese Mahlzeit benachrichtigt werden möchtest."
+    enable: "Aktivieren"
+
+modal:
+  ok: "OK"
+  cancel: "Abbrechen"
 
 weekday:
   Monday: Montag

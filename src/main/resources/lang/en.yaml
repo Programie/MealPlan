@@ -17,8 +17,20 @@ edit:
   save: "Save"
   cancel: "Cancel"
   dropdown:
-    link: "Link"
-    notification: "Notification"
+    link: "Edit link"
+    notification: "Configure notification"
+  link:
+    modal-title: "Edit link"
+    modal-text: "Enter the address to which this meal should be linked to."
+    label: "Link"
+  notification:
+    modal-title: "Configure notification"
+    modal-text: "Choose whether you want to be notified about this meal."
+    enable: "Enable"
+
+modal:
+  ok: "OK"
+  cancel: "Cancel"
 
 weekday:
   Monday: Monday
