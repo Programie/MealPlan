@@ -12,6 +12,10 @@ goto-week:
 week:
   nothing-planed: Nothing planed
 
+meal:
+  notification:
+    tooltip: "Notification enabled"
+
 edit:
   add-meal: "Add meal"
   save: "Save"
