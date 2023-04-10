@@ -26,7 +26,9 @@ class MealAutocompletion {
     }
 
     private async refreshData() {
-        let response = await fetch("/space/1/autocompletion.json");// TODO: Use current space ID
+        let spaceId = (document.querySelector("#week-table") as HTMLElement).dataset.spaceId;
+
+        let response = await fetch(`/space/${spaceId}/autocompletion.json`);
         let data = await response.json();
 
         this.data = [];
