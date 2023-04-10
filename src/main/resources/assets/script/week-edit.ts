@@ -7,7 +7,7 @@ import MealAutocompletion from "./meal-autocompletion";
 
 window.onload = () => {
     let dataChanged = false;
-    let mealAutocompletion = new MealAutocompletion(".week-edit-meal");
+    let mealAutocompletion = new MealAutocompletion(".week-edit-meal input");
 
     function addChangeEventListener(element: Element) {
         element.addEventListener("change", () => {
@@ -15,23 +15,23 @@ window.onload = () => {
         });
     }
 
-    document.querySelectorAll(".week-edit-meal").forEach(addChangeEventListener);
+    document.querySelectorAll(".week-edit-meal input").forEach(addChangeEventListener);
 
     document.querySelectorAll(".week-edit-meal-add").forEach((element: HTMLButtonElement) => {
         element.addEventListener("click", () => {
             let date = element.closest("tr").getAttribute("data-date");
             let mealType = element.closest("td").getAttribute("data-type");
 
-            let inputElement = Mustache.render(document.querySelector("#week-edit-meal-template").innerHTML, {
+            let newContainer = Mustache.render(document.querySelector("#week-edit-meal-template").innerHTML, {
                 date: date,
                 type: mealType
             });
 
-            element.insertAdjacentHTML("beforebegin", inputElement);
-            let insertedElement = element.parentElement.querySelector(".week-edit-meal:last-of-type");
+            element.insertAdjacentHTML("beforebegin", newContainer);
+            let newInputElement = element.parentElement.querySelector(".week-edit-meal:last-of-type input");
 
-            mealAutocompletion.updateElement(insertedElement);
-            addChangeEventListener(insertedElement);
+            mealAutocompletion.updateElement(newInputElement);
+            addChangeEventListener(newInputElement);
         });
     });
 
