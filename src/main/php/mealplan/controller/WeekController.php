@@ -106,6 +106,7 @@ class WeekController
             "startDate" => $startDate,
             "endDate" => $endDate,
             "mealTypes" => $mealTypes,
+            "existingMeals" => $entityManager->getRepository(Meal::class)->findBySpaceGroupedByText($currentSpace),
             "days" => $this->getPerDayMeals($currentSpace, $startDate, $endDate)
         ]);
     }

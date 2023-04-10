@@ -3,7 +3,6 @@ import "../style/main.scss";
 import {Dropdown, Modal, Toast} from "bootstrap";
 import * as Mustache from "mustache";
 
-import MealAutocompletion from "./meal-autocompletion";
 import {boolean2string, string2boolean} from "./utils";
 
 class MealNotification {
@@ -42,11 +41,8 @@ class MealData {
 
 class Editor {
     private dataChanged: boolean = false;
-    private autocompletion: MealAutocompletion;
 
     constructor() {
-        this.autocompletion = new MealAutocompletion(".week-edit-meal input");
-
         this.configureModal("url", this.saveUrlModal);
         this.configureModal("notification", this.saveNotificationModal);
         this.configureAddButtons();
@@ -71,6 +67,20 @@ class Editor {
 
         inputElement.addEventListener("change", () => {
             this.dataChanged = true;
+        });
+
+        inputElement.addEventListener("input", (event: InputEvent) => {
+            if (event.inputType === "insertReplacementText") {
+                let elements: HTMLOptionElement[] = Array.from(document.querySelectorAll("#existing-meals > option"));
+
+                let optionElement = elements.find((optionElement: HTMLOptionElement) => {
+                    return optionElement.value === event.data;
+                });
+
+                if (optionElement !== undefined) {
+                    inputElement.dataset.url = optionElement.dataset.url;
+                }
+            }
         });
 
         containerElement.querySelector(".week-edit-meal-button-link").addEventListener("click", () => {
@@ -102,7 +112,6 @@ class Editor {
         containerElement.insertAdjacentHTML("beforeend", newContainer);
         let newContainerElement = containerElement.parentElement.querySelector(".week-edit-meal:last-of-type");
 
-        this.autocompletion.updateElement(newContainerElement.querySelector("input"));
         this.addMealEventListeners(newContainerElement);
     }
 

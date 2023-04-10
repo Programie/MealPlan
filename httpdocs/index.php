@@ -1,5 +1,4 @@
 <?php
-use mealplan\controller\AutocompletionController;
 use mealplan\controller\WeekController;
 use mealplan\Database;
 use mealplan\httperror\HttpException;
@@ -22,7 +21,6 @@ $router->map("GET", "/space/[i:spaceId]/week/[:date]/?", [WeekController::class,
 $router->map("GET", "/space/[i:spaceId]/week/[:date].json", [WeekController::class, "getJson"]);
 $router->map("GET", "/space/[i:spaceId]/week/[:date]/edit", [WeekController::class, "getEditPage"]);
 $router->map("POST", "/space/[i:spaceId]", [WeekController::class, "save"]);
-$router->map("GET", "/space/[i:spaceId]/autocompletion.json", [AutocompletionController::class, "getData"]);
 
 $match = $router->match();
 

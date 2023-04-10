@@ -107,6 +107,12 @@
         </div>
     </div>
 
+    <datalist id="existing-meals">
+        {% for meal in existingMeals %}
+            <option value="{{ meal.text }}" data-url="{{ meal.url }}"></option>
+        {% endfor %}
+    </datalist>
+
     <script type="x-tmpl-mustache" id="week-edit-meal-template">
         {% include "week-edit-meal.twig" with {
             "id": "{{ id }}",
