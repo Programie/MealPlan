@@ -45,7 +45,11 @@ class MealAutocompletion {
     }
 
     public updateElement(element: Element) {
-        let autocomplete = Autocomplete.getOrCreateInstance(element);
+        let autocomplete = Autocomplete.getOrCreateInstance(element, {
+            fullWidth: true,
+            activeClasses: ["bg-secondary", "text-white"]
+        });
+
         autocomplete.setData(this.data);
     }
 }
