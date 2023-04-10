@@ -6,6 +6,7 @@
 
         <title>{% block title %}{% endblock %} - Meal Plan</title>
 
+        <link rel="icon" type="image/x-icon" href="{{ asset("favicon.svg") }}"/>
         <link rel="stylesheet" href="{{ asset("styles.css") }}"/>
         <script src="{{ asset("vendor.js") }}"></script>
         <script src="{{ asset("#{assetEntryPoint}.js") }}"></script>
@@ -14,7 +15,7 @@
     <body>
         <nav class="navbar navbar-expand-md navbar-dark bg-primary sticky-top">
             <div class="container-fluid px-3 py-2 d-flex justify-content-md-between">
-                <span class="navbar-brand me-auto p-2">MealPlan</span>
+                <span class="navbar-brand me-auto p-2"><i class="fa fa-utensils me-2"></i><b>MealPlan</b></span>
 
                 {% block navbar %}{% endblock %}
 
