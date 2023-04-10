@@ -82,8 +82,6 @@ class Editor {
     showEditNotificationModal(modalElement: Element, mealDataset: DOMStringMap) {
         let enableElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-enable");
         enableElement.checked = string2boolean(mealDataset.notificationEnabled);
-
-        console.log(mealDataset.notificationTime);
     }
 
     saveNotificationModal(modalElement: Element, mealDataset: DOMStringMap) {
