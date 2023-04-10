@@ -36,11 +36,11 @@ class Editor {
         });
 
         containerElement.querySelector(".week-edit-meal-button-link").addEventListener("click", () => {
-            this.showEditUrlModal(inputElement.getAttribute("data-id"), inputElement.getAttribute("data-url"));
+            this.showModal("url", inputElement, this.showEditUrlModal);
         });
 
         containerElement.querySelector(".week-edit-meal-button-notification").addEventListener("click", () => {
-            this.showEditNotificationModal(inputElement.getAttribute("data-id"), string2boolean(inputElement.getAttribute("data-notification-enabled")), inputElement.getAttribute("data-notification-time"));
+            this.showModal("notification", inputElement, this.showEditNotificationModal);
         });
     }
 
@@ -68,45 +68,45 @@ class Editor {
         this.addMealEventListeners(newContainerElement);
     }
 
-    showEditUrlModal(mealId: string, url: string) {
-        let modalElement = document.querySelector("#week-edit-url-modal");
-        modalElement.setAttribute("data-meal-id", mealId);
-
+    showEditUrlModal(modalElement: Element, mealDataset: DOMStringMap) {
         let urlInputElement: HTMLInputElement = modalElement.querySelector("#week-edit-url-input");
-        urlInputElement.value = url;
-
-        let modal = new Modal(modalElement);
-        modal.show();
+        urlInputElement.value = mealDataset.url;
     }
 
-    saveUrlModal(modalElement: Element, mealInputElement: HTMLInputElement) {
+    saveUrlModal(modalElement: Element, mealDataset: DOMStringMap) {
         let urlInputElement: HTMLInputElement = modalElement.querySelector("#week-edit-url-input");
 
-        mealInputElement.setAttribute("data-url", urlInputElement.value);
+        mealDataset.url = urlInputElement.value;
     }
 
-    showEditNotificationModal(mealId: string, enable: boolean, time: string) {
-        let modalElement = document.querySelector("#week-edit-notification-modal");
-        modalElement.setAttribute("data-meal-id", mealId);
-
+    showEditNotificationModal(modalElement: Element, mealDataset: DOMStringMap) {
         let enableElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-enable");
-        enableElement.checked = enable;
+        enableElement.checked = string2boolean(mealDataset.notificationEnabled);
+
+        console.log(mealDataset.notificationTime);
+    }
+
+    saveNotificationModal(modalElement: Element, mealDataset: DOMStringMap) {
+    }
+
+    showModal(name: string, mealInputElement: HTMLInputElement, callback: (modalElement: Element, mealDataset: DOMStringMap) => void) {
+        let mealDataset = mealInputElement.dataset;
+
+        let modalElement: HTMLElement = document.querySelector(`#week-edit-${name}-modal`);
+        modalElement.dataset.mealId = mealDataset.id;
+
+        callback(modalElement, mealDataset);
 
         let modal = new Modal(modalElement);
         modal.show();
     }
 
-    saveNotificationModal(modalElement: Element, mealInputElement: HTMLInputElement) {
-    }
-
-    configureModal(name: string, callback: (modalElement: Element, mealInputElement: HTMLInputElement) => void) {
-        let modalElement = document.querySelector(`#week-edit-${name}-modal`);
+    configureModal(name: string, callback: (modalElement: Element, mealDataset: DOMStringMap) => void) {
+        let modalElement: HTMLElement = document.querySelector(`#week-edit-${name}-modal`);
         modalElement.querySelector(".modal-button-ok").addEventListener("click", () => {
-            let mealId = modalElement.getAttribute("data-meal-id");
+            let mealInputElement: HTMLInputElement = document.querySelector(`.week-edit-meal input[data-id='${modalElement.dataset.mealId}']`);
 
-            let mealInputElement: HTMLInputElement = document.querySelector(`.week-edit-meal input[data-id='${mealId}']`);
-
-            callback(modalElement, mealInputElement);
+            callback(modalElement, mealInputElement.dataset);
 
             this.dataChanged = true;
 
