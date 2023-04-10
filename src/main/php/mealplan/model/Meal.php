@@ -95,7 +95,7 @@ class Meal implements JsonSerializable
         return $this->notificationTime;
     }
 
-    public function setNotificationTime(string $time): Meal
+    public function setNotificationTime(?string $time): Meal
     {
         $this->notificationTime = $time;
 
