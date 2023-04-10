@@ -99,12 +99,12 @@ class Editor {
         modal.show();
     }
 
-    configureModal(name: string, callback: (modalElement: Element, mealDataset: DOMStringMap) => void) {
+    configureModal(name: string, saveCallback: (modalElement: Element, mealDataset: DOMStringMap) => void) {
         let modalElement: HTMLElement = document.querySelector(`#week-edit-${name}-modal`);
         modalElement.querySelector(".modal-button-ok").addEventListener("click", () => {
             let mealInputElement: HTMLInputElement = document.querySelector(`.week-edit-meal input[data-id='${modalElement.dataset.mealId}']`);
 
-            callback(modalElement, mealInputElement.dataset);
+            saveCallback(modalElement, mealInputElement.dataset);
 
             this.dataChanged = true;
 
