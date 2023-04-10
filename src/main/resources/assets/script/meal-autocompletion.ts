@@ -20,10 +20,6 @@ class MealAutocompletion {
 
         Autocomplete.init();
 
-        if (document.querySelector(this.selector) === null) {
-            return;
-        }
-
         this.refreshData().then(() => {
             this.updateElements();
         });
