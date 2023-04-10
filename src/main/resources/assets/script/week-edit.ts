@@ -189,6 +189,13 @@ class Editor {
 
             Modal.getInstance(modalElement).hide();
         });
+
+        let firstInputElement = modalElement.querySelector("input");
+        if (firstInputElement !== null) {
+            modalElement.addEventListener("shown.bs.modal", () => {
+                firstInputElement.focus();
+            });
+        }
     }
 
     showError(message: string) {
