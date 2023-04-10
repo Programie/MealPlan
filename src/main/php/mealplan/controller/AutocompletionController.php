@@ -2,9 +2,9 @@
 namespace mealplan\controller;
 
 use mealplan\Database;
+use mealplan\httperror\NotFoundException;
 use mealplan\model\Meal;
 use mealplan\model\Space;
-use mealplan\NotFoundException;
 
 class AutocompletionController
 {

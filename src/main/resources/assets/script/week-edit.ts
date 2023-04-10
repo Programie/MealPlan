@@ -1,10 +1,44 @@
 import "../style/main.scss";
 
-import {Dropdown, Modal} from "bootstrap";
+import {Dropdown, Modal, Toast} from "bootstrap";
 import * as Mustache from "mustache";
 
 import MealAutocompletion from "./meal-autocompletion";
 import {boolean2string, string2boolean} from "./utils";
+
+class MealNotification {
+    public enabled: boolean;
+    public time: string;
+}
+
+class MealData {
+    public id: number;
+    public date: string;
+    public type: number;
+    public text: string;
+    public url: string;
+    public notification: MealNotification;
+
+    public constructor() {
+        this.notification = new MealNotification();
+    }
+
+    public static fromElement(element: HTMLInputElement) {
+        let dataset = element.dataset;
+
+        let data = new this();
+
+        data.id = parseInt(dataset.id);
+        data.type = parseInt(dataset.type);
+        data.date = dataset.date;
+        data.url = dataset.url;
+        data.notification.enabled = string2boolean(dataset.notificationEnabled);
+        data.notification.time = dataset.notificationTime;
+        data.text = element.value;
+
+        return data;
+    }
+}
 
 class Editor {
     private dataChanged: boolean = false;
@@ -19,6 +53,10 @@ class Editor {
 
         document.querySelectorAll(".week-edit-meal").forEach((element) => {
             this.addMealEventListeners(element);
+        });
+
+        document.querySelector("#week-edit-save-button").addEventListener("click", () => {
+            this.save();
         });
 
         window.addEventListener("beforeunload", (event) => {
@@ -128,8 +166,7 @@ class Editor {
 
         callback(modalElement, mealDataset);
 
-        let modal = new Modal(modalElement);
-        modal.show();
+        new Modal(modalElement).show();
     }
 
     configureModal(name: string, saveCallback: (modalElement: Element, mealDataset: DOMStringMap) => void) {
@@ -143,6 +180,49 @@ class Editor {
 
             Modal.getInstance(modalElement).hide();
         });
+    }
+
+    showError(message: string) {
+        let toastElement = document.querySelector("#week-edit-error-toast");
+        toastElement.querySelector(".toast-body").textContent = message;
+        new Toast(toastElement).show();
+    }
+
+    async save() {
+        let meals: MealData[] = [];
+
+        document.querySelectorAll(".week-edit-meal input").forEach((element: HTMLInputElement) => {
+            meals.push(MealData.fromElement(element));
+        });
+
+        let tableDataset = (document.querySelector("#week-table") as HTMLElement).dataset;
+        let spaceId = tableDataset.spaceId;
+        let date = tableDataset.date;
+
+        try {
+            let response = await fetch(`/space/${spaceId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "text/plain"
+                },
+                body: JSON.stringify(meals)
+            });
+
+            if (response.ok) {
+                this.dataChanged = false;
+                document.location.href = `/space/${spaceId}/week/${date}`;
+            } else {
+                let responseText = (await response.text()).trim();
+                if (responseText !== "") {
+                    this.showError(responseText);
+                } else {
+                    this.showError(`${response.status}: ${response.statusText}`);
+                }
+            }
+        } catch (error) {
+            this.showError(error);
+        }
     }
 }
 

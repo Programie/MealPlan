@@ -97,6 +97,16 @@
         {% endblock %}
     {% endembed %}
 
+    <div class="toast-container">
+        <div id="week-edit-error-toast" class="toast" role="alert">
+            <div class="toast-header text-bg-danger">
+                <strong class="me-auto">{{ tr("error-toast.title") }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
+    </div>
+
     <script type="x-tmpl-mustache" id="week-edit-meal-template">
         {% include "week-edit-meal.twig" with {
             "id": "{{ id }}",

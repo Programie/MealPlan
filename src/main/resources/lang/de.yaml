@@ -39,6 +39,9 @@ edit:
     relative-suffix: "min davor"
     absolute: "Absolut"
 
+error-toast:
+  title: "Ein Fehler ist aufgetreten"
+
 modal:
   ok: "OK"
   cancel: "Abbrechen"

@@ -107,9 +107,23 @@ class Meal implements JsonSerializable
         return $this->type;
     }
 
+    public function setType(MealType $type): Meal
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
     public function getSpace(): Space
     {
         return $this->space;
+    }
+
+    public function setSpace(Space $space): Meal
+    {
+        $this->space = $space;
+
+        return $this;
     }
 
     public function jsonSerialize(): array
