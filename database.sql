@@ -16,12 +16,14 @@ CREATE TABLE `spaces`
 
 CREATE TABLE `meals`
 (
-    `id`    int(11)      NOT NULL AUTO_INCREMENT,
-    `date`  DATE         NOT NULL,
-    `text`  varchar(200) NOT NULL,
-    `url`   varchar(2048) DEFAULT NULL,
-    `type`  int(11)      NOT NULL,
-    `space` int(11)      NOT NULL,
+    `id`                  int(11)      NOT NULL AUTO_INCREMENT,
+    `date`                DATE         NOT NULL,
+    `text`                varchar(200) NOT NULL,
+    `url`                 varchar(2048)         DEFAULT NULL,
+    `notificationEnabled` boolean      NOT NULL DEFAULT false,
+    `notificationTime`    varchar(5)            DEFAULT NULL,
+    `type`                int(11)      NOT NULL,
+    `space`               int(11)      NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`type`) REFERENCES `mealtypes` (`id`),
     FOREIGN KEY (`space`) REFERENCES `spaces` (`id`)

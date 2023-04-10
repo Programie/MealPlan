@@ -39,7 +39,9 @@
                                             "text": meal.text,
                                             "date": meal.date.formatForKey,
                                             "url": meal.url,
-                                            "type": meal.type.id
+                                            "type": meal.type.id,
+                                            "notificationEnabled": meal.notificationEnabled ? "true" : "false",
+                                            "notificationTime": meal.notificationTime
                                         } only %}
                                     {% endfor %}
                                 </div>
@@ -86,7 +88,9 @@
             "text": "{{ text }}",
             "date": "{{ date }}",
             "url": "{{ url }}",
-            "type": "{{ type }}"
+            "type": "{{ type }}",
+            "notificationEnabled": "{{ notificationEnabled }}",
+            "notificationTime": "{{ notificationTime }}"
         } only %}
     </script>
 {% endblock %}

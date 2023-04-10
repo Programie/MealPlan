@@ -23,6 +23,12 @@ class Meal implements JsonSerializable
     #[ORM\Column(type: "string")]
     private ?string $url;
 
+    #[ORM\Column(type: "boolean")]
+    private bool $notificationEnabled;
+
+    #[ORM\Column(type: "string")]
+    private ?string $notificationTime;
+
     #[ORM\OneToOne(targetEntity: "MealType")]
     #[ORM\JoinColumn(name: "type", referencedColumnName: "id")]
     private MealType $type;
@@ -68,6 +74,30 @@ class Meal implements JsonSerializable
     public function setUrl(?string $url): Meal
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    public function isNotificationEnabled(): ?bool
+    {
+        return $this->notificationEnabled;
+    }
+
+    public function setNotificationEnabled(bool $state): Meal
+    {
+        $this->notificationEnabled = $state;
+
+        return $this;
+    }
+
+    public function getNotificationTime(): ?string
+    {
+        return $this->notificationTime;
+    }
+
+    public function setNotificationTime(string $time): Meal
+    {
+        $this->notificationTime = $time;
 
         return $this;
     }
