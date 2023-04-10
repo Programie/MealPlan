@@ -1,6 +1,10 @@
-page-not-found:
-  title: "Page not found"
-  content: "The requested page could not be found!"
+error-page:
+  400:
+    title: "Bad Request"
+    message: "Your browser sent an request which could not be understood!"
+  404:
+    title: "Page not found"
+    message: "The requested page could not be found!"
 
 week-page.title: "Week %s - %s"
 select-space: "Select space"

@@ -22,4 +22,9 @@ class Utils
 
         return $flatArray;
     }
+
+    public static function hasHttpAccept(string $accept)
+    {
+        return in_array($accept, explode(",", $_SERVER["HTTP_ACCEPT"]));
+    }
 }

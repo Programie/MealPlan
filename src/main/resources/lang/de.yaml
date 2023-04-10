@@ -1,6 +1,10 @@
-page-not-found:
-  title: "Seite nicht gefunden"
-  content: "Die angeforderte Seite konnte nicht gefunden werden!"
+error-page:
+  400:
+    title: "Ungültige Anfrage"
+    message: "Dein Browser hat eine Anfrage gestellt welche ungültige Daten enthält!"
+  404:
+    title: "Seite nicht gefunden"
+    message: "Die angeforderte Seite konnte nicht gefunden werden!"
 
 week-page.title: "Woche %s - %s"
 select-space: "Space auswählen"
