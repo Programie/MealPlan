@@ -1,5 +1,6 @@
 $header-font-size: 1.5rem;
 
+$color-mode-type: media-query;
 $navbar-dark-color: white;
 $navbar-padding-y: 0;
 $navbar-brand-font-size: $header-font-size;
@@ -41,8 +42,14 @@ main {
     color: orange;
 }
 
-#week-table thead {
-    background-color: $gray-800;
+.table thead {
+    @media (prefers-color-scheme: light) {
+        background-color: $gray-500;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        background-color: $gray-800;
+    }
 }
 
 #week-table th, #week-table td {
