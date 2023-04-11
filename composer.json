@@ -11,7 +11,8 @@
     "ext-json": "*",
     "symfony/yaml": "^6.2",
     "doctrine/orm": "^2.14",
-    "symfony/cache": "^6.2"
+    "symfony/cache": "^6.2",
+    "twig/html-extra": "^3.5"
   },
   "license": "MIT",
   "autoload": {

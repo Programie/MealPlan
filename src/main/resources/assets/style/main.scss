@@ -38,6 +38,28 @@ main {
     font-size: 1.5rem;
 }
 
+.week-edit-meal > input {
+    border: none;
+}
+
+.week-edit-meal > button:hover {
+    @media (prefers-color-scheme: light) {
+        background-color: rgba(#000, 0.1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+        background-color: rgba(#fff, 0.1);
+    }
+}
+
+.week-edit-meal-button-link .active {
+    color: $blue;
+}
+
+.week-edit-meal-button-notification .active {
+    color: orange;
+}
+
 .meal-notification {
     color: orange;
 }

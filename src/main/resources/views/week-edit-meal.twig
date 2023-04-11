@@ -1,5 +1,14 @@
-<div class="input-group mb-2 week-edit-meal">
+{% set buttons = [
+    {"name": "link", "icon": "globe", "active": url},
+    {"name": "notification", "icon": "bell", "active": notificationEnabled == "true"}
+] %}
+
+<div class="input-group mb-2 week-edit-meal border rounded">
     <input type="text" class="form-control" list="existing-meals" value="{{ text }}" data-id="{{ id }}" data-date="{{ date }}" data-url="{{ url }}" data-type="{{ type }}" data-notification-enabled="{{ notificationEnabled }}" data-notification-time="{{ notificationTime }}"/>
-    <button class="btn btn-secondary week-edit-meal-button-link" type="button" title="{{ tr("edit.link.title") }}"><i class="fa fa-globe me-1"></i></button>
-    <button class="btn btn-secondary week-edit-meal-button-notification" type="button" title="{{ tr("edit.notification.title") }}"><i class="fa fa-bell me-1"></i></button>
+
+    {% for button in buttons %}
+        <button class="btn week-edit-meal-button week-edit-meal-button-{{ button.name }}" type="button" title="{{ tr("edit.#{button.name}.title") }}">
+            <i class="{{ html_classes("fa", "fa-#{button.icon}", "me-1", {"active": button.active and useState}) }}"></i>
+        </button>
+    {% endfor %}
 </div>

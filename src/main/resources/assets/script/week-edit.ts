@@ -80,6 +80,8 @@ class Editor {
                 if (optionElement !== undefined) {
                     inputElement.dataset.url = optionElement.dataset.url;
                 }
+
+                this.updateOptionButtons(inputElement);
             }
         });
 
@@ -90,6 +92,14 @@ class Editor {
         containerElement.querySelector(".week-edit-meal-button-notification").addEventListener("click", () => {
             this.showModal("notification", inputElement, this.showEditNotificationModal);
         });
+    }
+
+    updateOptionButtons(inputElement: HTMLInputElement) {
+        let containerElement = inputElement.closest(".week-edit-meal");
+        let mealDataset = inputElement.dataset;
+
+        containerElement.querySelector(".week-edit-meal-button-link i").classList.toggle("active", mealDataset.url !== "");
+        containerElement.querySelector(".week-edit-meal-button-notification i").classList.toggle("active", mealDataset.notificationEnabled === "true");
     }
 
     configureAddButtons() {
@@ -184,6 +194,8 @@ class Editor {
             let mealInputElement: HTMLInputElement = document.querySelector(`.week-edit-meal input[data-id='${modalElement.dataset.mealId}']`);
 
             saveCallback(modalElement, mealInputElement.dataset);
+
+            this.updateOptionButtons(mealInputElement);
 
             this.dataChanged = true;
 
