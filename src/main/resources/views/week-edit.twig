@@ -60,7 +60,7 @@
         <a href="/space/{{ currentSpace.id }}/week/{{ startDate.formatForUrl }}" class="btn btn-danger floating-button" title="{{ tr("edit.cancel") }}"><i class="fa fa-xmark"></i></a>
     </div>
 
-    {% embed "modal.twig" with {"id": "week-edit-url-modal", "title": tr("edit.link.modal-title")} only %}
+    {% embed "modal.twig" with {"id": "week-edit-url-modal", "title": tr("edit.link.title")} only %}
         {% block body %}
             <p>{{ tr("edit.link.modal-text") }}</p>
 
@@ -71,7 +71,7 @@
         {% endblock %}
     {% endembed %}
 
-    {% embed "modal.twig" with {"id": "week-edit-notification-modal", "title": tr("edit.notification.modal-title")} only %}
+    {% embed "modal.twig" with {"id": "week-edit-notification-modal", "title": tr("edit.notification.title")} only %}
         {% block body %}
             <p>{{ tr("edit.notification.modal-text") }}</p>
 
