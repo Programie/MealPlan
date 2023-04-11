@@ -26,6 +26,8 @@ CREATE TABLE `meals`
     `space`               int(11)      NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`type`) REFERENCES `mealtypes` (`id`),
-    FOREIGN KEY (`space`) REFERENCES `spaces` (`id`)
+    FOREIGN KEY (`space`) REFERENCES `spaces` (`id`),
+    INDEX `space_date` (`space`, `date`),
+    INDEX `space_text` (`space`, `text`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
