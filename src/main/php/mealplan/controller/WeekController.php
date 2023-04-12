@@ -286,7 +286,7 @@ class WeekController
             $date = new Date($date->format("c"));
 
             $days[$date->formatForKey()] = [
-                "title" => Translation::tr(sprintf("weekday.%s", $date->format("l"))),
+                "title" => Translation::tr(sprintf("weekday.long.%d", $date->format("N") - 1)),
                 "date" => $date,
                 "meals" => $perDayAndTypeMeals[$date->formatForKey()] ?? []
             ];

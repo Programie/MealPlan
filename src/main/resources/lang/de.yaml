@@ -44,10 +44,19 @@ modal:
   cancel: "Abbrechen"
 
 weekday:
-  Monday: Montag
-  Tuesday: Dienstag
-  Wednesday: Mittwoch
-  Thursday: Donnerstag
-  Friday: Freitag
-  Saturday: Samstag
-  Sunday: Sonntag
+  long:
+    - "Montag"
+    - "Dienstag"
+    - "Mittwoch"
+    - "Donnerstag"
+    - "Freitag"
+    - "Samstag"
+    - "Sonntag"
+  short:
+    - "Mo"
+    - "Di"
+    - "Mi"
+    - "Do"
+    - "Fr"
+    - "Sa"
+    - "So"
