@@ -27,7 +27,7 @@
 
             <tbody>
                 {% for day in days %}
-                    <tr class="{{ html_classes({"active": day.date.formatForKey == today.formatForKey}) }}">
+                    <tr class="{{ html_classes({"active": day.date.formatForKey == today.formatForKey}) }}" data-date="{{ day.date.formatForKey }}">
                         <th class="week-day">
                             {{ day.title }}
                             <div class="week-day-date text-muted">{{ day.date.formatForDisplay }}</div>
