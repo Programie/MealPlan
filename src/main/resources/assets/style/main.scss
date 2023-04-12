@@ -74,8 +74,16 @@ main {
     }
 }
 
+.table tr.active {
+    background-color: rgba($blue, 0.1);
+}
+
 #week-table th, #week-table td {
     padding: 1.5rem;
+}
+
+.week-day-date {
+    font-size: 12px;
 }
 
 .navbar-nav .dropdown-menu {
