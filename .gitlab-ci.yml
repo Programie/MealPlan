@@ -18,7 +18,7 @@ before_script:
 Build:
   stage: build
   only:
-    - master
+    - main
   script:
     # fetches the latest image (not failing if image is not found)
     - if [[ -z $BUILD_SKIP_DOCKER_PULL ]]; then docker pull $CI_REGISTRY_IMAGE:latest || true; fi
