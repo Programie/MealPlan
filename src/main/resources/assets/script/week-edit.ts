@@ -111,8 +111,8 @@ class Editor {
     }
 
     addMeal(containerElement: Element) {
-        let date = containerElement.closest("tr").getAttribute("data-date");
-        let mealType = containerElement.closest("td").getAttribute("data-type");
+        let date = (containerElement.closest("tr") as HTMLElement).dataset.date;
+        let mealType = (containerElement.closest("td") as HTMLElement).dataset.type;
 
         let newContainer = Mustache.render(document.querySelector("#week-edit-meal-template").innerHTML, {
             date: date,
