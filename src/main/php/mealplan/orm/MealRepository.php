@@ -33,12 +33,31 @@ class MealRepository extends EntityRepository
     {
         $queryBuilder = $this->createQueryBuilder("meal");
 
-        return $queryBuilder
+        /**
+         * @var $meals Meal[]
+         */
+        $meals = $queryBuilder
             ->select("meal")
             ->where("meal.space = :space")
-            ->groupBy("meal.text")
+            ->orderBy("meal.date", "DESC")
+            ->addOrderBy("meal.id", "DESC")
             ->setParameter(":space", $space->getId())
             ->getQuery()
             ->getResult();
+
+        // Usually, I would use a subquery ordering the table and then group it by the `text` field
+        // But, Doctrine ORM does not support that
+        // Therefore, group items in PHP as a workaround
+        $groupedMeals = [];
+
+        foreach ($meals as $meal) {
+            if (isset($groupedMeals[$meal->getText()])) {
+                continue;
+            }
+
+            $groupedMeals[$meal->getText()] = $meal;
+        }
+
+        return $groupedMeals;
     }
 }
