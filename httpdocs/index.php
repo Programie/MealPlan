@@ -34,7 +34,12 @@ try {
         $reflectionMethod = new ReflectionMethod($target[0], $target[1]);
         $response = $reflectionMethod->invokeArgs(new $target[0], $match["params"]);
         if ($response !== null) {
-            echo $response;
+            if (is_string($response)) {
+                echo $response;
+            } else {
+                header("Content-Type: application/json");
+                echo json_encode($response);
+            }
         }
     }
 } catch (HttpException $exception) {

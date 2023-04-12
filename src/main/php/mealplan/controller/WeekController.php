@@ -130,8 +130,7 @@ class WeekController
         $startDate = $date->getStartOfWeek();
         $endDate = $date->getEndOfWeek();
 
-        header("Content-Type: application/json");
-        return json_encode($this->getPerDayMeals($space, $startDate, $endDate));
+        return $this->getPerDayMeals($space, $startDate, $endDate);
     }
 
     public function save(int $spaceId)
