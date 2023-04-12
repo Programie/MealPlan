@@ -3,8 +3,9 @@ namespace mealplan;
 
 use DateInterval;
 use DateTime;
+use JsonSerializable;
 
-class Date extends DateTime
+class Date extends DateTime implements JsonSerializable
 {
     public function getPreviousWeek(): Date
     {
@@ -54,5 +55,10 @@ class Date extends DateTime
     public function formatForDisplay(): string
     {
         return $this->format("d.m.Y");
+    }
+
+    public function jsonSerialize(): string
+    {
+        return $this->format("c");
     }
 }
