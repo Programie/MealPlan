@@ -36,6 +36,14 @@ edit:
     relative-suffix: "min before"
     absolute: "Absolute"
 
+all-meals:
+  title: "All Meals"
+  table-header:
+    text: "Text"
+    date: "Date"
+    count: "Count"
+    links: "Links"
+
 error-toast:
   title: "An error occurred"
 

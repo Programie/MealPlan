@@ -1,0 +1,31 @@
+{% extends "page.twig" %}
+
+{% block title %}{{ tr("all-meals.title") }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <table class="table table-striped" id="all-meals-table" data-space-id="{{ currentSpace.id }}">
+            <thead>
+                <tr>
+                    <th>{{ tr("all-meals.table-header.text") }}</th>
+                    <th>{{ tr("all-meals.table-header.date") }}</th>
+                    <th>{{ tr("all-meals.table-header.count") }}</th>
+                    <th>{{ tr("all-meals.table-header.links") }}</th>
+                </tr>
+            </thead>
+
+            <tbody></tbody>
+        </table>
+    </div>
+
+    {% verbatim %}
+    <script type="text/html" id="all-meals-table-child-template">
+        <tr class="table-brighter">
+            <td>{{type}}</td>
+            <td><a href="{{url}}">{{date}}</a></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </script>
+    {% endverbatim %}
+{% endblock %}

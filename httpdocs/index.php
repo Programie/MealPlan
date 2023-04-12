@@ -1,4 +1,5 @@
 <?php
+use mealplan\controller\AllMealsController;
 use mealplan\controller\WeekController;
 use mealplan\Database;
 use mealplan\httperror\HttpException;
@@ -20,6 +21,8 @@ $router->map("GET", "/space/[i:spaceId]/?", [WeekController::class, "redirectToP
 $router->map("GET", "/space/[i:spaceId]/week/[:date]/?", [WeekController::class, "getPage"]);
 $router->map("GET", "/space/[i:spaceId]/week/[:date].json", [WeekController::class, "getJson"]);
 $router->map("GET", "/space/[i:spaceId]/week/[:date]/edit", [WeekController::class, "getEditPage"]);
+$router->map("GET", "/space/[i:spaceId]/all-meals/?", [AllMealsController::class, "getPage"]);
+$router->map("GET", "/space/[i:spaceId]/all-meals.json", [AllMealsController::class, "getList"]);
 $router->map("POST", "/space/[i:spaceId]", [WeekController::class, "save"]);
 
 $match = $router->match();

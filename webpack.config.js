@@ -8,6 +8,7 @@ module.exports = {
     entry: {
         "week": `${scriptRoot}/week-view.ts`,
         "week-edit": `${scriptRoot}/week-edit.ts`,
+        "all-meals": `${scriptRoot}/all-meals.ts`,
         "error-page": `${scriptRoot}/error-page.ts`
     },
     output: {

@@ -15,7 +15,14 @@
     <body>
         <nav class="navbar navbar-expand-md navbar-dark bg-primary sticky-top">
             <div class="container-fluid px-3 py-2 d-flex justify-content-md-between">
-                <span class="navbar-brand me-auto p-2"><i class="fa fa-utensils me-2"></i><b>MealPlan</b></span>
+                {% set homeUrl = currentSpace ? "/space/#{currentSpace.id}" : "/" %}
+                <a class="navbar-brand p-2" href="{{ homeUrl }}"><i class="fa fa-utensils me-2"></i><b>MealPlan</b></a>
+
+                <ul class="navbar-nav me-auto">
+                    {% if currentSpace %}
+                        <li class="nav-item"><a class="nav-link" href="/space/{{ currentSpace.id }}/all-meals">{{ tr("all-meals.title") }}</a></li>
+                    {% endif %}
+                </ul>
 
                 {% block navbar %}{% endblock %}
 
