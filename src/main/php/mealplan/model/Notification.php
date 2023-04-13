@@ -2,6 +2,8 @@
 namespace mealplan\model;
 
 use Doctrine\ORM\Mapping as ORM;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use JsonSerializable;
 use mealplan\DateTime;
 
@@ -63,6 +65,19 @@ class Notification implements JsonSerializable
         $this->triggered = $state;
 
         return $this;
+    }
+
+    public function send()
+    {
+        $webhook = getenv("WEBHOOK_NOTIFICATIONS");
+        if ($webhook === false) {
+            return;
+        }
+
+        $client = new Client;
+        $client->post($webhook, [
+            RequestOptions::JSON => $this->getMeal()
+        ]);
     }
 
     public function jsonSerialize(): array
