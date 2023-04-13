@@ -4,6 +4,8 @@ namespace mealplan\controller;
 use DateInterval;
 use DatePeriod;
 use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use mealplan\Database;
 use mealplan\Date;
 use mealplan\DateTime;
@@ -169,6 +171,8 @@ class WeekController
 
         $entityManager->beginTransaction();
 
+        $savedWeek = null;
+
         foreach ($inputData as $inputDataIndex => $mealData) {
             $id = Sanitize::cleanInt($mealData["id"] ?? null);
             $type = Sanitize::cleanInt($mealData["type"] ?? null);
@@ -259,6 +263,8 @@ class WeekController
 
             $entityManager->persist($meal);
 
+            $savedWeek = $meal->getDate()->getStartOfWeek();
+
             if ($notificationDateTime === null) {
                 if ($notification !== null) {
                     $entityManager->remove($notification);
@@ -278,6 +284,17 @@ class WeekController
 
         $entityManager->flush();
         $entityManager->commit();
+
+        $webhook = getenv("WEBHOOK_SAVE");
+        if ($webhook !== false) {
+            $client = new Client;
+            $client->post($webhook, [
+                RequestOptions::JSON => [
+                    "space" => $spaceId,
+                    "week" => $savedWeek?->formatForKey()
+                ]
+            ]);
+        }
     }
 
     private function getPerDayMeals(Space $space, Date $startDate, Date $endDate): array
