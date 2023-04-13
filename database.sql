@@ -37,6 +37,7 @@ CREATE TABLE `notifications`
     `id`        int(11)  NOT NULL AUTO_INCREMENT,
     `meal`      int(11)  NOT NULL,
     `time`      DATETIME NOT NULL,
+    `text`      varchar(200)      DEFAULT NULL,
     `triggered` boolean  NOT NULL DEFAULT false,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`meal`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

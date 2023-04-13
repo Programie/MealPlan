@@ -3,13 +3,22 @@ import "../style/main.scss";
 import {Dropdown, Modal, Toast} from "bootstrap";
 import * as Mustache from "mustache";
 
+class MealNotification {
+    public time: Date;
+    public text: string;
+}
+
 class MealData {
     public id: number;
     public date: string;
     public type: number;
     public text: string;
     public url: string;
-    public notification: Date;
+    public notification: MealNotification;
+
+    public constructor() {
+        this.notification = new MealNotification();
+    }
 
     public static fromElement(element: HTMLInputElement) {
         let dataset = element.dataset;
@@ -20,7 +29,8 @@ class MealData {
         data.type = parseInt(dataset.type);
         data.date = dataset.date;
         data.url = dataset.url;
-        data.notification = new Date(dataset.notification);
+        data.notification.time = new Date(dataset.notificationTime);
+        data.notification.text = dataset.notificationText;
         data.text = element.value;
 
         return data;
@@ -87,7 +97,7 @@ class Editor {
         let mealDataset = inputElement.dataset;
 
         containerElement.querySelector(".week-edit-meal-button-link i").classList.toggle("active", mealDataset.url !== "");
-        containerElement.querySelector(".week-edit-meal-button-notification i").classList.toggle("active", mealDataset.notification !== "");
+        containerElement.querySelector(".week-edit-meal-button-notification i").classList.toggle("active", mealDataset.notificationTime !== "");
     }
 
     configureAddButtons() {
@@ -129,8 +139,10 @@ class Editor {
     updateNotificationModalTimeState() {
         let checkboxElement: HTMLInputElement = document.querySelector("#week-edit-notification-enable");
         let timeElement: HTMLInputElement = document.querySelector("#week-edit-notification-time");
+        let textElement: HTMLInputElement = document.querySelector("#week-edit-notification-text");
 
         timeElement.disabled = !checkboxElement.checked;
+        textElement.disabled = !checkboxElement.checked;
     }
 
     configureNotificationModal(modalElement: Element) {
@@ -148,7 +160,7 @@ class Editor {
 
         let dateTimeElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-time");
 
-        let date = new Date(mealDataset.notification);
+        let date = new Date(mealDataset.notificationTime);
         let year = date.getFullYear();
         let month = String(date.getMonth() + 1).padStart(2, "0");
         let day = String(date.getDate()).padStart(2, "0");
@@ -157,12 +169,16 @@ class Editor {
 
         dateTimeElement.value = `${year}-${month}-${day}T${hour}:${minute}`;
 
+        let textElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-text");
+        textElement.value = mealDataset.notificationText;
+
         this.updateNotificationModalTimeState();
     }
 
     saveNotificationModal(modalElement: Element, mealDataset: DOMStringMap) {
         let enableElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-enable");
         let dateTimeElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-time");
+        let textElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-text");
 
         if (enableElement.checked && dateTimeElement.valueAsDate === null) {
             (modalElement.querySelector("#week-edit-notification-invalid") as HTMLElement).style.display = "block";
@@ -170,9 +186,11 @@ class Editor {
         }
 
         if (enableElement.checked) {
-            mealDataset.notification = dateTimeElement.value;
+            mealDataset.notificationTime = dateTimeElement.value;
+            mealDataset.notificationText = textElement.value;
         } else {
-            mealDataset.notification = "";
+            mealDataset.notificationTime = "";
+            mealDataset.notificationText = "";
         }
 
         return true;

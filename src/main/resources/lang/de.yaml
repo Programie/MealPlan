@@ -31,6 +31,7 @@ edit:
   notification:
     title: "Benachrichtigung konfigurieren"
     modal-text: "Wähle aus ob du über diese Mahlzeit benachrichtigt werden möchtest."
+    text-description: "Bezeichnung (optional)"
     invalid: "Bitte gebe eine gültige Zeit an!"
 
 all-meals:

@@ -31,6 +31,7 @@ edit:
   notification:
     title: "Configure notification"
     modal-text: "Choose whether you want to be notified about this meal."
+    text-description: "Title (optional)"
     invalid: "Please provide a valid time!"
 
 all-meals:

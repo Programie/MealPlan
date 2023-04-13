@@ -43,7 +43,8 @@
                                             "date": meal.date.formatForKey,
                                             "url": meal.url,
                                             "type": meal.type.id,
-                                            "notification": meal.notification.time.format("c"),
+                                            "notificationTime": meal.notification.time.format("c"),
+                                            "notificationText": meal.notification.text,
                                             "useState": true
                                         } only %}
                                     {% endfor %}
@@ -87,6 +88,11 @@
                     {{ tr("edit.notification.invalid") }}
                 </div>
             </div>
+
+            <div class="form-floating">
+                <input type="text" class="form-control" id="week-edit-notification-text" placeholder="{{ tr("edit.notification.text-description") }}"/>
+                <label for="week-edit-notification-text">{{ tr("edit.notification.text-description") }}</label>
+            </div>
         {% endblock %}
     {% endembed %}
 
@@ -113,7 +119,8 @@
             "date": "{{ date }}",
             "url": "{{ url }}",
             "type": "{{ type }}",
-            "notification": "{{ notification }}"
+            "notificationTime": "{{ notificationTime }}",
+            "notificationText": "{{ notificationText }}"
         } only %}
     </script>
 {% endblock %}

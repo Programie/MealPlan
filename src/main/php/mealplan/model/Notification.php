@@ -23,6 +23,9 @@ class Notification implements JsonSerializable
     #[ORM\Column(type: "datetime")]
     private DateTime $time;
 
+    #[ORM\Column(type: "string")]
+    private ?string $text;
+
     #[ORM\Column(type: "boolean")]
     private bool $triggered = false;
 
@@ -51,6 +54,18 @@ class Notification implements JsonSerializable
     public function setTime(DateTime $time): Notification
     {
         $this->time = $time;
+
+        return $this;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    public function setText(?string $text): Notification
+    {
+        $this->text = $text;
 
         return $this;
     }
@@ -84,6 +99,7 @@ class Notification implements JsonSerializable
     {
         return [
             "time" => $this->getTime(),
+            "text" => $this->getText(),
             "triggered" => $this->wasTriggered()
         ];
     }

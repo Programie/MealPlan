@@ -173,7 +173,7 @@ class WeekController
             $id = Sanitize::cleanInt($mealData["id"] ?? null);
             $type = Sanitize::cleanInt($mealData["type"] ?? null);
             $date = Sanitize::cleanString($mealData["date"] ?? null);
-            $notificationTime = Sanitize::cleanString($mealData["notification"] ?? null);
+            $notificationData = $mealData["notification"] ?? [];
 
             try {
                 $text = Sanitize::cleanString($mealData["text"] ?? null, 200);
@@ -205,6 +205,14 @@ class WeekController
 
             if ($date === null) {
                 throw new BadRequestException(sprintf("Missing date in entry %d", $inputDataIndex));
+            }
+
+            $notificationTime = Sanitize::cleanString($notificationData["time"] ?? null);
+
+            try {
+                $notificationText = Sanitize::cleanString($notificationData["text"] ?? null, 200);
+            } catch (StringTooLongException) {
+                throw new BadRequestException(sprintf("Notification text of entry %d is too long", $inputDataIndex));
             }
 
             if ($notificationTime === null) {
@@ -262,6 +270,7 @@ class WeekController
                 }
 
                 $notification->setTime($notificationDateTime);
+                $notification->setText($notificationText);
                 $notification->setTriggered(false);
                 $entityManager->persist($notification);
             }
