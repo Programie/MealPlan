@@ -3,24 +3,13 @@ import "../style/main.scss";
 import {Dropdown, Modal, Toast} from "bootstrap";
 import * as Mustache from "mustache";
 
-import {boolean2string, string2boolean} from "./utils";
-
-class MealNotification {
-    public enabled: boolean;
-    public time: string;
-}
-
 class MealData {
     public id: number;
     public date: string;
     public type: number;
     public text: string;
     public url: string;
-    public notification: MealNotification;
-
-    public constructor() {
-        this.notification = new MealNotification();
-    }
+    public notification: Date;
 
     public static fromElement(element: HTMLInputElement) {
         let dataset = element.dataset;
@@ -31,8 +20,7 @@ class MealData {
         data.type = parseInt(dataset.type);
         data.date = dataset.date;
         data.url = dataset.url;
-        data.notification.enabled = string2boolean(dataset.notificationEnabled);
-        data.notification.time = dataset.notificationTime;
+        data.notification = new Date(dataset.notification);
         data.text = element.value;
 
         return data;
@@ -99,7 +87,7 @@ class Editor {
         let mealDataset = inputElement.dataset;
 
         containerElement.querySelector(".week-edit-meal-button-link i").classList.toggle("active", mealDataset.url !== "");
-        containerElement.querySelector(".week-edit-meal-button-notification i").classList.toggle("active", mealDataset.notificationEnabled === "true");
+        containerElement.querySelector(".week-edit-meal-button-notification i").classList.toggle("active", mealDataset.notification !== "");
     }
 
     configureAddButtons() {
@@ -138,43 +126,29 @@ class Editor {
 
     showEditNotificationModal(modalElement: Element, mealDataset: DOMStringMap) {
         let enableElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-enable");
-        enableElement.checked = string2boolean(mealDataset.notificationEnabled);
+        enableElement.checked = mealDataset.notification !== "";
 
-        let time = mealDataset.notificationTime;
+        let dateTimeElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-time");
 
-        let radioElement: HTMLInputElement;
-        let inputElement: HTMLInputElement;
-        let otherInputElement: HTMLInputElement;
+        let date = new Date(mealDataset.notification);
+        let year = date.getFullYear();
+        let month = String(date.getMonth() + 1).padStart(2, "0");
+        let day = String(date.getDate()).padStart(2, "0");
+        let hour = String(date.getHours()).padStart(2, "0");
+        let minute = String(date.getMinutes()).padStart(2, "0");
 
-        if (time.includes(":")) {
-            radioElement = modalElement.querySelector("#week-edit-notification-time-absolute-radio");
-            inputElement = modalElement.querySelector("#week-edit-notification-time-absolute-input");
-            otherInputElement = modalElement.querySelector("#week-edit-notification-time-relative-input");
-        } else {
-            radioElement = modalElement.querySelector("#week-edit-notification-time-relative-radio");
-            inputElement = modalElement.querySelector("#week-edit-notification-time-relative-input");
-            otherInputElement = modalElement.querySelector("#week-edit-notification-time-absolute-input");
-        }
-
-        radioElement.checked = true;
-        inputElement.value = time;
-        otherInputElement.value = "";
+        dateTimeElement.value = `${year}-${month}-${day}T${hour}:${minute}`;
     }
 
     saveNotificationModal(modalElement: Element, mealDataset: DOMStringMap) {
         let enableElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-enable");
-        let radioElement: HTMLInputElement;
-        let inputElement: HTMLInputElement;
+        let dateTimeElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-time");
 
-        radioElement = modalElement.querySelector("#week-edit-notification-time-absolute-radio");
-        if (radioElement.checked) {
-            inputElement = modalElement.querySelector("#week-edit-notification-time-absolute-input");
+        if (enableElement.checked) {
+            mealDataset.notification = dateTimeElement.value;
         } else {
-            inputElement = modalElement.querySelector("#week-edit-notification-time-relative-input");
+            mealDataset.notification = "";
         }
-
-        mealDataset.notificationEnabled = boolean2string(enableElement.checked);
-        mealDataset.notificationTime = inputElement.value;
     }
 
     showModal(name: string, mealInputElement: HTMLInputElement, callback: (modalElement: Element, mealDataset: DOMStringMap) => void) {

@@ -6,10 +6,12 @@ use DatePeriod;
 use Exception;
 use mealplan\Database;
 use mealplan\Date;
+use mealplan\DateTime;
 use mealplan\httperror\BadRequestException;
 use mealplan\httperror\NotFoundException;
 use mealplan\model\Meal;
 use mealplan\model\MealType;
+use mealplan\model\Notification;
 use mealplan\model\Space;
 use mealplan\orm\MealRepository;
 use mealplan\orm\MealTypeRepository;
@@ -171,6 +173,7 @@ class WeekController
             $id = Sanitize::cleanInt($mealData["id"] ?? null);
             $type = Sanitize::cleanInt($mealData["type"] ?? null);
             $date = Sanitize::cleanString($mealData["date"] ?? null);
+            $notificationTime = Sanitize::cleanString($mealData["notification"] ?? null);
 
             try {
                 $text = Sanitize::cleanString($mealData["text"] ?? null, 200);
@@ -204,17 +207,14 @@ class WeekController
                 throw new BadRequestException(sprintf("Missing date in entry %d", $inputDataIndex));
             }
 
-            $notificationData = $mealData["notification"] ?? null;
-            if (!is_array($notificationData)) {
-                throw new BadRequestException(sprintf("Notification of entry %d is not an array", $inputDataIndex));
-            }
-
-            $notificationEnabled = $notificationData["enabled"] ?? false;
-
-            try {
-                $notificationTime = Sanitize::cleanString($notificationData["time"] ?? null, 5);
-            } catch (StringTooLongException) {
-                throw new BadRequestException(sprintf("Notification time of entry %d is too long", $inputDataIndex));
+            if ($notificationTime === null) {
+                $notificationDateTime = null;
+            } else {
+                try {
+                    $notificationDateTime = new DateTime($notificationTime);
+                } catch (Exception) {
+                    throw new BadRequestException(sprintf("Unable to parse notification time '%s' in entry %d", $notificationTime, $inputDataIndex));
+                }
             }
 
             /**
@@ -227,12 +227,15 @@ class WeekController
 
             if ($id === null) {
                 $meal = new Meal;
+                $notification = null;
             } else {
                 $meal = $mealRepository->find($id);// TODO: Restrict to current space?
 
                 if ($meal === null) {
                     throw new BadRequestException(sprintf("Meal entry with ID %d does not exist", $id));
                 }
+
+                $notification = $meal->getNotification();
             }
 
             try {
@@ -245,9 +248,22 @@ class WeekController
             $meal->setType($mealType);
             $meal->setText($text);
             $meal->setUrl($url);
-            $meal->setNotificationEnabled($notificationEnabled);
-            $meal->setNotificationTime($notificationTime);
+
             $entityManager->persist($meal);
+
+            if ($notificationDateTime === null) {
+                if ($notification !== null) {
+                    $entityManager->remove($notification);
+                }
+            } else {
+                if ($notification === null) {
+                    $notification = new Notification;
+                    $notification->setMeal($meal);
+                }
+
+                $notification->setTime($notificationDateTime);
+                $entityManager->persist($notification);
+            }
         }
 
         $entityManager->flush();

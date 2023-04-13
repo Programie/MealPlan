@@ -5,6 +5,7 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
+use mealplan\orm\DateTimeType;
 use mealplan\orm\DateType;
 
 class Database
@@ -14,6 +15,7 @@ class Database
     public static function init()
     {
         Type::overrideType("date", DateType::class);
+        Type::overrideType("datetime", DateTimeType::class);
 
         $config = ORMSetup::createAttributeMetadataConfiguration([SRC_ROOT], isDevMode: true);
 

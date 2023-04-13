@@ -43,8 +43,7 @@
                                             "date": meal.date.formatForKey,
                                             "url": meal.url,
                                             "type": meal.type.id,
-                                            "notificationEnabled": meal.notificationEnabled ? "true" : "false",
-                                            "notificationTime": meal.notificationTime,
+                                            "notification": meal.notification.time.format("c"),
                                             "useState": true
                                         } only %}
                                     {% endfor %}
@@ -79,24 +78,11 @@
         {% block body %}
             <p>{{ tr("edit.notification.modal-text") }}</p>
 
-            <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" id="week-edit-notification-enable"/>
-                <label class="form-check-label" for="week-edit-notification-enable">{{ tr("edit.notification.enable") }}</label>
-            </div>
-
             <div class="input-group mb-3">
                 <div class="input-group-text">
-                    <label for="week-edit-notification-time-relative-radio"><input class="form-check-input" type="radio" name="week-edit-notification-time-type" id="week-edit-notification-time-relative-radio"/> {{ tr("edit.notification.relative") }}</label>
+                    <input class="form-check-input" type="checkbox" id="week-edit-notification-enable"/>
                 </div>
-                <input type="number" class="form-control" id="week-edit-notification-time-relative-input" min="0"/>
-                <span class="input-group-text">{{ tr("edit.notification.relative-suffix") }}
-            </div>
-
-            <div class="input-group">
-                <div class="input-group-text">
-                    <label for="week-edit-notification-time-absolute-radio"><input class="form-check-input" type="radio" name="week-edit-notification-time-type" id="week-edit-notification-time-absolute-radio"/> {{ tr("edit.notification.absolute") }}</label>
-                </div>
-                <input type="time" class="form-control" id="week-edit-notification-time-absolute-input"/>
+                <input type="datetime-local" class="form-control" id="week-edit-notification-time"/>
             </div>
         {% endblock %}
     {% endembed %}
@@ -124,10 +110,7 @@
             "date": "{{ date }}",
             "url": "{{ url }}",
             "type": "{{ type }}",
-            "notificationEnabled": "{{ notificationEnabled }}",
-            "notificationTime": "{{ notificationTime }}"
+            "notification": "{{ notification }}"
         } only %}
-
-
     </script>
 {% endblock %}

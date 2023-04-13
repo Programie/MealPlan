@@ -41,7 +41,7 @@
                             <td>
                                 {% for meal in day.meals[typeId] %}
                                     <div>
-                                        {% if meal.notificationEnabled %}
+                                        {% if meal.notification %}
                                             <i class="fa fa-bell meal-notification me-1" title="{{ tr("meal.notification.tooltip") }}"></i>
                                         {% endif %}
 
