@@ -1,4 +1,4 @@
-CREATE TABLE `mealtypes`
+CREATE TABLE `spaces`
 (
     `id`   int(11)      NOT NULL AUTO_INCREMENT,
     `name` varchar(200) NOT NULL,
@@ -6,11 +6,13 @@ CREATE TABLE `mealtypes`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
-CREATE TABLE `spaces`
+CREATE TABLE `mealtypes`
 (
-    `id`   int(11)      NOT NULL AUTO_INCREMENT,
-    `name` varchar(200) NOT NULL,
-    PRIMARY KEY (`id`)
+    `id`    int(11)      NOT NULL AUTO_INCREMENT,
+    `name`  varchar(200) NOT NULL,
+    `space` int(11)      NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`space`) REFERENCES `spaces` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 

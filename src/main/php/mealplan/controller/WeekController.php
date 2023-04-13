@@ -54,7 +54,7 @@ class WeekController
         /**
          * @var $mealTypeRows MealType[]
          */
-        $mealTypeRows = $entityManager->getRepository(MealType::class)->findAll();
+        $mealTypeRows = $entityManager->getRepository(MealType::class)->findBySpace($currentSpace);
         foreach ($mealTypeRows as $mealType) {
             $mealTypes[$mealType->getId()] = $mealType->getName();
         }
@@ -94,7 +94,7 @@ class WeekController
         /**
          * @var $mealTypeRows MealType[]
          */
-        $mealTypeRows = $entityManager->getRepository(MealType::class)->findAll();
+        $mealTypeRows = $entityManager->getRepository(MealType::class)->findBySpace($currentSpace);
         foreach ($mealTypeRows as $mealType) {
             $mealTypes[$mealType->getId()] = $mealType->getName();
         }
@@ -191,7 +191,7 @@ class WeekController
 
             // ID specified but no text -> delete item
             if ($id !== null and $text === null) {
-                $meal = $mealRepository->find($id);
+                $meal = $mealRepository->find($id);// TODO: Restrict to current space?
 
                 if ($meal !== null) {
                     $entityManager->remove($meal);
@@ -220,7 +220,7 @@ class WeekController
             /**
              * @var $mealType MealType
              */
-            $mealType = $mealTypeRepository->find($type);
+            $mealType = $mealTypeRepository->find($type);// TODO: Restrict to current space?
             if ($mealType === null) {
                 throw new BadRequestException(sprintf("Invalid meal type %d in entry %d", $type, $inputDataIndex));
             }
@@ -228,7 +228,7 @@ class WeekController
             if ($id === null) {
                 $meal = new Meal;
             } else {
-                $meal = $mealRepository->find($id);
+                $meal = $mealRepository->find($id);// TODO: Restrict to current space?
 
                 if ($meal === null) {
                     throw new BadRequestException(sprintf("Meal entry with ID %d does not exist", $id));

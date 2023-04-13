@@ -15,6 +15,10 @@ class MealType
     #[ORM\Column(type: "string")]
     private string $name;
 
+    #[ORM\OneToOne(targetEntity: "Space")]
+    #[ORM\JoinColumn(name: "space", referencedColumnName: "id")]
+    private Space $space;
+
     public function getId(): int
     {
         return $this->id;
@@ -28,6 +32,18 @@ class MealType
     public function setName(string $name): MealType
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSpace(): Space
+    {
+        return $this->space;
+    }
+
+    public function setSpace(Space $space): MealType
+    {
+        $this->space = $space;
 
         return $this;
     }
