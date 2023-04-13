@@ -83,6 +83,9 @@
                     <input class="form-check-input" type="checkbox" id="week-edit-notification-enable"/>
                 </div>
                 <input type="datetime-local" class="form-control" id="week-edit-notification-time"/>
+                <div class="invalid-feedback" id="week-edit-notification-invalid">
+                    {{ tr("edit.notification.invalid") }}
+                </div>
             </div>
         {% endblock %}
     {% endembed %}

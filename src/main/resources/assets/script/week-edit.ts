@@ -31,8 +31,8 @@ class Editor {
     private dataChanged: boolean = false;
 
     constructor() {
-        this.configureModal("url", this.saveUrlModal);
-        this.configureModal("notification", this.saveNotificationModal);
+        this.configureModal("url", null, this.saveUrlModal.bind(this));
+        this.configureModal("notification", this.configureNotificationModal.bind(this), this.saveNotificationModal.bind(this));
         this.configureAddButtons();
 
         document.querySelectorAll(".week-edit-meal").forEach((element) => {
@@ -74,11 +74,11 @@ class Editor {
         });
 
         containerElement.querySelector(".week-edit-meal-button-link").addEventListener("click", () => {
-            this.showModal("url", inputElement, this.showEditUrlModal);
+            this.showModal("url", inputElement, this.showEditUrlModal.bind(this));
         });
 
         containerElement.querySelector(".week-edit-meal-button-notification").addEventListener("click", () => {
-            this.showModal("notification", inputElement, this.showEditNotificationModal);
+            this.showModal("notification", inputElement, this.showEditNotificationModal.bind(this));
         });
     }
 
@@ -122,9 +122,27 @@ class Editor {
         let urlInputElement: HTMLInputElement = modalElement.querySelector("#week-edit-url-input");
 
         mealDataset.url = urlInputElement.value;
+
+        return true;
+    }
+
+    updateNotificationModalTimeState() {
+        let checkboxElement: HTMLInputElement = document.querySelector("#week-edit-notification-enable");
+        let timeElement: HTMLInputElement = document.querySelector("#week-edit-notification-time");
+
+        timeElement.disabled = !checkboxElement.checked;
+    }
+
+    configureNotificationModal(modalElement: Element) {
+        modalElement.querySelector("#week-edit-notification-enable").addEventListener("change", () => {
+            this.updateNotificationModalTimeState();
+        });
     }
 
     showEditNotificationModal(modalElement: Element, mealDataset: DOMStringMap) {
+        let invalidElement: HTMLElement = modalElement.querySelector("#week-edit-notification-invalid");
+        invalidElement.style.display = null;
+
         let enableElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-enable");
         enableElement.checked = mealDataset.notification !== "";
 
@@ -138,17 +156,26 @@ class Editor {
         let minute = String(date.getMinutes()).padStart(2, "0");
 
         dateTimeElement.value = `${year}-${month}-${day}T${hour}:${minute}`;
+
+        this.updateNotificationModalTimeState();
     }
 
     saveNotificationModal(modalElement: Element, mealDataset: DOMStringMap) {
         let enableElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-enable");
         let dateTimeElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-time");
 
+        if (enableElement.checked && dateTimeElement.valueAsDate === null) {
+            (modalElement.querySelector("#week-edit-notification-invalid") as HTMLElement).style.display = "block";
+            return false;
+        }
+
         if (enableElement.checked) {
             mealDataset.notification = dateTimeElement.value;
         } else {
             mealDataset.notification = "";
         }
+
+        return true;
     }
 
     showModal(name: string, mealInputElement: HTMLInputElement, callback: (modalElement: Element, mealDataset: DOMStringMap) => void) {
@@ -162,12 +189,14 @@ class Editor {
         new Modal(modalElement).show();
     }
 
-    configureModal(name: string, saveCallback: (modalElement: Element, mealDataset: DOMStringMap) => void) {
+    configureModal(name: string, configureCallback: (modalElement: Element) => void, saveCallback: (modalElement: Element, mealDataset: DOMStringMap) => boolean) {
         let modalElement: HTMLElement = document.querySelector(`#week-edit-${name}-modal`);
         modalElement.querySelector(".modal-button-ok").addEventListener("click", () => {
             let mealInputElement: HTMLInputElement = document.querySelector(`.week-edit-meal input[data-id='${modalElement.dataset.mealId}']`);
 
-            saveCallback(modalElement, mealInputElement.dataset);
+            if (!saveCallback(modalElement, mealInputElement.dataset)) {
+                return;
+            }
 
             this.updateOptionButtons(mealInputElement);
 
@@ -181,6 +210,10 @@ class Editor {
             modalElement.addEventListener("shown.bs.modal", () => {
                 firstInputElement.focus();
             });
+        }
+
+        if (configureCallback !== null) {
+            configureCallback(modalElement);
         }
     }
 

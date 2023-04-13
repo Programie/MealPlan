@@ -35,6 +35,7 @@ edit:
     relative: "Relativ"
     relative-suffix: "min davor"
     absolute: "Absolut"
+    invalid: "Bitte gebe eine gültige Zeit an!"
 
 all-meals:
   title: "Alle Mahlzeiten"
