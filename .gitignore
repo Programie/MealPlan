@@ -3,3 +3,4 @@
 /node_modules/
 /vendor/
 /webpack.assets.json
+/docker-compose.local.yml
