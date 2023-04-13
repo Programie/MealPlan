@@ -31,10 +31,6 @@ edit:
   notification:
     title: "Benachrichtigung konfigurieren"
     modal-text: "Wähle aus ob du über diese Mahlzeit benachrichtigt werden möchtest."
-    enable: "Aktivieren"
-    relative: "Relativ"
-    relative-suffix: "min davor"
-    absolute: "Absolut"
     invalid: "Bitte gebe eine gültige Zeit an!"
 
 all-meals:

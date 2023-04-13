@@ -31,10 +31,6 @@ edit:
   notification:
     title: "Configure notification"
     modal-text: "Choose whether you want to be notified about this meal."
-    enable: "Enable"
-    relative: "Relative"
-    relative-suffix: "min before"
-    absolute: "Absolute"
     invalid: "Please provide a valid time!"
 
 all-meals:
