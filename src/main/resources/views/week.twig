@@ -42,7 +42,13 @@
                                 {% for meal in day.meals[typeId] %}
                                     <div>
                                         {% if meal.notification %}
-                                            <i class="fa fa-bell meal-notification me-1" title="{{ tr("meal.notification.tooltip") }}"></i>
+                                            {% set notificationTooltip = tr("meal.notification.tooltip") %}
+
+                                            {% if meal.notification.text %}
+                                                {% set notificationTooltip = notificationTooltip ~ ": " ~ meal.notification.text %}
+                                            {% endif %}
+
+                                            <i class="fa fa-bell meal-notification me-1" title="{{ notificationTooltip }}"></i>
                                         {% endif %}
 
                                         {% if meal.url %}
