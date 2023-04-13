@@ -58,9 +58,9 @@ class Notification implements JsonSerializable
         return $this->triggered;
     }
 
-    public function setTriggered(): Notification
+    public function setTriggered(bool $state): Notification
     {
-        $this->triggered = true;
+        $this->triggered = $state;
 
         return $this;
     }

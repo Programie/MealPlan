@@ -262,6 +262,7 @@ class WeekController
                 }
 
                 $notification->setTime($notificationDateTime);
+                $notification->setTriggered(false);
                 $entityManager->persist($notification);
             }
         }
