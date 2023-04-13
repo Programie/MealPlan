@@ -37,6 +37,7 @@ COPY --from=composer /app/vendor /app/vendor
 COPY --from=webpack /app/httpdocs/assets /app/httpdocs/assets
 COPY --from=webpack /app/webpack.assets.json /app/webpack.assets.json
 
+COPY bin /app/bin
 COPY bootstrap.php /app/
 COPY httpdocs /app/httpdocs
 COPY src /app/src
