@@ -125,22 +125,23 @@ class Table {
 
     toggleChildRows(tableRow: HTMLTableRowElement) {
         let row = this.dataTable.row(tableRow);
-        let rowData = row.data();
-        if (!rowData) {
+        if (!row.length) {
             return;
         }
 
         if (row.child.isShown()) {
-            this.collapseChildRows(row, tableRow);
+            this.collapseChildRows(row);
         } else {
-            this.expandChildRows(row, tableRow, rowData);
+            this.expandChildRows(row);
         }
     }
 
-    expandChildRows(row: ApiRowMethods<any>, tableRow: HTMLTableRowElement, rowData: GroupedMeal) {
+    expandChildRows(row: ApiRowMethods<any>) {
+        this.collapseAllChildRows();
+
         let childRows: JQuery<HTMLElement>[] = [];
 
-        rowData.meals.forEach((meal: Meal) => {
+        row.data().meals.forEach((meal: Meal) => {
             childRows.push($(Mustache.render(document.querySelector("#all-meals-table-child-template").innerHTML, {
                 type: meal.type,
                 url: `/space/${this.spaceId}/week/${meal.date.keyFormat}`,
@@ -150,12 +151,20 @@ class Table {
 
         // @ts-ignore
         row.child(childRows).show();
-        tableRow.classList.add("shown", "all-meals-table-child", "fw-bold");
+        (row.node() as HTMLTableRowElement).classList.add("shown", "datatable-child-expanded", "fw-bold");
     }
 
-    collapseChildRows(row: ApiRowMethods<any>, tableRow: HTMLTableRowElement) {
+    collapseAllChildRows() {
+        let expandedRows = this.dataTable.rows(".datatable-child-expanded");
+
+        expandedRows.every((rowIdx, tableLoop, rowLoop) => {
+            this.collapseChildRows(this.dataTable.row(rowIdx));
+        });
+    }
+
+    collapseChildRows(row: ApiRowMethods<any>) {
         row.child.hide();
-        tableRow.classList.remove("shown", "all-meals-table-child", "fw-bold");
+        (row.node() as HTMLTableRowElement).classList.remove("shown", "datatable-child-expanded", "fw-bold");
     }
 }
 
