@@ -8,9 +8,25 @@ import DataTable from "datatables.net-dt";
 import "datatables.net-bs5";
 import {DateHelper} from "./date";
 
+class Meal {
+    date: DateHelper;
+    url: string;
+    type: string;
+
+    public static fromObject(data: any) {
+        let meal = new Meal();
+
+        meal.date = new DateHelper(data.date);
+        meal.url = data.url;
+        meal.type = data.type;
+
+        return meal;
+    }
+}
+
 class GroupedMeal {
     text: string;
-    dates: DateHelper[] = [];
+    meals: Meal[] = [];
     urls: string[] = [];
 
     public static fromObject(data: any) {
@@ -18,19 +34,23 @@ class GroupedMeal {
 
         groupedMeal.text = data.text;
 
-        data.dates.forEach((date: string) => {
-            groupedMeal.dates.push(new DateHelper(date));
+        data.meals.forEach((data: any) => {
+            groupedMeal.meals.push(Meal.fromObject(data));
         });
 
         data.urls.forEach((url: string) => {
             groupedMeal.urls.push(url);
         });
 
+        groupedMeal.meals.sort((meal1, meal2) => {
+            return meal1.date > meal2.date ? 1 : -1;
+        });
+
         return groupedMeal;
     }
 
-    public get lastDate() {
-        return this.dates[0];
+    public get lastMeal() {
+        return this.meals[0];
     }
 }
 
@@ -63,12 +83,12 @@ window.onload = () => {
             },
             {
                 data: {
-                    _: "lastDate.shortFormat",
-                    sort: "lastDate.keyFormat"
+                    _: "lastMeal.date.shortFormat",
+                    sort: "lastMeal.date.keyFormat"
                 }
             },
             {
-                data: "dates.length"
+                data: "meals.length"
             },
             {
                 orderable: false,
@@ -106,11 +126,11 @@ window.onload = () => {
         } else {
             let childRows: JQuery<HTMLElement>[] = [];
 
-            rowData.dates.forEach((date: DateHelper) => {
+            rowData.meals.forEach((meal: Meal) => {
                 childRows.push($(Mustache.render(document.querySelector("#all-meals-table-child-template").innerHTML, {
-                    type: "",
-                    url: `/space/${spaceId}/week/${date.keyFormat}`,
-                    date: date.shortFormat
+                    type: meal.type,
+                    url: `/space/${spaceId}/week/${meal.date.keyFormat}`,
+                    date: meal.date.shortFormat
                 })));
             });
 

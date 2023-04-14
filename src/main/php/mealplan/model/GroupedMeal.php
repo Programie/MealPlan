@@ -2,7 +2,6 @@
 namespace mealplan\model;
 
 use JsonSerializable;
-use mealplan\Date;
 
 class GroupedMeal implements JsonSerializable
 {
@@ -12,9 +11,9 @@ class GroupedMeal implements JsonSerializable
     private string $text;
 
     /**
-     * @var Date[]
+     * @var Meal[]
      */
-    private array $dates;
+    private array $meals;
 
     /**
      * @var string[]
@@ -24,13 +23,13 @@ class GroupedMeal implements JsonSerializable
     public function __construct(Meal $meal)
     {
         $this->text = $meal->getText();
-        $this->dates = [];
+        $this->meals = [];
         $this->urls = [];
     }
 
     public function add(Meal $meal)
     {
-        $this->dates[] = $meal->getDate();
+        $this->meals[] = $meal;
 
         $url = $meal->getUrl();
         if ($url !== null) {
@@ -45,9 +44,9 @@ class GroupedMeal implements JsonSerializable
         return $this->text;
     }
 
-    public function getDates(): array
+    public function getMeals(): array
     {
-        return $this->dates;
+        return $this->meals;
     }
 
     public function getUrls(): array
@@ -59,7 +58,7 @@ class GroupedMeal implements JsonSerializable
     {
         return [
             "text" => $this->getText(),
-            "dates" => $this->getDates(),
+            "meals" => $this->getMeals(),
             "urls" => $this->getUrls()
         ];
     }
