@@ -131,8 +131,19 @@ class WeekController
 
         $date = new Date($date);
 
-        $startDate = $date->getStartOfWeek();
-        $endDate = $date->getEndOfWeek();
+        if (isset($_GET["days"])) {
+            $days = (int)$_GET["days"];
+            if ($days <= 0) {
+                throw new BadRequestException("Days must be > 0");
+            }
+
+            $startDate = $date;
+            $endDate = clone $startDate;
+            $endDate->add(new DateInterval(sprintf("P%dD", $days - 1)));
+        } else {
+            $startDate = $date->getStartOfWeek();
+            $endDate = $date->getEndOfWeek();
+        }
 
         return $this->getPerDayMeals($space, $startDate, $endDate);
     }
