@@ -57,7 +57,7 @@ class GroupedMeal {
 
         let averageTime = ((new Date).getTime() - firstMeal.date.timestamp) / numMeals;
 
-        return Math.ceil(averageTime / 1000 / 60 / 60 / 24);
+        return averageTime / 1000 / 60 / 60 / 24;
     }
 
     public get lastMeal() {
@@ -91,8 +91,12 @@ class Table {
                     data: (row: GroupedMeal, type, set, meta) => {
                         let value = row.averageDaysBetweenMeals;
 
-                        if (type === "display" && value === 0) {
-                            return "";
+                        if (type === "display") {
+                            if (value === 0) {
+                                return "";
+                            }
+
+                            return value.toFixed(1);
                         }
 
                         return value;
