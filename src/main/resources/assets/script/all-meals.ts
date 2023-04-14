@@ -55,7 +55,7 @@ class GroupedMeal {
         let firstMeal = this.meals[numMeals - 1];
         let lastMeal = this.meals[0];
 
-        let averageTime = ((new Date).getTime() - firstMeal.date.timestamp) / numMeals;
+        let averageTime = (Math.max((new Date).getTime(), lastMeal.date.timestamp) - firstMeal.date.timestamp) / numMeals;
 
         return averageTime / 1000 / 60 / 60 / 24;
     }
