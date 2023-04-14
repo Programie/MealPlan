@@ -5,6 +5,10 @@ export class DateHelper {
         this.date = new Date(date);
     }
 
+    public get timestamp() {
+        return this.date.getTime();
+    }
+
     public get shortFormat() {
         return this.date.toLocaleDateString(undefined, {
             weekday: "short",

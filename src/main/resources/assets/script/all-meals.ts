@@ -43,10 +43,21 @@ class GroupedMeal {
         });
 
         groupedMeal.meals.sort((meal1, meal2) => {
-            return meal1.date > meal2.date ? 1 : -1;
+            return meal1.date.timestamp < meal2.date.timestamp ? 1 : -1;
         });
 
         return groupedMeal;
+    }
+
+    public get averageDaysBetweenMeals() {
+        let numMeals = this.meals.length;
+
+        let firstMeal = this.meals[numMeals - 1];
+        let lastMeal = this.meals[0];
+
+        let averageTime = (lastMeal.date.timestamp - firstMeal.date.timestamp) / numMeals;
+
+        return Math.ceil(averageTime / 1000 / 60 / 60 / 24);
     }
 
     public get lastMeal() {
@@ -75,6 +86,9 @@ class Table {
                         _: "lastMeal.date.shortFormat",
                         sort: "lastMeal.date.keyFormat"
                     }
+                },
+                {
+                    data: "averageDaysBetweenMeals"
                 },
                 {
                     data: "meals.length"

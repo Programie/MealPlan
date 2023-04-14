@@ -39,6 +39,7 @@ all-meals:
   table-header:
     text: "Text"
     date: "Date"
+    average-days: "Ø days"
     count: "Count"
     links: "Links"
 

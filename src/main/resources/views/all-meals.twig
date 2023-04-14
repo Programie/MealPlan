@@ -9,6 +9,7 @@
                 <tr>
                     <th>{{ tr("all-meals.table-header.text") }}</th>
                     <th>{{ tr("all-meals.table-header.date") }}</th>
+                    <th>{{ tr("all-meals.table-header.average-days") }}</th>
                     <th>{{ tr("all-meals.table-header.count") }}</th>
                     <th>{{ tr("all-meals.table-header.links") }}</th>
                 </tr>
@@ -23,8 +24,7 @@
         <tr class="datatable-child-expanded child-row">
             <td>{{type}}</td>
             <td><a href="{{url}}">{{date}}</a></td>
-            <td></td>
-            <td></td>
+            <td colspan="3"></td>
         </tr>
     </script>
     {% endverbatim %}
