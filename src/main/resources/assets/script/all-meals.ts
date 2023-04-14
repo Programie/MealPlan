@@ -88,7 +88,15 @@ class Table {
                     }
                 },
                 {
-                    data: "averageDaysBetweenMeals"
+                    data: (row: GroupedMeal, type, set, meta) => {
+                        let value = row.averageDaysBetweenMeals;
+
+                        if (type === "display" && value === 0) {
+                            return "";
+                        }
+
+                        return value;
+                    }
                 },
                 {
                     data: "meals.length"
