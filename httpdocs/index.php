@@ -49,7 +49,7 @@ try {
     http_response_code($exception->getCode());
 
     if (Utils::hasHttpAccept("text/html")) {
-        echo TwigRenderer::render("error-page", ["httpCode" => $exception->getCode()]);
+        echo TwigRenderer::render("error-page", ["httpCode" => $exception->getCode(), "message" => $exception->getMessage()]);
     } else {
         echo $exception->getMessage();
     }
