@@ -116,13 +116,17 @@ main {
     font-size: 26px;
 }
 
+.all-meals-table-child, .all-meals-table-child > td {
+    background-color: #313539 !important;
+}
+
 @media (max-width: 767px) {
     table * {
         display: block;
     }
     nav .navbar-brand > b,
     table thead {
-        display:none;
+        display: none;
     }
     #space-dropdown .nav-link {
         font-size: 0px;

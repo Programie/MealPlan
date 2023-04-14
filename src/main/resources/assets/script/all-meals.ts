@@ -102,7 +102,7 @@ window.onload = () => {
 
         if (row.child.isShown()) {
             row.child.hide();
-            tableRow.classList.remove("shown", "table-brighter", "fw-bold");
+            tableRow.classList.remove("shown", "all-meals-table-child", "fw-bold");
         } else {
             let childRows: JQuery<HTMLElement>[] = [];
 
@@ -116,7 +116,7 @@ window.onload = () => {
 
             // @ts-ignore
             row.child(childRows).show();
-            tableRow.classList.add("shown", "table-brighter", "fw-bold");
+            tableRow.classList.add("shown", "all-meals-table-child", "fw-bold");
         }
     });
 };
