@@ -92,7 +92,7 @@ class Table {
                         let value = row.averageDaysBetweenMeals;
 
                         if (type === "display") {
-                            if (value === 0) {
+                            if (value <= 0) {
                                 return "";
                             }
 
