@@ -112,6 +112,9 @@
         {% for meal in existingMeals %}
             <option value="{{ meal.text }}" data-url="{{ meal.url }}"></option>
         {% endfor %}
+        {% for item in datasourceItems %}
+            <option value="{{ item.text }}" data-url="{{ item.url }}"></option>
+        {% endfor %}
     </datalist>
 
     <script type="x-tmpl-mustache" id="week-edit-meal-template">

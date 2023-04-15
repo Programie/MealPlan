@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use mealplan\datasource\Manager as DatasourceManager;
 use mealplan\Date;
 use mealplan\DateTime;
 use mealplan\model\Meal;
@@ -87,7 +88,7 @@ class WeekController extends AbstractController
     }
 
     #[Route("/space/{spaceId}/week/{date}/edit", name: "getWeekEditPage", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
-    public function getEditPage(int $spaceId, string $date, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, TranslatorInterface $translator): Response
+    public function getEditPage(int $spaceId, string $date, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, DatasourceManager $datasourceManager, TranslatorInterface $translator): Response
     {
         $date = new Date($date);
 
@@ -119,6 +120,7 @@ class WeekController extends AbstractController
             "endDate" => $endDate,
             "mealTypes" => $mealTypes,
             "existingMeals" => $mealRepository->findBySpaceGroupedByText($currentSpace),
+            "datasourceItems" => $datasourceManager->getItems(),
             "days" => $this->getPerDayMeals($mealRepository, $currentSpace, $startDate, $endDate, $translator)
         ]);
     }
