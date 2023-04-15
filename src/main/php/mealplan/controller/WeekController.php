@@ -3,51 +3,64 @@ namespace mealplan\controller;
 
 use DateInterval;
 use DatePeriod;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
-use mealplan\Database;
 use mealplan\Date;
 use mealplan\DateTime;
-use mealplan\httperror\BadRequestException;
-use mealplan\httperror\NotFoundException;
 use mealplan\model\Meal;
 use mealplan\model\MealType;
 use mealplan\model\Notification;
 use mealplan\model\Space;
 use mealplan\orm\MealRepository;
 use mealplan\orm\MealTypeRepository;
+use mealplan\orm\SpaceRepository;
 use mealplan\sanitize\Sanitize;
 use mealplan\sanitize\StringTooLongException;
-use mealplan\Translation;
-use mealplan\TwigRenderer;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class WeekController
+class WeekController extends AbstractController
 {
-    public function redirectToPageWithSpaceId(int $spaceId)
+    #[Route("/space/{spaceId}", name: "redirectToWeekWithSpaceId", requirements: ["spaceId" => "\d+"], methods: ["GET"])]
+    public function redirectToPageWithSpaceId(int $spaceId): Response
     {
-        header(sprintf("Location: /space/%d/week/%s", $spaceId, (new Date)->getStartOfWeek()->format("Y-m-d")));
+        return $this->redirectToRoute("getWeekPage", [
+            "spaceId" => $spaceId,
+            "date" => (new Date)->getStartOfWeek()->format("Y-m-d")
+        ]);
     }
 
-    public function redirectToPage()
+    #[Route("/", name: "index", methods: ["GET"])]
+    public function index(SpaceRepository $spaceRepository): Response
     {
-        $space = Database::getEntityManager()->getRepository(Space::class)->findOneBy([], ["id" => "ASC"]);
+        $space = $spaceRepository->findOneBy([], ["id" => "ASC"]);
+        if ($space === null) {
+            throw new NotFoundHttpException;
+        }
 
-        header(sprintf("Location: /space/%d/week/%s", $space->getId(), (new Date)->getStartOfWeek()->format("Y-m-d")));
+        return $this->redirectToRoute("getWeekPage", [
+            "spaceId" => $space->getId(),
+            "date" => (new Date)->getStartOfWeek()->format("Y-m-d")
+        ]);
     }
 
-    public function getPage(int $spaceId, string $date)
+    #[Route("/space/{spaceId}/week/{date}", name: "getWeekPage", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
+    public function getPage(int $spaceId, string $date, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, TranslatorInterface $translator): Response
     {
-        $entityManager = Database::getEntityManager();
-
         $date = new Date($date);
 
         /**
          * @var $currentSpace Space
          */
-        $currentSpace = $entityManager->getRepository(Space::class)->find($spaceId);
+        $currentSpace = $spaceRepository->find($spaceId);
         if ($currentSpace === null) {
-            throw new NotFoundException;
+            throw new NotFoundHttpException;
         }
 
         $startDate = $date->getStartOfWeek();
@@ -55,15 +68,13 @@ class WeekController
 
         $mealTypes = [];
 
-        /**
-         * @var $mealTypeRows MealType[]
-         */
-        $mealTypeRows = $entityManager->getRepository(MealType::class)->findBySpace($currentSpace);
+        $mealTypeRows = $mealTypeRepository->findBySpace($currentSpace);
         foreach ($mealTypeRows as $mealType) {
             $mealTypes[$mealType->getId()] = $mealType->getName();
         }
 
-        return TwigRenderer::render("week", [
+        return $this->render("week.twig", [
+            "spaces" => $spaceRepository->findAll(),
             "currentSpace" => $currentSpace,
             "nowWeek" => (new Date)->getStartOfWeek(),
             "previousWeek" => $date->getPreviousWeek()->getStartOfWeek(),
@@ -71,22 +82,21 @@ class WeekController
             "startDate" => $startDate,
             "endDate" => $endDate,
             "mealTypes" => $mealTypes,
-            "days" => $this->getPerDayMeals($currentSpace, $startDate, $endDate)
+            "days" => $this->getPerDayMeals($mealRepository, $currentSpace, $startDate, $endDate, $translator)
         ]);
     }
 
-    public function getEditPage(int $spaceId, string $date)
+    #[Route("/space/{spaceId}/week/{date}/edit", name: "getWeekEditPage", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
+    public function getEditPage(int $spaceId, string $date, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, TranslatorInterface $translator): Response
     {
-        $entityManager = Database::getEntityManager();
-
         $date = new Date($date);
 
         /**
          * @var $currentSpace Space
          */
-        $currentSpace = $entityManager->getRepository(Space::class)->find($spaceId);
+        $currentSpace = $spaceRepository->find($spaceId);
         if ($currentSpace === null) {
-            throw new NotFoundException;
+            throw new NotFoundHttpException;
         }
 
         $startDate = $date->getStartOfWeek();
@@ -94,15 +104,13 @@ class WeekController
 
         $mealTypes = [];
 
-        /**
-         * @var $mealTypeRows MealType[]
-         */
-        $mealTypeRows = $entityManager->getRepository(MealType::class)->findBySpace($currentSpace);
+        $mealTypeRows = $mealTypeRepository->findBySpace($currentSpace);
         foreach ($mealTypeRows as $mealType) {
             $mealTypes[$mealType->getId()] = $mealType->getName();
         }
 
-        return TwigRenderer::render("week-edit", [
+        return $this->render("week-edit.twig", [
+            "spaces" => $spaceRepository->findAll(),
             "currentSpace" => $currentSpace,
             "nowWeek" => (new Date)->getStartOfWeek(),
             "previousWeek" => $date->getPreviousWeek()->getStartOfWeek(),
@@ -110,21 +118,21 @@ class WeekController
             "startDate" => $startDate,
             "endDate" => $endDate,
             "mealTypes" => $mealTypes,
-            "existingMeals" => $entityManager->getRepository(Meal::class)->findBySpaceGroupedByText($currentSpace),
-            "days" => $this->getPerDayMeals($currentSpace, $startDate, $endDate)
+            "existingMeals" => $mealRepository->findBySpaceGroupedByText($currentSpace),
+            "days" => $this->getPerDayMeals($mealRepository, $currentSpace, $startDate, $endDate, $translator)
         ]);
     }
 
-    public function getJson(int $spaceId, string $date)
+    #[Route("/space/{spaceId}/week/{date}.json", name: "getWeekJson", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
+    public function getJson(int $spaceId, string $date, SpaceRepository $spaceRepository, MealRepository $mealRepository, TranslatorInterface $translator): Response
     {
-        $entityManager = Database::getEntityManager();
-
         /**
          * @var $space Space
          */
-        $space = $entityManager->getRepository(Space::class)->find($spaceId);
+        $space = $spaceRepository->find($spaceId);
+
         if ($space === null) {
-            throw new NotFoundException;
+            throw new NotFoundHttpException;
         }
 
         $date = new Date($date);
@@ -132,7 +140,7 @@ class WeekController
         if (isset($_GET["days"])) {
             $days = (int)$_GET["days"];
             if ($days <= 0) {
-                throw new BadRequestException("Days must be > 0");
+                throw new BadRequestHttpException("Days must be > 0");
             }
 
             $startDate = $date;
@@ -143,40 +151,29 @@ class WeekController
             $endDate = $date->getEndOfWeek();
         }
 
-        return $this->getPerDayMeals($space, $startDate, $endDate);
+        return $this->json($this->getPerDayMeals($mealRepository, $space, $startDate, $endDate, $translator));
     }
 
-    public function save(int $spaceId)
+    #[Route("/space/{spaceId}", name: "saveWeek", requirements: ["spaceId" => "\d+"], methods: ["POST"])]
+    public function save(int $spaceId, EntityManagerInterface $entityManager, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository): Response
     {
         $inputData = json_decode(file_get_contents("php://input"), true);
 
         if ($inputData === null) {
-            throw new BadRequestException("Unable to parse JSON data");
+            throw new BadRequestHttpException("Unable to parse JSON data");
         }
 
         if (!is_array($inputData)) {
-            throw new BadRequestException("JSON data must be an array");
+            throw new BadRequestHttpException("JSON data must be an array");
         }
-
-        $entityManager = Database::getEntityManager();
 
         /**
          * @var $space Space
          */
-        $space = $entityManager->getRepository(Space::class)->find($spaceId);
+        $space = $spaceRepository->find($spaceId);
         if ($space === null) {
-            throw new NotFoundException;
+            throw new NotFoundHttpException;
         }
-
-        /**
-         * @var $mealTypeRepository MealTypeRepository
-         */
-        $mealTypeRepository = $entityManager->getRepository(MealType::class);
-
-        /**
-         * @var $mealRepository MealRepository
-         */
-        $mealRepository = $entityManager->getRepository(Meal::class);
 
         $entityManager->beginTransaction();
 
@@ -191,13 +188,13 @@ class WeekController
             try {
                 $text = Sanitize::cleanString($mealData["text"] ?? null, 200);
             } catch (StringTooLongException) {
-                throw new BadRequestException(sprintf("Text of entry %d is too long", $inputDataIndex));
+                throw new BadRequestHttpException(sprintf("Text of entry %d is too long", $inputDataIndex));
             }
 
             try {
                 $url = Sanitize::cleanString($mealData["url"] ?? null, 2048);
             } catch (StringTooLongException) {
-                throw new BadRequestException(sprintf("URL of entry %d is too long", $inputDataIndex));
+                throw new BadRequestHttpException(sprintf("URL of entry %d is too long", $inputDataIndex));
             }
 
             // No ID and no text -> ignore item
@@ -217,7 +214,7 @@ class WeekController
             }
 
             if ($date === null) {
-                throw new BadRequestException(sprintf("Missing date in entry %d", $inputDataIndex));
+                throw new BadRequestHttpException(sprintf("Missing date in entry %d", $inputDataIndex));
             }
 
             $notificationTime = Sanitize::cleanString($notificationData["time"] ?? null);
@@ -225,7 +222,7 @@ class WeekController
             try {
                 $notificationText = Sanitize::cleanString($notificationData["text"] ?? null, 200);
             } catch (StringTooLongException) {
-                throw new BadRequestException(sprintf("Notification text of entry %d is too long", $inputDataIndex));
+                throw new BadRequestHttpException(sprintf("Notification text of entry %d is too long", $inputDataIndex));
             }
 
             if ($notificationTime === null) {
@@ -234,7 +231,7 @@ class WeekController
                 try {
                     $notificationDateTime = new DateTime($notificationTime);
                 } catch (Exception) {
-                    throw new BadRequestException(sprintf("Unable to parse notification time '%s' in entry %d", $notificationTime, $inputDataIndex));
+                    throw new BadRequestHttpException(sprintf("Unable to parse notification time '%s' in entry %d", $notificationTime, $inputDataIndex));
                 }
             }
 
@@ -243,7 +240,7 @@ class WeekController
              */
             $mealType = $mealTypeRepository->find($type);// TODO: Restrict to current space?
             if ($mealType === null) {
-                throw new BadRequestException(sprintf("Invalid meal type %d in entry %d", $type, $inputDataIndex));
+                throw new BadRequestHttpException(sprintf("Invalid meal type %d in entry %d", $type, $inputDataIndex));
             }
 
             if ($id === null) {
@@ -253,7 +250,7 @@ class WeekController
                 $meal = $mealRepository->find($id);// TODO: Restrict to current space?
 
                 if ($meal === null) {
-                    throw new BadRequestException(sprintf("Meal entry with ID %d does not exist", $id));
+                    throw new BadRequestHttpException(sprintf("Meal entry with ID %d does not exist", $id));
                 }
 
                 $notification = $meal->getNotification();
@@ -262,7 +259,7 @@ class WeekController
             try {
                 $meal->setDate(new Date($date));
             } catch (Exception) {
-                throw new BadRequestException(sprintf("Unable to parse date '%s' in entry %d", $date, $inputDataIndex));
+                throw new BadRequestHttpException(sprintf("Unable to parse date '%s' in entry %d", $date, $inputDataIndex));
             }
 
             $meal->setSpace($space);
@@ -304,16 +301,13 @@ class WeekController
                 ]
             ]);
         }
+
+        return $this->json(["status" => "ok"]);
     }
 
-    private function getPerDayMeals(Space $space, Date $startDate, Date $endDate): array
+    private function getPerDayMeals(MealRepository $mealRepository, Space $space, Date $startDate, Date $endDate, TranslatorInterface $translator): array
     {
-        $entityManager = Database::getEntityManager();
-
-        /**
-         * @var $meals Meal[]
-         */
-        $meals = $entityManager->getRepository(Meal::class)->findBySpaceAndDateRange($space, $startDate, $endDate);
+        $meals = $mealRepository->findBySpaceAndDateRange($space, $startDate, $endDate);
 
         $perDayAndTypeMeals = [];
 
@@ -338,7 +332,7 @@ class WeekController
             $date = new Date($date->format("c"));
 
             $days[$date->formatForKey()] = [
-                "title" => Translation::tr(sprintf("weekday.long.%d", $date->format("N") - 1)),
+                "title" => $translator->trans(sprintf("weekday.long.%d", $date->format("N") - 1)),
                 "date" => $date,
                 "meals" => $perDayAndTypeMeals[$date->formatForKey()] ?? []
             ];

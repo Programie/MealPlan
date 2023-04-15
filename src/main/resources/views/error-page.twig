@@ -1,9 +1,0 @@
-{% extends "page.twig" %}
-
-{% block title %}{{ tr("error-page.#{httpCode}.title") }}{% endblock %}
-
-{% block content %}
-    <div class="container">
-        <div class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> {{ tr("error-page.#{httpCode}.message") }}{% if message %}: <small>{{ message }}</small>{% endif %}</div>
-    </div>
-{% endblock %}

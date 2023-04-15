@@ -2,6 +2,7 @@
 require_once __DIR__ . "/vendor/autoload.php";
 
 const APP_ROOT = __DIR__;
+const CONFIG_ROOT = APP_ROOT . "/config";
 const SRC_ROOT = __DIR__ . "/src/main/php";
 const RESOURCES_ROOT = APP_ROOT . "/src/main/resources";
 const VIEWS_ROOT = RESOURCES_ROOT . "/views";

@@ -1,0 +1,5 @@
+controllers:
+  resource:
+    path: ../src/main/php/mealplan/controller/
+    namespace: mealplan\controller
+  type: attribute

@@ -22,22 +22,22 @@ RUN composer install --no-dev --ignore-platform-reqs && \
 
 FROM php:8.2-apache
 
-RUN sed -ri -e 's!/var/www/html!/app/httpdocs!g' /etc/apache2/sites-available/*.conf && \
-    sed -ri -e 's!/var/www/!/app/httpdocs!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf && \
+RUN sed -ri -e 's!/var/www/html!/app/public!g' /etc/apache2/sites-available/*.conf && \
+    sed -ri -e 's!/var/www/!/app/public!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf && \
     echo "ServerTokens Prod" > /etc/apache2/conf-enabled/z-server-tokens.conf && \
     a2enmod rewrite && \
     apt-get -y update && \
     apt-get install -y libicu-dev && \
     docker-php-ext-install intl pdo_mysql && \
     mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
-    mkdir -p /app/cache && \
-    chown www-data: /app/cache
+    mkdir -p /app/var && \
+    chown www-data: /app/var
 
 COPY --from=composer /app/vendor /app/vendor
-COPY --from=webpack /app/httpdocs/assets /app/httpdocs/assets
+COPY --from=webpack /app/public/assets /app/public/assets
 COPY --from=webpack /app/webpack.assets.json /app/webpack.assets.json
 
 COPY bin /app/bin
 COPY bootstrap.php /app/
-COPY httpdocs /app/httpdocs
+COPY public /app/public
 COPY src /app/src

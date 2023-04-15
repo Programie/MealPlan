@@ -4,9 +4,11 @@ services:
   app:
     volumes:
       - .:/app:ro
-    environment:
-      USE_CACHE: "false"
+      - var:/app/var
 
   mysql:
     volumes:
       - ./database-sample.sql:/docker-entrypoint-initdb.d/20-sample.sql:ro
+
+volumes:
+  var:

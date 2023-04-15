@@ -7,7 +7,7 @@
     <input type="text" class="form-control" list="existing-meals" value="{{ text }}" data-id="{{ id }}" data-date="{{ date }}" data-url="{{ url }}" data-type="{{ type }}" data-notification-time="{{ notificationTime }}" data-notification-text="{{ notificationText }}"/>
 
     {% for button in buttons %}
-        <button class="btn week-edit-meal-button week-edit-meal-button-{{ button.name }}" type="button" title="{{ tr("edit.#{button.name}.title") }}">
+        <button class="btn week-edit-meal-button week-edit-meal-button-{{ button.name }}" type="button" title="{{ "edit.#{button.name}.title"|trans }}">
             <i class="{{ html_classes("fa", "fa-#{button.icon}", "me-1", {"active": button.active and useState}) }}"></i>
         </button>
     {% endfor %}

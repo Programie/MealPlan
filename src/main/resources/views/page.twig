@@ -1,3 +1,5 @@
+{% set currentSpace = currentSpace|default(null) %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -20,7 +22,7 @@
 
                 <ul class="navbar-nav me-auto">
                     {% if currentSpace %}
-                        <li class="nav-item"><a class="nav-link" href="/space/{{ currentSpace.id }}/all-meals">{{ tr("all-meals.title") }}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/space/{{ currentSpace.id }}/all-meals">{% trans %}all-meals.title{% endtrans %}</a></li>
                     {% endif %}
                 </ul>
 
@@ -32,12 +34,12 @@
                             {% if currentSpace %}
                                 {{ currentSpace.name }}
                             {% else %}
-                                {{ tr("select-space") }}
+                                {% trans %}select-space{% endtrans %}
                             {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end">
-                            {% for space in spaces %}
-                                {% if startDate %}
+                            {% for space in spaces|default([]) %}
+                                {% if startDate|default(null) %}
                                     {% set url = "/space/#{space.id}/week/#{startDate.formatForUrl}" %}
                                 {% else %}
                                     {% set url = "/space/#{space.id}" %}

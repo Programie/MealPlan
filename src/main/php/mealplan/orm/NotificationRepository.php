@@ -1,12 +1,18 @@
 <?php
 namespace mealplan\orm;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use mealplan\DateTime;
 use mealplan\model\Notification;
 
-class NotificationRepository extends EntityRepository
+class NotificationRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Notification::class);
+    }
+
     /**
      * @return Notification[]
      */

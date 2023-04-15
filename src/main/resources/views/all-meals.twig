@@ -1,17 +1,19 @@
+{% set assetEntryPoint = "all-meals" %}
+
 {% extends "page.twig" %}
 
-{% block title %}{{ tr("all-meals.title") }}{% endblock %}
+{% block title %}{% trans %}all-meals.title{% endtrans %}{% endblock %}
 
 {% block content %}
     <div class="container">
         <table class="table table-striped" id="all-meals-table" data-space-id="{{ currentSpace.id }}">
             <thead>
                 <tr>
-                    <th>{{ tr("all-meals.table-header.text") }}</th>
-                    <th>{{ tr("all-meals.table-header.date") }}</th>
-                    <th>{{ tr("all-meals.table-header.average-days") }}</th>
-                    <th>{{ tr("all-meals.table-header.count") }}</th>
-                    <th>{{ tr("all-meals.table-header.links") }}</th>
+                    <th>{% trans %}all-meals.table-header.text{% endtrans %}</th>
+                    <th>{% trans %}all-meals.table-header.date{% endtrans %}</th>
+                    <th>{% trans %}all-meals.table-header.average-days{% endtrans %}</th>
+                    <th>{% trans %}all-meals.table-header.count{% endtrans %}</th>
+                    <th>{% trans %}all-meals.table-header.links{% endtrans %}</th>
                 </tr>
             </thead>
 

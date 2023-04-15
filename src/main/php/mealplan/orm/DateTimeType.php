@@ -11,7 +11,7 @@ class DateTimeType extends BaseDateTimeType
     /**
      * {@inheritdoc}
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
             return null;
@@ -27,7 +27,7 @@ class DateTimeType extends BaseDateTimeType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTime
     {
         if ($value === null) {
             return null;

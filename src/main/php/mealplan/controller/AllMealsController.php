@@ -1,40 +1,42 @@
 <?php
 namespace mealplan\controller;
 
-use mealplan\Database;
-use mealplan\httperror\NotFoundException;
 use mealplan\model\GroupedMeal;
 use mealplan\model\Meal;
 use mealplan\model\Space;
-use mealplan\TwigRenderer;
+use mealplan\orm\MealRepository;
+use mealplan\orm\SpaceRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
-class AllMealsController
+class AllMealsController extends AbstractController
 {
-    public function getPage(int $spaceId)
+    #[Route("/space/{spaceId}/all-meals", name: "getAllMealsPage", requirements: ["spaceId" => "\d+"], methods: ["GET"])]
+    public function getPage(int $spaceId, SpaceRepository $spaceRepository): Response
     {
-        $entityManager = Database::getEntityManager();
-
         /**
          * @var $currentSpace Space
          */
-        $currentSpace = $entityManager->getRepository(Space::class)->find($spaceId);
+        $currentSpace = $spaceRepository->find($spaceId);
         if ($currentSpace === null) {
-            throw new NotFoundException;
+            throw new NotFoundHttpException;
         }
 
-        return TwigRenderer::render("all-meals", [
+        return $this->render("all-meals.twig", [
+            "spaces" => $spaceRepository->findAll(),
             "currentSpace" => $currentSpace
         ]);
     }
 
-    public function getList(int $spaceId)
+    #[Route("/space/{spaceId}/all-meals.json", name: "getAllMealsJson", requirements: ["spaceId" => "\d+"], methods: ["GET"])]
+    public function getList(int $spaceId, MealRepository $mealRepository): Response
     {
-        $entityManager = Database::getEntityManager();
-
         /**
          * @var $allMeals Meal[]
          */
-        $allMeals = $entityManager->getRepository(Meal::class)->findBy(["space" => $spaceId], ["date" => "desc", "id" => "desc"]);
+        $allMeals = $mealRepository->findBy(["space" => $spaceId], ["date" => "desc", "id" => "desc"]);
 
         $groupedMeals = [];
 
@@ -48,6 +50,6 @@ class AllMealsController
             $groupedMeals[$text]->add($meal);
         }
 
-        return array_values($groupedMeals);
+        return $this->json(array_values($groupedMeals));
     }
 }

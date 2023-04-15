@@ -1,6 +1,16 @@
 .idea
-/httpdocs/assets/
+/public/assets/
 /node_modules/
 /vendor/
 /webpack.assets.json
 /docker-compose.local.yml
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###

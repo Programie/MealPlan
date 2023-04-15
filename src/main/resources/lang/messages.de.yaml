@@ -6,7 +6,7 @@ error-page:
     title: "Seite nicht gefunden"
     message: "Die angeforderte Seite konnte nicht gefunden werden!"
 
-week-page.title: "Woche %s - %s"
+week-page.title: "Woche %startDate% - %endDate%"
 select-space: "Space auswählen"
 goto-week:
   previous: "Zur vorherigen Woche springen"
