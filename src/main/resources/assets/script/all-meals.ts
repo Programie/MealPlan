@@ -43,7 +43,7 @@ class GroupedMeal {
         });
 
         groupedMeal.meals.sort((meal1, meal2) => {
-            return meal1.date.timestamp < meal2.date.timestamp ? 1 : -1;
+            return meal1.date.getTimestamp() < meal2.date.getTimestamp() ? 1 : -1;
         });
 
         return groupedMeal;
@@ -55,7 +55,7 @@ class GroupedMeal {
         let firstMeal = this.meals[numMeals - 1];
         let lastMeal = this.meals[0];
 
-        let averageTime = (Math.max((new Date).getTime(), lastMeal.date.timestamp) - firstMeal.date.timestamp) / numMeals;
+        let averageTime = (Math.max((new Date).getTime(), lastMeal.date.getTimestamp()) - firstMeal.date.getTimestamp()) / numMeals;
 
         return averageTime / 1000 / 60 / 60 / 24;
     }
@@ -83,8 +83,8 @@ class Table {
                 },
                 {
                     data: {
-                        _: "lastMeal.date.shortFormat",
-                        sort: "lastMeal.date.keyFormat"
+                        _: "lastMeal.date.getShortFormat()",
+                        sort: "lastMeal.date.getKeyFormat()"
                     }
                 },
                 {
@@ -170,8 +170,8 @@ class Table {
         row.data().meals.forEach((meal: Meal) => {
             childRows.push($(Mustache.render(document.querySelector("#all-meals-table-child-template").innerHTML, {
                 type: meal.type,
-                url: `/space/${this.spaceId}/week/${meal.date.keyFormat}`,
-                date: meal.date.shortFormat
+                url: `/space/${this.spaceId}/week/${meal.date.getKeyFormat()}`,
+                date: meal.date.getShortFormat()
             })));
         });
 

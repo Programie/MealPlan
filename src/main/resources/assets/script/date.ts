@@ -5,11 +5,11 @@ export class DateHelper {
         this.date = new Date(date);
     }
 
-    public get timestamp() {
+    public getTimestamp() {
         return this.date.getTime();
     }
 
-    public get shortFormat() {
+    public getShortFormat() {
         return this.date.toLocaleDateString(undefined, {
             weekday: "short",
             year: "numeric",
@@ -18,11 +18,7 @@ export class DateHelper {
         });
     }
 
-    public get isoFormat() {
-        return this.date.toISOString();
-    }
-
-    public get keyFormat() {
+    public getKeyFormat() {
         let day = this.date.getDate();
         let month = this.date.getMonth() + 1;
         let year = this.date.getFullYear();
