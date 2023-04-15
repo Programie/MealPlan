@@ -33,6 +33,12 @@ class Manager
      */
     public function getItems(): array
     {
-        return $this->provider->getItems();
+        $items = $this->provider->getItems();
+
+        usort($items, function (Item $item1, Item $item2) {
+            return strcasecmp($item1->getText(), $item2->getText());
+        });
+
+        return $items;
     }
 }
