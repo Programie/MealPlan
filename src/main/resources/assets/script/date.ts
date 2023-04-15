@@ -25,4 +25,14 @@ export class DateHelper {
 
         return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`
     }
+
+    public isEqualToDate(otherDate: DateHelper) {
+        return this.getKeyFormat() === otherDate.getKeyFormat();
+    }
+
+    public isToday() {
+        let now = new DateHelper(new Date());
+
+        return this.isEqualToDate(now);
+    }
 }

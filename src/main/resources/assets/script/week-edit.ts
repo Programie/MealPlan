@@ -2,6 +2,7 @@ import "../style/main.scss";
 
 import {Dropdown, Modal, Toast} from "bootstrap";
 import * as Mustache from "mustache";
+import {highlightTodayRow} from "./utils";
 
 class MealNotification {
     public time: Date;
@@ -281,4 +282,6 @@ class Editor {
 
 window.onload = () => {
     new Editor();
+
+    highlightTodayRow();
 };

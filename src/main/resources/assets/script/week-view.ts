@@ -2,6 +2,7 @@ import "../style/main.scss";
 import "../images/favicon.svg";
 
 import "bootstrap";
+import {highlightTodayRow} from "./utils";
 
 window.onload = () => {
     document.querySelector("#week-current-date").addEventListener("click", () => {
@@ -13,4 +14,6 @@ window.onload = () => {
 
         document.location.href = `${newDate}`;
     });
+
+    highlightTodayRow();
 };
