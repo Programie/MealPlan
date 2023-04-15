@@ -22,3 +22,7 @@ services:
     arguments:
       $provider: "%app.datasources.provider%"
       $container: "@service_container"
+
+  mealplan\TwigGlobals:
+    arguments:
+      $container: "@service_container"

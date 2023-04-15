@@ -75,7 +75,6 @@ class WeekController extends AbstractController
         }
 
         return $this->render("week.twig", [
-            "spaces" => $spaceRepository->findAll(),
             "currentSpace" => $currentSpace,
             "nowWeek" => (new Date)->getStartOfWeek(),
             "previousWeek" => $date->getPreviousWeek()->getStartOfWeek(),
@@ -111,7 +110,6 @@ class WeekController extends AbstractController
         }
 
         return $this->render("week-edit.twig", [
-            "spaces" => $spaceRepository->findAll(),
             "currentSpace" => $currentSpace,
             "nowWeek" => (new Date)->getStartOfWeek(),
             "previousWeek" => $date->getPreviousWeek()->getStartOfWeek(),

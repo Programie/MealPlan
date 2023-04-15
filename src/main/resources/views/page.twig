@@ -24,6 +24,16 @@
                     {% if currentSpace %}
                         <li class="nav-item"><a class="nav-link" href="/space/{{ currentSpace.id }}/all-meals">{% trans %}all-meals.title{% endtrans %}</a></li>
                     {% endif %}
+                    {% if globals.customLinks %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Links</a>
+                            <ul class="dropdown-menu">
+                                {% for link in globals.customLinks %}
+                                    <li><a class="dropdown-item" href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endif %}
                 </ul>
 
                 {% block navbar %}{% endblock %}
@@ -38,7 +48,7 @@
                             {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end">
-                            {% for space in spaces|default([]) %}
+                            {% for space in globals.spaces|default([]) %}
                                 {% if startDate|default(null) %}
                                     {% set url = "/space/#{space.id}/week/#{startDate.formatForUrl}" %}
                                 {% else %}
