@@ -2,10 +2,11 @@
 namespace mealplan\model;
 
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: "mealplan\orm\MealTypeRepository")]
 #[ORM\Table(name: "mealtypes")]
-class MealType
+class MealType implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\Column(type: "integer")]
@@ -46,5 +47,13 @@ class MealType
         $this->space = $space;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            "id" => $this->getId(),
+            "name" => $this->getName()
+        ];
     }
 }

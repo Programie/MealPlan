@@ -115,11 +115,11 @@ class Meal implements JsonSerializable
     {
         return [
             "id" => $this->getId(),
-            "date" => $this->getDate()->format("c"),
+            "date" => $this->getDate(),
             "text" => $this->getText(),
             "url" => $this->getUrl(),
-            "type" => $this->getType()->getName(),
-            "space" => $this->getSpace()->getName(),
+            "type" => $this->getType(),
+            "space" => $this->getSpace(),
             "notification" => $this->getNotification()
         ];
     }
