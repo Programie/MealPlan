@@ -93,6 +93,24 @@ class WeekController extends AbstractController
             $mealTypes[$mealType->getId()] = $mealType->getName();
         }
 
+        $autocompletionItems = [];
+
+        foreach ($mealRepository->findBySpaceGroupedByText($currentSpace) as $meal) {
+            $autocompletionItems[$meal->getText()] = [
+                "text" => $meal->getText(),
+                "url" => $meal->getUrl()
+            ];
+        }
+
+        foreach ($datasourceManager->getItems() as $item) {
+            $autocompletionItems[$item->getText()] = [
+                "text" => $item->getText(),
+                "url" => $item->getUrl()
+            ];
+        }
+
+        ksort($autocompletionItems);
+
         return $this->render("week-edit.twig", [
             "currentSpace" => $currentSpace,
             "nowWeek" => (new Date)->getStartOfWeek(),
@@ -101,8 +119,7 @@ class WeekController extends AbstractController
             "startDate" => $startDate,
             "endDate" => $endDate,
             "mealTypes" => $mealTypes,
-            "existingMeals" => $mealRepository->findBySpaceGroupedByText($currentSpace),
-            "datasourceItems" => $datasourceManager->getItems(),
+            "autocompletionItems" => array_values($autocompletionItems),
             "days" => $this->getPerDayMeals($mealRepository, $currentSpace, $startDate, $endDate, $translator)
         ]);
     }

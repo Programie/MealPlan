@@ -71,7 +71,7 @@ class Editor {
 
         inputElement.addEventListener("input", (event: InputEvent) => {
             if (event.inputType === "insertReplacementText") {
-                let elements: HTMLOptionElement[] = Array.from(document.querySelectorAll("#existing-meals > option"));
+                let elements: HTMLOptionElement[] = Array.from(document.querySelectorAll("#meal-autocompletion-source > option"));
 
                 let optionElement = elements.find((optionElement: HTMLOptionElement) => {
                     return optionElement.value === event.data;

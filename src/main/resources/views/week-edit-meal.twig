@@ -4,7 +4,7 @@
 ] %}
 
 <div class="input-group mb-2 week-edit-meal border rounded">
-    <input type="text" class="form-control" list="existing-meals" value="{{ text }}" data-id="{{ id }}" data-date="{{ date }}" data-url="{{ url }}" data-type="{{ type }}" data-notification-time="{{ notificationTime }}" data-notification-text="{{ notificationText }}"/>
+    <input type="text" class="form-control" list="meal-autocompletion-source" value="{{ text }}" data-id="{{ id }}" data-date="{{ date }}" data-url="{{ url }}" data-type="{{ type }}" data-notification-time="{{ notificationTime }}" data-notification-text="{{ notificationText }}"/>
 
     {% for button in buttons %}
         <button class="btn week-edit-meal-button week-edit-meal-button-{{ button.name }}" type="button" title="{{ "edit.#{button.name}.title"|trans }}">
