@@ -15,11 +15,25 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 
 @import "~datatables.net-bs5/css/dataTables.bootstrap5.css";
 
+:root {
+    @media (prefers-color-scheme: light) {
+        --table-header-bg-color: #{$gray-500};
+        --week-edit-meal-button-hover-bg-color: rgba(0, 0, 0, 0.1);
+        --dropdown-bg: #dfdfdf;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        --table-header-bg-color: #{$gray-800};
+        --week-edit-meal-button-hover-bg-color: rgba(255, 255, 255, 0.1);
+        --dropdown-bg: #313539;
+    }
+}
+
 main {
     padding-top: 3rem;
 }
 
-#space-dropdown {
+.navbar-nav {
     font-size: $header-font-size;
 }
 
@@ -49,13 +63,7 @@ main {
 }
 
 .week-edit-meal > button:hover {
-    @media (prefers-color-scheme: light) {
-        background-color: rgba(#000, 0.1);
-    }
-
-    @media (prefers-color-scheme: dark) {
-        background-color: rgba(#fff, 0.1);
-    }
+    background-color: var(--week-edit-meal-button-hover-bg-color);
 }
 
 .week-edit-meal-button-link .active {
@@ -71,13 +79,7 @@ main {
 }
 
 .table thead {
-    @media (prefers-color-scheme: light) {
-        background-color: $gray-500;
-    }
-
-    @media (prefers-color-scheme: dark) {
-        background-color: $gray-800;
-    }
+    background-color: var(--table-header-bg-color);
 }
 
 .table tr.active {
@@ -94,6 +96,15 @@ main {
 
 .navbar-nav .dropdown-menu {
     margin-top: 8px;
+}
+
+.dropdown-menu {
+    background-color: var(--dropdown-bg);
+}
+
+.dropdown-menu > li > a:hover {
+    background-color: var(--bs-primary);
+    color: white;
 }
 
 .toast-container {
