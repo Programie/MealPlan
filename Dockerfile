@@ -41,6 +41,5 @@ COPY --from=webpack /app/public/assets /app/public/assets
 COPY --from=webpack /app/webpack.assets.json /app/webpack.assets.json
 
 COPY bin /app/bin
-COPY bootstrap.php /app/
 COPY public /app/public
 COPY src /app/src
