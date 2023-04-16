@@ -21,19 +21,20 @@
                 <a class="navbar-brand p-2" href="{{ homeUrl }}"><i class="fa fa-utensils me-2"></i><b>MealPlan</b></a>
 
                 <ul class="navbar-nav me-auto">
-                    {% if currentSpace %}
-                        <li class="nav-item"><a class="nav-link" href="/space/{{ currentSpace.id }}/all-meals">{% trans %}all-meals.title{% endtrans %}</a></li>
-                    {% endif %}
-                    {% if globals.customLinks %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Links</a>
-                            <ul class="dropdown-menu">
-                                {% for link in globals.customLinks %}
-                                    <li><a class="dropdown-item" href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Links</a>
+                        <ul class="dropdown-menu">
+                            {% if currentSpace %}
+                                <li><a class="dropdown-item" href="/space/{{ currentSpace.id }}/all-meals">{% trans %}all-meals.title{% endtrans %}</a></li>
+                            {% endif %}
+                            {% if currentSpace and globals.customLinks %}
+                                <li class="dropdown-divider"></li>
+                            {% endif %}
+                            {% for link in globals.customLinks %}
+                                <li><a class="dropdown-item" href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
                 </ul>
 
                 {% block navbar %}{% endblock %}
