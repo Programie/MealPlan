@@ -12,7 +12,7 @@ RUN npm run build
 
 FROM composer AS composer
 
-COPY composer.* /app/
+COPY composer.* symfony.lock /app/
 
 WORKDIR /app
 
