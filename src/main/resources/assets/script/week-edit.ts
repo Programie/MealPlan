@@ -158,7 +158,7 @@ class Editor {
         invalidElement.style.display = null;
 
         let enableElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-enable");
-        enableElement.checked = mealDataset.notification !== "";
+        enableElement.checked = mealDataset.notificationTime !== "";
 
         let dateTimeElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-time");
 
