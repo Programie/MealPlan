@@ -20,6 +20,7 @@ use mealplan\orm\MealTypeRepository;
 use mealplan\orm\SpaceRepository;
 use mealplan\sanitize\Sanitize;
 use mealplan\sanitize\StringTooLongException;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +28,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Throwable;
 
 class WeekController extends AbstractController
 {
@@ -157,7 +159,7 @@ class WeekController extends AbstractController
     }
 
     #[Route("/space/{spaceId}", name: "saveWeek", requirements: ["spaceId" => "\d+"], methods: ["POST"])]
-    public function save(int $spaceId, EntityManagerInterface $entityManager, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, Config $config): Response
+    public function save(int $spaceId, EntityManagerInterface $entityManager, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, Config $config, LoggerInterface $logger): Response
     {
         $inputData = json_decode(file_get_contents("php://input"), true);
 
@@ -293,16 +295,21 @@ class WeekController extends AbstractController
         $entityManager->flush();
         $entityManager->commit();
 
-        $saveConfig = $config->get("app.save") ?? [];
-        $webhookUrl = $saveConfig["webhook-url"] ?? null;
-        if ($webhookUrl !== null) {
-            $client = new Client;
-            $client->post($webhookUrl, [
-                RequestOptions::JSON => [
-                    "space" => $spaceId,
-                    "week" => $savedWeek?->formatForKey()
-                ]
-            ]);
+        try {
+            $saveConfig = $config->get("app.save") ?? [];
+            $webhookUrl = $saveConfig["webhook-url"] ?? null;
+            if ($webhookUrl !== null) {
+                $client = new Client;
+                $client->post($webhookUrl, [
+                    RequestOptions::TIMEOUT => $saveConfig["webhook-timeout"] ?? 0,
+                    RequestOptions::JSON => [
+                        "space" => $spaceId,
+                        "week" => $savedWeek?->formatForKey()
+                    ]
+                ]);
+            }
+        } catch (Throwable $exception) {
+            $logger->error($exception);
         }
 
         return $this->json(["status" => "ok"]);

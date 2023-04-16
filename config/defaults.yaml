@@ -3,6 +3,7 @@ parameters:
   app.custom-links: [ ]
   app.save:
     webhook-url: null
+    webhook-timeout: 10
   app.notification:
     webhook-url: null
   app.all-meals:
