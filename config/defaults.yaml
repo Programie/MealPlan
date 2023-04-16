@@ -1,3 +1,7 @@
 parameters:
   app.datasources.provider: default
-  app.custom-links: []
+  app.custom-links: [ ]
+  app.save:
+    webhook-url: null
+  app.notification:
+    webhook-url: null

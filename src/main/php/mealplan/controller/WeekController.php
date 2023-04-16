@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use mealplan\Config;
 use mealplan\datasource\Manager as DatasourceManager;
 use mealplan\Date;
 use mealplan\DateTime;
@@ -20,6 +21,7 @@ use mealplan\orm\SpaceRepository;
 use mealplan\sanitize\Sanitize;
 use mealplan\sanitize\StringTooLongException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -155,7 +157,7 @@ class WeekController extends AbstractController
     }
 
     #[Route("/space/{spaceId}", name: "saveWeek", requirements: ["spaceId" => "\d+"], methods: ["POST"])]
-    public function save(int $spaceId, EntityManagerInterface $entityManager, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository): Response
+    public function save(int $spaceId, EntityManagerInterface $entityManager, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, Config $config): Response
     {
         $inputData = json_decode(file_get_contents("php://input"), true);
 
@@ -291,10 +293,11 @@ class WeekController extends AbstractController
         $entityManager->flush();
         $entityManager->commit();
 
-        $webhook = getenv("WEBHOOK_SAVE");
-        if ($webhook !== false) {
+        $saveConfig = $config->get("app.save") ?? [];
+        $webhookUrl = $saveConfig["webhook-url"] ?? null;
+        if ($webhookUrl !== null) {
             $client = new Client;
-            $client->post($webhook, [
+            $client->post($webhookUrl, [
                 RequestOptions::JSON => [
                     "space" => $spaceId,
                     "week" => $savedWeek?->formatForKey()
