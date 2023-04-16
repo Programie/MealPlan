@@ -20,9 +20,9 @@ class GroupedMeal implements JsonSerializable
      */
     private array $urls;
 
-    public function __construct(Meal $meal)
+    public function __construct(string $text)
     {
-        $this->text = $meal->getText();
+        $this->text = $text;
         $this->meals = [];
         $this->urls = [];
     }

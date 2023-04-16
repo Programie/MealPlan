@@ -1,6 +1,7 @@
 <?php
 namespace mealplan\controller;
 
+use mealplan\Config;
 use mealplan\model\GroupedMeal;
 use mealplan\model\Meal;
 use mealplan\model\Space;
@@ -31,8 +32,10 @@ class AllMealsController extends AbstractController
     }
 
     #[Route("/space/{spaceId}/all-meals.json", name: "getAllMealsJson", requirements: ["spaceId" => "\d+"], methods: ["GET"])]
-    public function getList(int $spaceId, MealRepository $mealRepository): Response
+    public function getList(int $spaceId, MealRepository $mealRepository, Config $config): Response
     {
+        $config = $config->get("app.all-meals") ?? [];
+
         /**
          * @var $allMeals Meal[]
          */
@@ -43,8 +46,18 @@ class AllMealsController extends AbstractController
         foreach ($allMeals as $meal) {
             $text = $meal->getText();
 
+            foreach ($config["exclude-pattern"] ?? [] as $pattern) {
+                if (preg_match($pattern, $text)) {
+                    continue 2;
+                }
+            }
+
+            foreach ($config["remove-pattern"] ?? [] as $pattern) {
+                $text = preg_replace($pattern, "", $text);
+            }
+
             if (!isset($groupedMeals[$text])) {
-                $groupedMeals[$text] = new GroupedMeal($meal);
+                $groupedMeals[$text] = new GroupedMeal($text);
             }
 
             $groupedMeals[$text]->add($meal);

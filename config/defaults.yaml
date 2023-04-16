@@ -5,3 +5,6 @@ parameters:
     webhook-url: null
   app.notification:
     webhook-url: null
+  app.all-meals:
+    remove-pattern: [ ]
+    exclude-pattern: [ ]
