@@ -33,6 +33,9 @@ RUN sed -ri -e 's!/var/www/html!/app/public!g' /etc/apache2/sites-available/*.co
     mkdir -p /app/var && \
     chown www-data: /app/var
 
+ENV PATH="${PATH}:/app/bin"
+WORKDIR /app
+
 COPY --from=composer /app/vendor /app/vendor
 COPY --from=webpack /app/public/assets /app/public/assets
 COPY --from=webpack /app/webpack.assets.json /app/webpack.assets.json
