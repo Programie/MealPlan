@@ -11,4 +11,9 @@ class SpaceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Space::class);
     }
+
+    public function findById(int $id): ?Space
+    {
+        return $this->find($id);
+    }
 }

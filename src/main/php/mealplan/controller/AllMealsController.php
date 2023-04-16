@@ -4,7 +4,6 @@ namespace mealplan\controller;
 use mealplan\Config;
 use mealplan\model\GroupedMeal;
 use mealplan\model\Meal;
-use mealplan\model\Space;
 use mealplan\orm\MealRepository;
 use mealplan\orm\SpaceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,10 +16,7 @@ class AllMealsController extends AbstractController
     #[Route("/space/{spaceId}/all-meals", name: "getAllMealsPage", requirements: ["spaceId" => "\d+"], methods: ["GET"])]
     public function getPage(int $spaceId, SpaceRepository $spaceRepository): Response
     {
-        /**
-         * @var $currentSpace Space
-         */
-        $currentSpace = $spaceRepository->find($spaceId);
+        $currentSpace = $spaceRepository->findById($spaceId);
         if ($currentSpace === null) {
             throw new NotFoundHttpException;
         }

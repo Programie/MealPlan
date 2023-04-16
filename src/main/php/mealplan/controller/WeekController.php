@@ -46,10 +46,7 @@ class WeekController extends AbstractController
     {
         $date = new Date($date);
 
-        /**
-         * @var $currentSpace Space
-         */
-        $currentSpace = $spaceRepository->find($spaceId);
+        $currentSpace = $spaceRepository->findById($spaceId);
         if ($currentSpace === null) {
             throw new NotFoundHttpException;
         }
@@ -81,10 +78,7 @@ class WeekController extends AbstractController
     {
         $date = new Date($date);
 
-        /**
-         * @var $currentSpace Space
-         */
-        $currentSpace = $spaceRepository->find($spaceId);
+        $currentSpace = $spaceRepository->findById($spaceId);
         if ($currentSpace === null) {
             throw new NotFoundHttpException;
         }
@@ -116,11 +110,7 @@ class WeekController extends AbstractController
     #[Route("/space/{spaceId}/week/{date}.json", name: "getWeekJson", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
     public function getJson(int $spaceId, string $date, SpaceRepository $spaceRepository, MealRepository $mealRepository, TranslatorInterface $translator): Response
     {
-        /**
-         * @var $space Space
-         */
-        $space = $spaceRepository->find($spaceId);
-
+        $space = $spaceRepository->findById($spaceId);
         if ($space === null) {
             throw new NotFoundHttpException;
         }
