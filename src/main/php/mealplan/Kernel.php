@@ -12,4 +12,9 @@ class Kernel extends BaseKernel
     {
         return __DIR__ . "/bundles.php";
     }
+
+    public function getProjectDir(): string
+    {
+        return __DIR__ . "/../../../..";
+    }
 }
