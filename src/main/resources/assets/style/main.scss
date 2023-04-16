@@ -156,11 +156,10 @@ main {
         display: none;
     }
     #space-dropdown .nav-link {
-        font-size: 0px;
+        font-size: 0;
     }
     #space-dropdown .dropdown-toggle::after {
         font-size: var(--bs-nav-link-font-size);
-        font-size: 24px;
         vertical-align: middle;
     }
     nav {
