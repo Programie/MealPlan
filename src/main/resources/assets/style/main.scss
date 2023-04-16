@@ -15,6 +15,8 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 
 @import "~datatables.net-bs5/css/dataTables.bootstrap5.css";
 
+@import "dropdown-submenu";
+
 :root {
     @media (prefers-color-scheme: light) {
         --table-header-bg-color: #{$gray-500};
@@ -105,6 +107,10 @@ main {
 .dropdown-menu > li > a:hover {
     background-color: var(--bs-primary);
     color: white;
+}
+
+.dropdown-menu > li:hover > a {
+    color: white !important;
 }
 
 .toast-container {

@@ -1,0 +1,14 @@
+{% for link in links %}
+    {% if link.url is defined %}
+        <li><a class="dropdown-item" href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
+    {% elseif link.links is defined %}
+        <li>
+            <a class="dropdown-item submenu-item" href="#">{{ link.title }}</a>
+            <ul class="dropdown-menu submenu">
+                {% include "link-menu.twig" with {"links": link.links} only %}
+            </ul>
+        </li>
+    {% elseif link.separator is defined %}
+        <li class="dropdown-divider"></li>
+    {% endif %}
+{% endfor %}

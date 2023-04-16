@@ -3,6 +3,7 @@ import "../style/main.scss";
 import {Dropdown, Modal, Toast} from "bootstrap";
 import * as Mustache from "mustache";
 import {highlightTodayRow} from "./utils";
+import "./dropdown-submenu";
 
 class MealNotification {
     public time: Date;

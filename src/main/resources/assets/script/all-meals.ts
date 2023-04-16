@@ -7,6 +7,7 @@ import * as Mustache from "mustache";
 import DataTable, {Api, ApiRowMethods} from "datatables.net-dt";
 import "datatables.net-bs5";
 import {DateHelper} from "./date";
+import "./dropdown-submenu";
 
 class Meal {
     date: DateHelper;

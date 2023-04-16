@@ -27,12 +27,7 @@
                             {% if currentSpace %}
                                 <li><a class="dropdown-item" href="/space/{{ currentSpace.id }}/all-meals">{% trans %}all-meals.title{% endtrans %}</a></li>
                             {% endif %}
-                            {% if currentSpace and globals.customLinks %}
-                                <li class="dropdown-divider"></li>
-                            {% endif %}
-                            {% for link in globals.customLinks %}
-                                <li><a class="dropdown-item" href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
-                            {% endfor %}
+                            {% include "link-menu.twig" with {"links": globals.customLinks} only %}
                         </ul>
                     </li>
                 </ul>

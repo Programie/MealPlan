@@ -3,6 +3,7 @@ import "../images/favicon.svg";
 
 import "bootstrap";
 import {highlightTodayRow} from "./utils";
+import "./dropdown-submenu";
 
 window.onload = () => {
     document.querySelector("#week-current-date").addEventListener("click", () => {
