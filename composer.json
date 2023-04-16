@@ -22,8 +22,7 @@
     "symfony/yaml": "^6.2",
     "twig/extra-bundle": "^2.12|^3.0",
     "twig/html-extra": "^3.5",
-    "twig/twig": "^3.5",
-    "ext-json": "*"
+    "twig/twig": "^3.5"
   },
   "license": "MIT",
   "autoload": {
