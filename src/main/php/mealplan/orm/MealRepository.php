@@ -14,6 +14,11 @@ class MealRepository extends ServiceEntityRepository
         parent::__construct($registry, Meal::class);
     }
 
+    public function findBySpaceAndId(Space $space, int $id): ?Meal
+    {
+        return $this->findOneBy(["id" => $id, "space" => $space->getId()]);
+    }
+
     /**
      * @param Space $space
      * @param Date $startDate

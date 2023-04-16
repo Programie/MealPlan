@@ -10,7 +10,6 @@ use mealplan\Config;
 use mealplan\Date;
 use mealplan\DateTime;
 use mealplan\model\Meal;
-use mealplan\model\MealType;
 use mealplan\model\Notification;
 use mealplan\model\Space;
 use mealplan\orm\MealRepository;
@@ -97,7 +96,7 @@ class WeekEditController extends AbstractController
 
         // ID specified but no text -> delete item
         if ($id !== null and $text === null) {
-            $meal = $mealRepository->find($id);// TODO: Restrict to current space?
+            $meal = $mealRepository->findBySpaceAndId($space, $id);
 
             if ($meal !== null) {
                 $entityManager->remove($meal);
@@ -131,10 +130,7 @@ class WeekEditController extends AbstractController
 
         $type = Sanitize::cleanInt($mealData["type"] ?? null);
 
-        /**
-         * @var $mealType MealType
-         */
-        $mealType = $mealTypeRepository->find($type);// TODO: Restrict to current space?
+        $mealType = $mealTypeRepository->findBySpaceAndId($space, $type);
         if ($mealType === null) {
             throw new BadRequestHttpException(sprintf("Invalid meal type %d in entry %d", $type, $itemIndex));
         }
@@ -143,7 +139,7 @@ class WeekEditController extends AbstractController
             $meal = new Meal;
             $notification = null;
         } else {
-            $meal = $mealRepository->find($id);// TODO: Restrict to current space?
+            $meal = $mealRepository->findBySpaceAndId($space, $id);
 
             if ($meal === null) {
                 throw new BadRequestHttpException(sprintf("Meal entry with ID %d does not exist", $id));

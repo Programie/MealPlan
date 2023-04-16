@@ -21,4 +21,9 @@ class MealTypeRepository extends ServiceEntityRepository
     {
         return $this->findBy(["space" => $space->getId()]);
     }
+
+    public function findBySpaceAndId(Space $space, int $id): ?MealType
+    {
+        return $this->findOneBy(["space" => $space->getId(), "id" => $id]);
+    }
 }
