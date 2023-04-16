@@ -41,5 +41,7 @@ COPY --from=webpack /app/public/assets /app/public/assets
 COPY --from=webpack /app/webpack.assets.json /app/webpack.assets.json
 
 COPY bin /app/bin
+COPY config /app/config
 COPY public /app/public
 COPY src /app/src
+COPY .env /app
