@@ -9,10 +9,24 @@ import "datatables.net-bs5";
 import {DateHelper} from "./date";
 import "./dropdown-submenu";
 
+class MealType {
+    id: number;
+    name: string;
+
+    public static fromObject(data: any) {
+        let mealType = new MealType();
+
+        mealType.id = data.id;
+        mealType.name = data.name;
+
+        return mealType;
+    }
+}
+
 class Meal {
     date: DateHelper;
     url: string;
-    type: string;
+    type: MealType;
 
     public static fromObject(data: any) {
         let meal = new Meal();
@@ -170,7 +184,7 @@ class Table {
 
         row.data().meals.forEach((meal: Meal) => {
             childRows.push($(Mustache.render(document.querySelector("#all-meals-table-child-template").innerHTML, {
-                type: meal.type,
+                type: meal.type.name,
                 url: `/space/${this.spaceId}/week/${meal.date.getKeyFormat()}`,
                 date: meal.date.getShortFormat()
             })));
