@@ -10,7 +10,6 @@ services:
     environment:
       TZ: Europe/Berlin
       APP_URL: "http://localhost:8080"
-      APP_ENV: dev
       DATABASE_DRIVER: pdo_mysql
       DATABASE_HOST: mysql
       DATABASE_NAME: mealplan

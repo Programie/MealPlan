@@ -5,6 +5,8 @@ services:
     volumes:
       - .:/app:ro
       - var:/app/var
+    environment:
+      APP_ENV: dev
 
   mysql:
     volumes:
