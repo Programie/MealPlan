@@ -42,7 +42,7 @@
                         {% for typeId, _ in mealTypes %}
                             <td>
                                 {% for meal in day.meals[typeId]|default([]) %}
-                                    <div>
+                                    <div data-meal-id="{{ meal.id }}">
                                         {% if meal.notification %}
                                             {% set notificationTooltip = "meal.notification.tooltip"|trans %}
 

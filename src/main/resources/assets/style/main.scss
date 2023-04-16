@@ -147,6 +147,26 @@ main {
     border-left: 5px solid $primary;
 }
 
+.highlight-meal {
+    animation: highlight 3s ease-out;
+    animation-iteration-count: 1;
+}
+
+@keyframes highlight {
+    0% {
+        background-color: rgba($yellow, 0.5);
+        color: $black;
+    }
+    50% {
+        background-color: rgba($yellow, 0.5);
+        color: $black;
+    }
+    100% {
+        background-color: transparent;
+        color: inherit;
+    }
+}
+
 @media (max-width: 767px) {
     table * {
         display: block;

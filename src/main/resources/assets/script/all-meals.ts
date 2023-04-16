@@ -24,6 +24,7 @@ class MealType {
 }
 
 class Meal {
+    id: number;
     date: DateHelper;
     url: string;
     type: MealType;
@@ -31,6 +32,7 @@ class Meal {
     public static fromObject(data: any) {
         let meal = new Meal();
 
+        meal.id = data.id;
         meal.date = new DateHelper(data.date);
         meal.url = data.url;
         meal.type = data.type;
@@ -185,7 +187,7 @@ class Table {
         row.data().meals.forEach((meal: Meal) => {
             childRows.push($(Mustache.render(document.querySelector("#all-meals-table-child-template").innerHTML, {
                 type: meal.type.name,
-                url: `/space/${this.spaceId}/week/${meal.date.getKeyFormat()}`,
+                url: `/space/${this.spaceId}/week/${meal.date.getKeyFormat()}?show=${meal.id}`,
                 date: meal.date.getShortFormat()
             })));
         });
