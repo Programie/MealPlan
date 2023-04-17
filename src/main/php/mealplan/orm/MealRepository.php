@@ -3,7 +3,7 @@ namespace mealplan\orm;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use mealplan\Date;
+use mealplan\datetime\Date;
 use mealplan\model\Meal;
 use mealplan\model\Space;
 

@@ -1,5 +1,5 @@
 <?php
-namespace mealplan;
+namespace mealplan\datetime;
 
 use JsonSerializable;
 

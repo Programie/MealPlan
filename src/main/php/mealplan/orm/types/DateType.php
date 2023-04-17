@@ -1,9 +1,9 @@
 <?php
-namespace mealplan\orm;
+namespace mealplan\orm\types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\DateType as BaseDateType;
-use mealplan\Date;
+use mealplan\datetime\Date;
 
 class DateType extends BaseDateType
 {

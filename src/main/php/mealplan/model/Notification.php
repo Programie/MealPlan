@@ -3,7 +3,7 @@ namespace mealplan\model;
 
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
-use mealplan\DateTime;
+use mealplan\datetime\DateTime;
 
 #[ORM\Entity(repositoryClass: "mealplan\orm\NotificationRepository")]
 #[ORM\Table(name: "notifications")]

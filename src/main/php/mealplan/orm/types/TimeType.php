@@ -1,10 +1,10 @@
 <?php
-namespace mealplan\orm;
+namespace mealplan\orm\types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\DateType as BaseDateType;
-use mealplan\Date;
-use mealplan\Time;
+use mealplan\datetime\Date;
+use mealplan\datetime\Time;
 
 class TimeType extends BaseDateType
 {

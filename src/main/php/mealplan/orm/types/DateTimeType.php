@@ -1,10 +1,10 @@
 <?php
-namespace mealplan\orm;
+namespace mealplan\orm\types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeType as BaseDateTimeType;
-use mealplan\DateTime;
+use mealplan\datetime\DateTime;
 
 class DateTimeType extends BaseDateTimeType
 {

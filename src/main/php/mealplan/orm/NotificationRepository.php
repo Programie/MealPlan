@@ -3,7 +3,7 @@ namespace mealplan\orm;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use mealplan\DateTime;
+use mealplan\datetime\DateTime;
 use mealplan\model\Notification;
 
 class NotificationRepository extends ServiceEntityRepository

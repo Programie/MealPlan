@@ -9,9 +9,9 @@ doctrine:
     charset: "utf8mb4"
 
     types:
-      date: mealplan\orm\DateType
-      datetime: mealplan\orm\DateTimeType
-      time: mealplan\orm\TimeType
+      date: mealplan\orm\types\DateType
+      datetime: mealplan\orm\types\DateTimeType
+      time: mealplan\orm\types\TimeType
   orm:
     auto_generate_proxy_classes: true
     enable_lazy_ghost_objects: true
