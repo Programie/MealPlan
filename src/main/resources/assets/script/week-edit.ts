@@ -214,7 +214,9 @@ class Editor {
 
     showModal(name: string, mealInputElement: HTMLInputElement, callback: (modalElement: Element, mealInputElement: HTMLInputElement) => void) {
         let modalElement: HTMLElement = document.querySelector(`#week-edit-${name}-modal`);
-        modalElement.dataset.mealId = mealInputElement.dataset.id;
+
+        document.querySelectorAll(".week-edit-meal-container").forEach((element) => element.classList.remove("meal-modal-open"));
+        mealInputElement.closest(".week-edit-meal-container").classList.add("meal-modal-open");
 
         callback(modalElement, mealInputElement);
 
@@ -224,7 +226,7 @@ class Editor {
     configureModal(name: string, configureCallback: (modalElement: Element) => void, saveCallback: (modalElement: Element, mealDataset: DOMStringMap) => boolean) {
         let modalElement: HTMLElement = document.querySelector(`#week-edit-${name}-modal`);
         modalElement.querySelector(".modal-button-ok").addEventListener("click", () => {
-            let mealInputElement: HTMLInputElement = document.querySelector(`.week-edit-meal input[data-id='${modalElement.dataset.mealId}']`);
+            let mealInputElement: HTMLInputElement = document.querySelector(".meal-modal-open input");
 
             if (!saveCallback(modalElement, mealInputElement.dataset)) {
                 return;
