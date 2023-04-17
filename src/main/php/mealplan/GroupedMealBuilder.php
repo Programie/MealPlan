@@ -6,8 +6,8 @@ use mealplan\model\GroupedMeal;
 class GroupedMealBuilder
 {
     public function __construct(
-        private readonly array $excludePattern = [],
-        private readonly array $removePattern = []
+        private readonly array $excludePatterns = [],
+        private readonly array $removePatterns = []
     )
     {
     }
@@ -19,13 +19,13 @@ class GroupedMealBuilder
         foreach ($meals as $meal) {
             $text = $meal->getText();
 
-            foreach ($this->excludePattern as $pattern) {
+            foreach ($this->excludePatterns as $pattern) {
                 if (preg_match($pattern, $text)) {
                     continue 2;
                 }
             }
 
-            foreach ($this->removePattern as $pattern) {
+            foreach ($this->removePatterns as $pattern) {
                 $text = preg_replace($pattern, "", $text);
             }
 
