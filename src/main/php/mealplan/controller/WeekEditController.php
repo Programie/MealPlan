@@ -174,7 +174,7 @@ class WeekEditController extends AbstractController
             $notification->setTime($notificationDateTime);
             $notification->setText($notificationText);
 
-            if ($notificationDateTime > new DateTime) {
+            if ($notificationDateTime->isInTheFuture()) {
                 $notification->setTriggered(false);
             }
 
