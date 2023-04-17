@@ -104,7 +104,7 @@ main {
     background-color: var(--dropdown-bg);
 }
 
-.dropdown-menu > li > a:hover {
+.dropdown-menu > li > a:hover, .dropdown-menu > :hover {
     background-color: var(--bs-primary);
     color: white;
 }
@@ -137,6 +137,19 @@ main {
 
 .floating-button:hover {
     font-size: 26px;
+}
+
+.autocomplete-dropdown {
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+.dropdown-item:not(:hover) > .autocomplete-highlight {
+    color: var(--bs-primary);
+}
+
+.autocomplete-highlight {
+    font-weight: bold;
 }
 
 .datatable-child-expanded {

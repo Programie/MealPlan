@@ -4,6 +4,8 @@ import {Dropdown, Modal, Toast} from "bootstrap";
 import * as Mustache from "mustache";
 import {highlightTodayRow} from "./utils";
 import "./dropdown-submenu";
+import "./autocomplete";
+import {Autocomplete} from "./autocomplete";
 
 class MealNotification {
     public time: Date;
@@ -48,7 +50,7 @@ class Editor {
         this.configureAddButtons();
 
         document.querySelectorAll(".week-edit-meal").forEach((element) => {
-            this.addMealEventListeners(element);
+            this.configureMealElement(element);
         });
 
         document.querySelector("#week-edit-save-button").addEventListener("click", () => {
@@ -62,27 +64,15 @@ class Editor {
         });
     }
 
-    addMealEventListeners(containerElement: Element) {
+    configureMealElement(containerElement: Element) {
         let inputElement = containerElement.querySelector("input");
+        new Autocomplete(inputElement, document.querySelector("#meal-autocompletion-source"), (item) => {
+            inputElement.dataset.url = item.data.url;
+            this.updateOptionButtons(inputElement);
+        });
 
         inputElement.addEventListener("change", () => {
             this.dataChanged = true;
-        });
-
-        inputElement.addEventListener("input", (event: InputEvent) => {
-            if (event.inputType === "insertReplacementText") {
-                let elements: HTMLOptionElement[] = Array.from(document.querySelectorAll("#meal-autocompletion-source > option"));
-
-                let optionElement = elements.find((optionElement: HTMLOptionElement) => {
-                    return optionElement.value === event.data;
-                });
-
-                if (optionElement !== undefined) {
-                    inputElement.dataset.url = optionElement.dataset.url;
-                }
-
-                this.updateOptionButtons(inputElement);
-            }
         });
 
         containerElement.querySelector(".week-edit-meal-button-link").addEventListener("click", () => {
@@ -122,7 +112,7 @@ class Editor {
         containerElement.insertAdjacentHTML("beforeend", newContainer);
         let newContainerElement = containerElement.parentElement.querySelector(".week-edit-meal:last-of-type");
 
-        this.addMealEventListeners(newContainerElement);
+        this.configureMealElement(newContainerElement);
     }
 
     showEditUrlModal(modalElement: Element, mealInputElement: HTMLInputElement) {
