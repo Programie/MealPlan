@@ -1,6 +1,7 @@
 <?php
 namespace mealplan\model;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
@@ -19,6 +20,9 @@ class MealType implements JsonSerializable
     #[ORM\OneToOne(targetEntity: "Space")]
     #[ORM\JoinColumn(name: "space", referencedColumnName: "id")]
     private Space $space;
+
+    #[ORM\Column(name: "notificationTime", type: "time")]
+    private ?DateTime $notificationTime;
 
     public function getId(): int
     {
@@ -49,11 +53,17 @@ class MealType implements JsonSerializable
         return $this;
     }
 
+    public function getNotificationTime(): ?DateTime
+    {
+        return $this->notificationTime;
+    }
+
     public function jsonSerialize(): array
     {
         return [
             "id" => $this->getId(),
-            "name" => $this->getName()
+            "name" => $this->getName(),
+            "notificationTime" => $this->getNotificationTime()
         ];
     }
 }

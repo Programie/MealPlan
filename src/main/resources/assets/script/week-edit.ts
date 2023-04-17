@@ -125,9 +125,9 @@ class Editor {
         this.addMealEventListeners(newContainerElement);
     }
 
-    showEditUrlModal(modalElement: Element, mealDataset: DOMStringMap) {
+    showEditUrlModal(modalElement: Element, mealInputElement: HTMLInputElement) {
         let urlInputElement: HTMLInputElement = modalElement.querySelector("#week-edit-url-input");
-        urlInputElement.value = mealDataset.url;
+        urlInputElement.value = mealInputElement.dataset.url;
     }
 
     saveUrlModal(modalElement: Element, mealDataset: DOMStringMap) {
@@ -153,7 +153,11 @@ class Editor {
         });
     }
 
-    showEditNotificationModal(modalElement: Element, mealDataset: DOMStringMap) {
+    showEditNotificationModal(modalElement: Element, mealInputElement: HTMLInputElement) {
+        let dayDate = mealInputElement.closest("tr").dataset.date;
+        let defaultNotificationTime = mealInputElement.closest("td").dataset.notificationTime;
+        let mealDataset = mealInputElement.dataset;
+
         let invalidElement: HTMLElement = modalElement.querySelector("#week-edit-notification-invalid");
         invalidElement.style.display = null;
 
@@ -162,14 +166,24 @@ class Editor {
 
         let dateTimeElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-time");
 
-        let date = new Date(mealDataset.notificationTime);
-        let year = date.getFullYear();
-        let month = String(date.getMonth() + 1).padStart(2, "0");
-        let day = String(date.getDate()).padStart(2, "0");
-        let hour = String(date.getHours()).padStart(2, "0");
-        let minute = String(date.getMinutes()).padStart(2, "0");
+        let date = null;
+        if (mealDataset.notifcationTime !== null && mealDataset.notificationTime !== "") {
+            date = new Date(mealDataset.notificationTime);
+        } else if (defaultNotificationTime !== null && defaultNotificationTime !== "") {
+            date = new Date(`${dayDate} ${defaultNotificationTime}`);
+        }
 
-        dateTimeElement.value = `${year}-${month}-${day}T${hour}:${minute}`;
+        if (date === null) {
+            dateTimeElement.value = null;
+        } else {
+            let year = date.getFullYear();
+            let month = String(date.getMonth() + 1).padStart(2, "0");
+            let day = String(date.getDate()).padStart(2, "0");
+            let hour = String(date.getHours()).padStart(2, "0");
+            let minute = String(date.getMinutes()).padStart(2, "0");
+
+            dateTimeElement.value = `${year}-${month}-${day}T${hour}:${minute}`;
+        }
 
         let textElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-text");
         textElement.value = mealDataset.notificationText;
@@ -198,13 +212,11 @@ class Editor {
         return true;
     }
 
-    showModal(name: string, mealInputElement: HTMLInputElement, callback: (modalElement: Element, mealDataset: DOMStringMap) => void) {
-        let mealDataset = mealInputElement.dataset;
-
+    showModal(name: string, mealInputElement: HTMLInputElement, callback: (modalElement: Element, mealInputElement: HTMLInputElement) => void) {
         let modalElement: HTMLElement = document.querySelector(`#week-edit-${name}-modal`);
-        modalElement.dataset.mealId = mealDataset.id;
+        modalElement.dataset.mealId = mealInputElement.dataset.id;
 
-        callback(modalElement, mealDataset);
+        callback(modalElement, mealInputElement);
 
         new Modal(modalElement).show();
     }

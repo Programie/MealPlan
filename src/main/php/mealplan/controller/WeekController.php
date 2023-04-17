@@ -56,13 +56,6 @@ class WeekController extends AbstractController
         $startDate = $date->getStartOfWeek();
         $endDate = $date->getEndOfWeek();
 
-        $mealTypes = [];
-
-        $mealTypeRows = $mealTypeRepository->findBySpace($currentSpace);
-        foreach ($mealTypeRows as $mealType) {
-            $mealTypes[$mealType->getId()] = $mealType->getName();
-        }
-
         return $this->render("week.twig", [
             "currentSpace" => $currentSpace,
             "nowWeek" => (new Date)->getStartOfWeek(),
@@ -70,7 +63,7 @@ class WeekController extends AbstractController
             "nextWeek" => $date->getNextWeek()->getStartOfWeek(),
             "startDate" => $startDate,
             "endDate" => $endDate,
-            "mealTypes" => $mealTypes,
+            "mealTypes" => $mealTypeRepository->findBySpace($currentSpace),
             "days" => $this->getPerDayMeals($mealRepository, $currentSpace, $startDate, $endDate, $translator)
         ]);
     }
@@ -87,13 +80,6 @@ class WeekController extends AbstractController
 
         $startDate = $date->getStartOfWeek();
         $endDate = $date->getEndOfWeek();
-
-        $mealTypes = [];
-
-        $mealTypeRows = $mealTypeRepository->findBySpace($currentSpace);
-        foreach ($mealTypeRows as $mealType) {
-            $mealTypes[$mealType->getId()] = $mealType->getName();
-        }
 
         $allMeals = $mealRepository->findBySpace($currentSpace, ["id" => "desc"]);
         $groupedMeals = $groupedMealBuilder->buildFromMeals($allMeals);
@@ -123,7 +109,7 @@ class WeekController extends AbstractController
             "nextWeek" => $date->getNextWeek()->getStartOfWeek(),
             "startDate" => $startDate,
             "endDate" => $endDate,
-            "mealTypes" => $mealTypes,
+            "mealTypes" => $mealTypeRepository->findBySpace($currentSpace),
             "autocompletionItems" => array_values($autocompletionItems),
             "days" => $this->getPerDayMeals($mealRepository, $currentSpace, $startDate, $endDate, $translator)
         ]);

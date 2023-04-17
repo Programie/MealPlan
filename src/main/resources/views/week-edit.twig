@@ -21,8 +21,8 @@
                 <tr>
                     <th></th>
 
-                    {% for type in mealTypes %}
-                        <th class="week-meal-type">{{ type }}</th>
+                    {% for mealType in mealTypes %}
+                        <th class="week-meal-type">{{ mealType.name }}</th>
                     {% endfor %}
                 </tr>
             </thead>
@@ -35,10 +35,10 @@
                             <div class="week-day-date text-muted">{{ day.date.formatForDisplay }}</div>
                         </th>
 
-                        {% for typeId, _ in mealTypes %}
-                            <td class="text-center" data-type="{{ typeId }}">
+                        {% for mealType in mealTypes %}
+                            <td class="text-center" data-type="{{ mealType.id }}" data-notification-time="{{ mealType.notificationTime }}">
                                 <div class="week-edit-meal-container">
-                                    {% for meal in day.meals[typeId]|default([]) %}
+                                    {% for meal in day.meals[mealType.id]|default([]) %}
                                         {% include "week-edit-meal.twig" with {
                                             "id": meal.id,
                                             "text": meal.text,

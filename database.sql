@@ -8,9 +8,10 @@ CREATE TABLE `spaces`
 
 CREATE TABLE `mealtypes`
 (
-    `id`    int(11)      NOT NULL AUTO_INCREMENT,
-    `name`  varchar(200) NOT NULL,
-    `space` int(11)      NOT NULL,
+    `id`               int(11)      NOT NULL AUTO_INCREMENT,
+    `name`             varchar(200) NOT NULL,
+    `space`            int(11)      NOT NULL,
+    `notificationTime` time DEFAULT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`space`) REFERENCES `spaces` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB
