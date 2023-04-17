@@ -1,11 +1,10 @@
 parameters:
   app.datasources.provider: default
   app.custom-links: [ ]
+  app.grouped-meals.exclude-pattern: [ ]
+  app.grouped-meals.remove-pattern: [ ]
   app.save:
     webhook-url: null
     webhook-timeout: 10
   app.notification:
     webhook-url: null
-  app.all-meals:
-    remove-pattern: [ ]
-    exclude-pattern: [ ]

@@ -26,6 +26,10 @@ services:
   mealplan\Config:
     arguments:
       $container: "@service_container"
+  mealplan\GroupedMealBuilder:
+    arguments:
+      $excludePattern: "%app.grouped-meals.exclude-pattern%"
+      $removePattern: "%app.grouped-meals.remove-pattern%"
   mealplan\TwigGlobals:
     arguments:
       $container: "@service_container"

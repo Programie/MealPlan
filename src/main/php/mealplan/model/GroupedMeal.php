@@ -16,7 +16,7 @@ class GroupedMeal implements JsonSerializable
     private array $meals;
 
     /**
-     * @var string[]
+     * @var array
      */
     private array $urls;
 
@@ -27,15 +27,13 @@ class GroupedMeal implements JsonSerializable
         $this->urls = [];
     }
 
-    public function add(Meal $meal)
+    public function add(Meal $meal): void
     {
         $this->meals[] = $meal;
 
         $url = $meal->getUrl();
         if ($url !== null) {
-            $this->urls[] = $url;
-
-            $this->urls = array_unique($this->urls);
+            $this->urls[$url] = true;
         }
     }
 
@@ -51,7 +49,7 @@ class GroupedMeal implements JsonSerializable
 
     public function getUrls(): array
     {
-        return $this->urls;
+        return array_keys($this->urls);
     }
 
     public function jsonSerialize(): array

@@ -40,35 +40,13 @@ class MealRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findBySpaceGroupedByText(Space $space): array
+    /**
+     * @param Space $space
+     * @param array|null $orderBy
+     * @return Meal[]
+     */
+    public function findBySpace(Space $space, ?array $orderBy = null): array
     {
-        $queryBuilder = $this->createQueryBuilder("meal");
-
-        /**
-         * @var $meals Meal[]
-         */
-        $meals = $queryBuilder
-            ->select("meal")
-            ->where("meal.space = :space")
-            ->orderBy("meal.date", "DESC")
-            ->addOrderBy("meal.id", "DESC")
-            ->setParameter(":space", $space->getId())
-            ->getQuery()
-            ->getResult();
-
-        // Usually, I would use a subquery ordering the table and then group it by the `text` field
-        // But, Doctrine ORM does not support that
-        // Therefore, group items in PHP as a workaround
-        $groupedMeals = [];
-
-        foreach ($meals as $meal) {
-            if (isset($groupedMeals[$meal->getText()])) {
-                continue;
-            }
-
-            $groupedMeals[$meal->getText()] = $meal;
-        }
-
-        return $groupedMeals;
+        return $this->findBy(["space" => $space->getId()], $orderBy);
     }
 }

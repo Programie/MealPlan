@@ -5,6 +5,8 @@ use DateInterval;
 use DatePeriod;
 use mealplan\datasource\Manager as DatasourceManager;
 use mealplan\Date;
+use mealplan\GroupedMealBuilder;
+use mealplan\model\GroupedMeal;
 use mealplan\model\Space;
 use mealplan\orm\MealRepository;
 use mealplan\orm\MealTypeRepository;
@@ -74,7 +76,7 @@ class WeekController extends AbstractController
     }
 
     #[Route("/space/{spaceId}/week/{date}/edit", name: "getWeekEditPage", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
-    public function getEditPage(int $spaceId, string $date, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, DatasourceManager $datasourceManager, TranslatorInterface $translator): Response
+    public function getEditPage(int $spaceId, string $date, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, DatasourceManager $datasourceManager, GroupedMealBuilder $groupedMealBuilder, TranslatorInterface $translator): Response
     {
         $date = new Date($date);
 
@@ -93,12 +95,15 @@ class WeekController extends AbstractController
             $mealTypes[$mealType->getId()] = $mealType->getName();
         }
 
-        $autocompletionItems = [];
+        $allMeals = $mealRepository->findBySpace($currentSpace, ["id" => "desc"]);
+        $groupedMeals = $groupedMealBuilder->buildFromMeals($allMeals);
 
-        foreach ($mealRepository->findBySpaceGroupedByText($currentSpace) as $meal) {
-            $autocompletionItems[$meal->getText()] = [
-                "text" => $meal->getText(),
-                "url" => $meal->getUrl()
+        foreach ($groupedMeals as $groupedMeal) {
+            $urls = $groupedMeal->getUrls();
+
+            $autocompletionItems[$groupedMeal->getText()] = [
+                "text" => $groupedMeal->getText(),
+                "url" => empty($urls) ? null : $urls[0]
             ];
         }
 

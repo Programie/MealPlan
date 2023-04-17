@@ -2,6 +2,7 @@
 namespace mealplan\controller;
 
 use mealplan\Config;
+use mealplan\GroupedMealBuilder;
 use mealplan\model\GroupedMeal;
 use mealplan\model\Meal;
 use mealplan\orm\MealRepository;
@@ -28,37 +29,15 @@ class AllMealsController extends AbstractController
     }
 
     #[Route("/space/{spaceId}/all-meals.json", name: "getAllMealsJson", requirements: ["spaceId" => "\d+"], methods: ["GET"])]
-    public function getList(int $spaceId, MealRepository $mealRepository, Config $config): Response
+    public function getList(int $spaceId, SpaceRepository $spaceRepository, MealRepository $mealRepository, GroupedMealBuilder $groupedMealBuilder): Response
     {
-        $config = $config->get("app.all-meals") ?? [];
-
-        /**
-         * @var $allMeals Meal[]
-         */
-        $allMeals = $mealRepository->findBy(["space" => $spaceId], ["date" => "desc", "id" => "desc"]);
-
-        $groupedMeals = [];
-
-        foreach ($allMeals as $meal) {
-            $text = $meal->getText();
-
-            foreach ($config["exclude-pattern"] ?? [] as $pattern) {
-                if (preg_match($pattern, $text)) {
-                    continue 2;
-                }
-            }
-
-            foreach ($config["remove-pattern"] ?? [] as $pattern) {
-                $text = preg_replace($pattern, "", $text);
-            }
-
-            if (!isset($groupedMeals[$text])) {
-                $groupedMeals[$text] = new GroupedMeal($text);
-            }
-
-            $groupedMeals[$text]->add($meal);
+        $currentSpace = $spaceRepository->findById($spaceId);
+        if ($currentSpace === null) {
+            throw new NotFoundHttpException;
         }
 
-        return $this->json(array_values($groupedMeals));
+        $allMeals = $mealRepository->findBySpace($currentSpace, ["id" => "desc"]);
+
+        return $this->json($groupedMealBuilder->buildFromMeals($allMeals));
     }
 }
