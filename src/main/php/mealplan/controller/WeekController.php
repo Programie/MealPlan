@@ -108,6 +108,7 @@ class WeekController extends AbstractController
             "nextWeek" => $date->getNextWeek()->getStartOfWeek(),
             "startDate" => $startDate,
             "endDate" => $endDate,
+            "notes" => $currentSpace->getNotes(),
             "mealTypes" => $mealTypeRepository->findBySpace($currentSpace),
             "autocompletionItems" => array_values($autocompletionItems),
             "days" => $this->getPerDayMeals($mealRepository, $currentSpace, $startDate, $endDate, $translator)

@@ -6,6 +6,7 @@ import {highlightTodayRow} from "./utils";
 import "./dropdown-submenu";
 import "./autocomplete";
 import {Autocomplete} from "./autocomplete";
+import {Sidebar} from "./sidebar";
 
 class MealNotification {
     public time: Date;
@@ -257,6 +258,7 @@ class Editor {
         let tableDataset = (document.querySelector("#week-table") as HTMLElement).dataset;
         let spaceId = tableDataset.spaceId;
         let date = tableDataset.date;
+        let notes = (document.querySelector("#notes-sidebar-text") as HTMLTextAreaElement).value;
 
         try {
             let response = await fetch(`/space/${spaceId}`, {
@@ -265,7 +267,10 @@ class Editor {
                     "Content-Type": "application/json",
                     "Accept": "text/plain"
                 },
-                body: JSON.stringify(meals)
+                body: JSON.stringify({
+                    meals: meals,
+                    notes: notes
+                })
             });
 
             if (response.ok) {
@@ -287,6 +292,7 @@ class Editor {
 
 window.onload = () => {
     new Editor();
+    new Sidebar(document.querySelector("#notes-sidebar"));
 
     highlightTodayRow();
 };

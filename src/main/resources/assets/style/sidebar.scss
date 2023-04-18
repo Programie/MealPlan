@@ -1,0 +1,85 @@
+$sidebar-top: 130px;
+$sidebar-bottom: 130px;
+$sidebar-width: 400px;
+$sidebar-button-size: 60px;
+$sidebar-button-position: 36px;
+$sidebar-header-height: 30px;
+
+:root {
+    @media (prefers-color-scheme: light) {
+        --sidebar-bg: #dfdfdf;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        --sidebar-bg: #313539;
+    }
+}
+
+.sidebar {
+    position: fixed;
+    width: $sidebar-width;
+    right: -$sidebar-width;
+    top: $sidebar-top;
+    bottom: $sidebar-bottom;
+    z-index: 1050;
+    background-color: var(--sidebar-bg);
+    border: 5px solid var(--bs-primary);
+    border-right: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    transition: right 500ms;
+}
+
+.sidebar.show {
+    right: 0;
+}
+
+.sidebar.show .sidebar-button {
+    left: -30px;
+    border-radius: 50%;
+}
+
+.sidebar-button i {
+    position: relative;
+}
+
+.sidebar.show .sidebar-button i {
+    transform: rotate(180deg);
+}
+
+.sidebar-button {
+    position: absolute;
+    top: calc(50% - (#{$sidebar-button-size} / 2));
+    left: -$sidebar-button-position;
+    width: $sidebar-button-size;
+    height: $sidebar-button-size;
+    line-height: $sidebar-button-size;
+    padding: 0;
+    z-index: 10;
+    border-radius: 50% 0 0 50%;
+    transition: left 500ms, border-radius 500ms;
+}
+
+.sidebar-button i {
+    transition: transform 500ms;
+}
+
+.sidebar:not(.show) .sidebar-button:hover {
+    left: -$sidebar-button-size;
+}
+
+.sidebar-header {
+    background-color: var(--bs-primary);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    height: $sidebar-header-height;
+}
+
+.sidebar-content {
+    position: absolute;
+    top: $sidebar-header-height;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}

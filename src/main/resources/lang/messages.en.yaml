@@ -50,6 +50,8 @@ modal:
   ok: "OK"
   cancel: "Cancel"
 
+sidebar.header: "Notes"
+
 weekday:
   long:
     - Monday

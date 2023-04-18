@@ -125,6 +125,16 @@
             "notificationText": "{{ notificationText }}",
             "useState": false
         } only %}
-
     </script>
+{% endblock %}
+
+{% block additional_content %}
+    <div class="sidebar" id="notes-sidebar">
+        <button class="btn btn-primary sidebar-button"><i class="fa-solid fa-chevron-left"></i></button>
+
+        <div class="sidebar-header">{% trans %}sidebar.header{% endtrans %}</div>
+        <div class="sidebar-content">
+            <textarea id="notes-sidebar-text">{{ notes }}</textarea>
+        </div>
+    </div>
 {% endblock %}

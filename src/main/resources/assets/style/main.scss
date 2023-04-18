@@ -17,6 +17,8 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 
 @import "dropdown-submenu";
 
+@import "sidebar";
+
 :root {
     @media (prefers-color-scheme: light) {
         --table-header-bg-color: #{$gray-500};
@@ -163,6 +165,17 @@ main {
 .highlight-meal {
     animation: highlight 3s ease-out;
     animation-iteration-count: 1;
+}
+
+#notes-sidebar-text {
+    padding: 10px 40px;
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    background-color: transparent;
 }
 
 @keyframes highlight {

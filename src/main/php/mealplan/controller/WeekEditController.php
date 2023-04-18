@@ -36,9 +36,13 @@ class WeekEditController extends AbstractController
             throw new BadRequestHttpException("Unable to parse JSON data");
         }
 
-        if (!is_array($inputData)) {
-            throw new BadRequestHttpException("JSON data must be an array");
+        $allMealData = $inputData["meals"] ?? null;
+
+        if (!is_array($allMealData)) {
+            throw new BadRequestHttpException("JSON data does not contain an array in property 'meals'");
         }
+
+        $notes = Sanitize::cleanString($inputData["notes"] ?? null, 65535);
 
         /**
          * @var $space Space
@@ -52,13 +56,15 @@ class WeekEditController extends AbstractController
 
         $savedWeek = null;
 
-        foreach ($inputData as $index => $mealData) {
+        foreach ($allMealData as $index => $mealData) {
             $meal = $this->saveItem($mealData, $index, $space, $mealTypeRepository, $mealRepository, $entityManager);
 
             if ($meal !== null) {
                 $savedWeek = $meal->getDate()->getStartOfWeek();
             }
         }
+
+        $space->setNotes($notes ?? "");
 
         $entityManager->flush();
         $entityManager->commit();
