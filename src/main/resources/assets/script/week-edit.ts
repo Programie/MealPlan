@@ -292,7 +292,9 @@ class Editor {
 
 window.onload = () => {
     new Editor();
-    new Sidebar(document.querySelector("#notes-sidebar"));
+    new Sidebar(document.querySelector("#notes-sidebar"), () => {
+        (document.querySelector("#notes-sidebar-text") as HTMLElement).focus();
+    });
 
     highlightTodayRow();
 };
