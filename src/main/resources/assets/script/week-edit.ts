@@ -58,6 +58,10 @@ class Editor {
             this.save();
         });
 
+        document.querySelector("#notes-sidebar-text").addEventListener("input", () => {
+            this.dataChanged = true;
+        });
+
         window.addEventListener("beforeunload", (event) => {
             if (this.dataChanged) {
                 event.preventDefault();
@@ -92,6 +96,8 @@ class Editor {
 
             let textareaElement = document.querySelector("#notes-sidebar-text") as HTMLTextAreaElement;
             textareaElement.value = `${textareaElement.value.trim()}\n${text}\n`;
+
+            this.dataChanged = true;
 
             this.removeMealElement(inputElement);
 
