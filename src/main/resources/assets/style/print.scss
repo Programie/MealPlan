@@ -8,8 +8,7 @@
 .fa,
 .btn,
 .navbar-brand,
-#space-dropdown,
-#week-edit-button {
+.navbar-nav {
     display: none;
 }
 
@@ -17,6 +16,8 @@ main,
 main .container {
     margin: 0 !important;
     padding: 0 !important;
+    width: 100%;
+    max-width: 100%;
 }
 
 #week-date-container {
