@@ -1,13 +1,10 @@
-import "../style/main.scss";
-import "../images/favicon.svg";
+import "./common";
 
-import "bootstrap";
 import * as $ from "jquery";
 import * as Mustache from "mustache";
 import DataTable, {Api, ApiRowMethods} from "datatables.net-dt";
 import "datatables.net-bs5";
 import {DateHelper} from "./date";
-import "./dropdown-submenu";
 
 class MealType {
     id: number;

@@ -1,9 +1,6 @@
-import "../style/main.scss";
-import "../images/favicon.svg";
+import "./common";
 
-import "bootstrap";
 import {highlightTodayRow, tr} from "./utils";
-import "./dropdown-submenu";
 import {DateTimeHelper} from "./date";
 
 function highlightMeal(mealId: number) {

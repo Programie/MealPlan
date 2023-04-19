@@ -1,9 +1,8 @@
-import "../style/main.scss";
+import "./common";
 
 import {Dropdown, Modal, Toast} from "bootstrap";
 import * as Mustache from "mustache";
 import {highlightTodayRow} from "./utils";
-import "./dropdown-submenu";
 import "./autocomplete";
 import {Autocomplete} from "./autocomplete";
 import {Sidebar} from "./sidebar";
