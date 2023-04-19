@@ -234,8 +234,8 @@ class Editor {
     showModal(name: string, mealInputElement: HTMLInputElement, callback: (modalElement: Element, mealInputElement: HTMLInputElement) => void) {
         let modalElement: HTMLElement = document.querySelector(`#week-edit-${name}-modal`);
 
-        document.querySelectorAll(".week-edit-meal-container").forEach((element) => element.classList.remove("meal-modal-open"));
-        mealInputElement.closest(".week-edit-meal-container").classList.add("meal-modal-open");
+        document.querySelectorAll(".week-edit-meal").forEach((element) => element.classList.remove("meal-modal-open"));
+        mealInputElement.closest(".week-edit-meal").classList.add("meal-modal-open");
 
         callback(modalElement, mealInputElement);
 
