@@ -5,6 +5,7 @@ import * as Mustache from "mustache";
 import DataTable, {Api, ApiRowMethods} from "datatables.net-dt";
 import "datatables.net-bs5";
 import {DateHelper} from "./date";
+import {tr} from "./utils";
 
 class MealType {
     id: number;
@@ -132,7 +133,16 @@ class Table {
                         return html.join(" ");
                     }
                 }
-            ]
+            ],
+            language: {
+                "emptyTable": tr("datatables.empty-table"),
+                "info": tr("datatables.info"),
+                "infoEmpty": tr("datatables.info-empty"),
+                "infoFiltered": tr("datatables.info-filtered"),
+                "loadingRecords": tr("datatables.loading-records"),
+                "search": tr("datatables.search"),
+                "zeroRecords": tr("datatables.zero-records")
+            }
         });
 
         document.querySelector("#all-meals-table tbody").addEventListener("click", (event) => {
