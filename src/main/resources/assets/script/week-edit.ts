@@ -293,7 +293,9 @@ class Editor {
 window.onload = () => {
     new Editor();
     new Sidebar(document.querySelector("#notes-sidebar"), () => {
-        (document.querySelector("#notes-sidebar-text") as HTMLElement).focus();
+        let textareaElement = document.querySelector("#notes-sidebar-text") as HTMLTextAreaElement;
+        textareaElement.focus();
+        textareaElement.setSelectionRange(textareaElement.value.length, textareaElement.value.length);
     });
 
     highlightTodayRow();
