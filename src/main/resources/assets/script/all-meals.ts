@@ -89,7 +89,6 @@ class Table {
 
         this.dataTable = new DataTable("#all-meals-table", {
             paging: false,
-            searching: false,
             order: [[1, "asc"], [0, "asc"]],
             ajax: this.fetchData.bind(this),
             columns: [
@@ -97,12 +96,14 @@ class Table {
                     data: "text"
                 },
                 {
+                    searchable: false,
                     data: {
                         _: "lastMeal.date.getShortFormat()",
                         sort: "lastMeal.date.getKeyFormat()"
                     }
                 },
                 {
+                    searchable: false,
                     data: (row: GroupedMeal, type, set, meta) => {
                         let value = row.averageDaysBetweenMeals;
 
@@ -118,9 +119,11 @@ class Table {
                     }
                 },
                 {
+                    searchable: false,
                     data: "meals.length"
                 },
                 {
+                    searchable: false,
                     orderable: false,
                     data: "urls",
                     render: function (urls: string[]) {
@@ -140,7 +143,8 @@ class Table {
                 "infoEmpty": tr("datatables.info-empty"),
                 "infoFiltered": tr("datatables.info-filtered"),
                 "loadingRecords": tr("datatables.loading-records"),
-                "search": tr("datatables.search"),
+                "search": "_INPUT_",
+                "searchPlaceholder": tr("datatables.search"),
                 "zeroRecords": tr("datatables.zero-records")
             }
         });

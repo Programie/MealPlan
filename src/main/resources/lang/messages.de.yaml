@@ -61,7 +61,7 @@ datatables:
   info-empty: "Keine Daten vorhanden"
   info-filtered: "(gefiltert von _MAX_ Einträgen)"
   loading-records: "Wird geladen..."
-  search: "Suche:"
+  search: "Filtern"
   zero-records: "Keine passenden Einträge gefunden"
 
 weekday:

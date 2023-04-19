@@ -61,7 +61,7 @@ datatables:
   info-empty: "Showing 0 to 0 of 0 entries"
   info-filtered: "(filtered from _MAX_ total entries)"
   loading-records: "Loading..."
-  search: "Search:"
+  search: "Filter"
   zero-records: "No matching records found"
 
 weekday:
