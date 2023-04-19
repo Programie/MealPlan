@@ -2,8 +2,9 @@ import "../style/main.scss";
 import "../images/favicon.svg";
 
 import "bootstrap";
-import {highlightTodayRow} from "./utils";
+import {highlightTodayRow, tr} from "./utils";
 import "./dropdown-submenu";
+import {DateTimeHelper} from "./date";
 
 function highlightMeal(mealId: number) {
     let dayCellElement = document.querySelector(`div[data-meal-id="${mealId}"]`).closest("td");
@@ -27,6 +28,20 @@ window.onload = () => {
         let newDate = (event.target as HTMLInputElement).value;
 
         document.location.href = `${newDate}`;
+    });
+
+    document.querySelectorAll(".meal-notification").forEach((notificationIconElement: HTMLElement) => {
+        let dataset = notificationIconElement.dataset;
+        let date = new DateTimeHelper(dataset.time);
+
+        let tooltip = tr("meal.notification.tooltip");
+
+        let text = dataset.text.trim();
+        if (text !== "") {
+            tooltip = `${tooltip}: ${text}`;
+        }
+
+        notificationIconElement.title = `${tooltip} (${date.getShortFormat()})`;
     });
 
     highlightTodayRow();

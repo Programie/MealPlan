@@ -15,3 +15,7 @@ export function highlightTodayRow(): void {
         row.classList.toggle("active", date.isToday());
     });
 }
+
+export function tr(key: string): string {
+    return (document.querySelector(`#translations > option[value="${key}"]`) as HTMLOptionElement)?.text;
+}

@@ -64,5 +64,11 @@
         </main>
 
         {% block additional_content %}{% endblock %}
+
+        <datalist id="translations">
+            {% for key in translations|default([]) %}
+                <option value="{{ key }}">{{ key|trans }}</option>
+            {% endfor %}
+        </datalist>
     </body>
 </html>

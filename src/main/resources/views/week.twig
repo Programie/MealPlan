@@ -1,4 +1,5 @@
 {% set assetEntryPoint = "week" %}
+{% set translations = ["meal.notification.tooltip"] %}
 
 {% extends "page.twig" %}
 
@@ -44,13 +45,7 @@
                                 {% for meal in day.meals[mealType.id]|default([]) %}
                                     <div data-meal-id="{{ meal.id }}">
                                         {% if meal.notification %}
-                                            {% set notificationTooltip = "meal.notification.tooltip"|trans %}
-
-                                            {% if meal.notification.text %}
-                                                {% set notificationTooltip = notificationTooltip ~ ": " ~ meal.notification.text %}
-                                            {% endif %}
-
-                                            <i class="fa fa-bell meal-notification me-1" title="{{ notificationTooltip }}"></i>
+                                            <i class="fa fa-bell meal-notification me-1" data-time="{{ meal.notification.time.formatForJs }}" data-text="{{ meal.notification.text }}"></i>
                                         {% endif %}
 
                                         {% if meal.url %}

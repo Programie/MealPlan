@@ -31,4 +31,9 @@ class DateTime extends Date
     {
         return $this->format("Y-m-d H:i:s");
     }
+
+    public function formatForJs(): string
+    {
+        return $this->format("c");
+    }
 }

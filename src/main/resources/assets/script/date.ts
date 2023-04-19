@@ -1,5 +1,5 @@
 export class DateHelper {
-    date: Date;
+    protected date: Date;
 
     public constructor(date: any) {
         this.date = new Date(date);
@@ -34,5 +34,18 @@ export class DateHelper {
         let now = new DateHelper(new Date());
 
         return this.isEqualToDate(now);
+    }
+}
+
+export class DateTimeHelper extends DateHelper {
+    public getShortFormat() {
+        return this.date.toLocaleString(undefined, {
+            weekday: "short",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "numeric",
+            minute: "numeric"
+        });
     }
 }
