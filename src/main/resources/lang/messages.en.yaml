@@ -33,6 +33,9 @@ edit:
     modal-text: "Choose whether you want to be notified about this meal."
     text-description: "Title (optional)"
     invalid: "Please provide a valid time!"
+  move-to-notes:
+    title: "Move to notes"
+    toast-body: "The meal has been moved to your notes."
 
 all-meals:
   title: "All Meals"

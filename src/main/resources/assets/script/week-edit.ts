@@ -83,6 +83,28 @@ class Editor {
         containerElement.querySelector(".week-edit-meal-button-notification").addEventListener("click", () => {
             this.showModal("notification", inputElement, this.showEditNotificationModal.bind(this));
         });
+
+        containerElement.querySelector(".week-edit-meal-button-move-to-notes").addEventListener("click", () => {
+            let text = inputElement.value.trim();
+            if (text === "") {
+                return;
+            }
+
+            let textareaElement = document.querySelector("#notes-sidebar-text") as HTMLTextAreaElement;
+            textareaElement.value = `${textareaElement.value.trim()}\n${text}\n`;
+
+            this.removeMealElement(inputElement);
+
+            let toastElement = document.querySelector("#week-edit-move-to-notes-toast");
+            new Toast(toastElement).show();
+        });
+    }
+
+    removeMealElement(inputElement: HTMLInputElement) {
+        inputElement.value = "";
+
+        let containerElement = inputElement.closest(".week-edit-meal") as HTMLElement;
+        containerElement.style.display = "none";
     }
 
     updateOptionButtons(inputElement: HTMLInputElement) {

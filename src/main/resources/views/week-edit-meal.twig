@@ -1,14 +1,27 @@
 {% set buttons = [
-    {"name": "link", "icon": "globe", "active": url},
-    {"name": "notification", "icon": "bell", "active": notificationTime}
+    {"name": "link", "icon": "globe", "iconStyle": "solid", "active": url},
+    {"name": "notification", "icon": "bell", "iconStyle": "solid", "active": notificationTime}
+] %}
+
+{% set dropdownButtons = [
+    {"name": "move-to-notes", "icon": "clipboard", "iconStyle": "regular", "active": false}
 ] %}
 
 <div class="input-group mb-2 week-edit-meal border rounded">
     <input type="text" class="form-control" value="{{ text }}" data-id="{{ id }}" data-date="{{ date }}" data-url="{{ url }}" data-type="{{ type }}" data-notification-time="{{ notificationTime }}" data-notification-text="{{ notificationText }}"/>
 
     {% for button in buttons %}
-        <button class="btn week-edit-meal-button week-edit-meal-button-{{ button.name }}" type="button" title="{{ "edit.#{button.name}.title"|trans }}">
-            <i class="{{ html_classes("fa", "fa-#{button.icon}", "me-1", {"active": button.active and useState}) }}"></i>
+        <button type="button" class="btn week-edit-meal-button week-edit-meal-button-{{ button.name }}" title="{{ "edit.#{button.name}.title"|trans }}">
+            <i class="{{ html_classes("fa-#{button.iconStyle}", "fa-#{button.icon}", {"active": button.active and useState}) }}"></i>
         </button>
     {% endfor %}
+
+    <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"></button>
+    <ul class="dropdown-menu dropdown-menu-end">
+        {% for button in dropdownButtons %}
+            <li>
+                <button class="dropdown-item week-edit-meal-button-{{ button.name }}"><i class="{{ html_classes("fa-#{button.iconStyle}", "fa-#{button.icon}", "me-2", {"active": button.active and useState}) }}"></i>{{ "edit.#{button.name}.title"|trans }}</button>
+            </li>
+        {% endfor %}
+    </ul>
 </div>

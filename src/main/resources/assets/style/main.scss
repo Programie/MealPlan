@@ -106,7 +106,7 @@ main {
     background-color: var(--dropdown-bg);
 }
 
-.dropdown-menu > li > a:hover, .dropdown-menu > :hover {
+.dropdown-menu > li > :not(ul,div):hover, .dropdown-menu > :hover {
     background-color: var(--bs-primary);
     color: white;
 }
