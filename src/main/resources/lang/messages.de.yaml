@@ -57,7 +57,7 @@ sidebar.header: "Notizen"
 
 datatables:
   empty-table: "Keine Daten in der Tabelle vorhanden"
-  info: "_START_ bis _END_ von _TOTAL_ Einträgen"
+  info: "_TOTAL_ Einträge"
   info-empty: "Keine Daten vorhanden"
   info-filtered: "(gefiltert von _MAX_ Einträgen)"
   loading-records: "Wird geladen..."
