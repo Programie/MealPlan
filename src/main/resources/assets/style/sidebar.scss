@@ -1,9 +1,5 @@
-$sidebar-top: 130px;
-$sidebar-bottom: 130px;
-$sidebar-width: 400px;
-$sidebar-button-size: 60px;
-$sidebar-button-position: 36px;
-$sidebar-header-height: 30px;
+@use "sass:map";
+@import "~bootstrap/scss/bootstrap";
 
 :root {
     @media (prefers-color-scheme: light) {
@@ -13,14 +9,35 @@ $sidebar-header-height: 30px;
     @media (prefers-color-scheme: dark) {
         --sidebar-bg: #313539;
     }
+
+    --container-width: 0px;
+
+    @each $key, $width in $grid-breakpoints {
+        @if map.has-key($container-max-widths, $key) {
+            @media (min-width: $width) {
+                --container-width: #{map.get($container-max-widths, $key)};
+            }
+        }
+    }
+}
+
+:root {
+    --container-margin-width: calc((100vw - var(--container-width)) / 2);
+
+    --sidebar-top: 130px;
+    --sidebar-bottom: 130px;
+    --sidebar-button-size: 60px;
+    --sidebar-button-position: 36px;
+    --sidebar-header-height: 30px;
+    --sidebar-width: min(max(var(--container-margin-width), 500px), 100vw);
 }
 
 .sidebar {
     position: fixed;
-    width: $sidebar-width;
-    right: -$sidebar-width;
-    top: $sidebar-top;
-    bottom: $sidebar-bottom;
+    width: var(--sidebar-width);
+    right: calc(-1 * var(--sidebar-width));
+    top: var(--sidebar-top);
+    bottom: var(--sidebar-bottom);
     z-index: 1050;
     background-color: var(--sidebar-bg);
     border: 5px solid var(--bs-primary);
@@ -49,11 +66,11 @@ $sidebar-header-height: 30px;
 
 .sidebar-button {
     position: absolute;
-    top: calc(50% - (#{$sidebar-button-size} / 2));
-    left: -$sidebar-button-position;
-    width: $sidebar-button-size;
-    height: $sidebar-button-size;
-    line-height: $sidebar-button-size;
+    top: calc(50% - (var(--sidebar-button-size) / 2));
+    left: calc(-1 * var(--sidebar-button-position));
+    width: var(--sidebar-button-size);
+    height: var(--sidebar-button-size);
+    line-height: var(--sidebar-button-size);
     padding: 0;
     z-index: 10;
     border-radius: 50% 0 0 50%;
@@ -65,7 +82,7 @@ $sidebar-header-height: 30px;
 }
 
 .sidebar:not(.show) .sidebar-button:hover {
-    left: -$sidebar-button-size;
+    left: calc(-1 * var(--sidebar-button-size));
 }
 
 .sidebar-header {
@@ -73,12 +90,12 @@ $sidebar-header-height: 30px;
     color: white;
     text-align: center;
     font-weight: bold;
-    height: $sidebar-header-height;
+    height: var(--sidebar-header-height);
 }
 
 .sidebar-content {
     position: absolute;
-    top: $sidebar-header-height;
+    top: var(--sidebar-header-height);
     left: 0;
     right: 0;
     bottom: 0;
