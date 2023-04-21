@@ -5,10 +5,10 @@
 {% block title %}{% trans with {"%startDate%": startDate.formatForDisplay, "%endDate%": endDate.formatForDisplay} %}week-page.title{% endtrans %}{% endblock %}
 
 {% block navbar %}
-    <div class="row ms-auto me-auto" id="week-date-container">
+    <div class="row mx-auto order-0" id="week-date-container">
         <div class="col-auto mx-auto d-flex">
             <div id="week-current-date-container" class="align-self-center">
-                <span class="align-middle bold" id="week-current-date">{{ startDate.formatForDisplay }} - {{ endDate.formatForDisplay }}</span>
+                <span class="align-middle bold" id="week-current-date">{{ startDate.formatForDisplay }}<span class="d-none d-lg-inline-block"> - {{ endDate.formatForDisplay }}</span></span>
             </div>
         </div>
     </div>
@@ -37,6 +37,7 @@
 
                         {% for mealType in mealTypes %}
                             <td class="text-center" data-type="{{ mealType.id }}" data-notification-time="{{ mealType.notificationTime }}">
+                                <b class="d-block d-lg-none">{{ mealType.name }}</b>
                                 <div class="week-edit-meal-container">
                                     {% for meal in day.meals[mealType.id]|default([]) %}
                                         {% include "week-edit-meal.twig" with {

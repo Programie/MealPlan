@@ -193,39 +193,31 @@ main {
     }
 }
 
-@media screen and (max-width: 876px) {
+@media screen and (max-width: 575px) {
+    #week-current-date {
+        font-size: 1rem;
+    }
+
+    #week-date-container > .col-auto {
+        padding: 0.1rem;
+    }
+
+    .navbar-brand {
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 991px) {
     table * {
         display: block;
     }
-    nav .navbar-brand > b,
+
     table thead {
         display: none;
     }
-    #space-dropdown .nav-link {
-        font-size: 0;
-    }
-    #space-dropdown .dropdown-toggle::after {
-        font-size: var(--bs-nav-link-font-size);
-        vertical-align: middle;
-    }
-    nav {
-        letter-spacing: -1px;
-    }
-    nav * {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        font-size: 20px;
-        vertical-align: middle;
-    }
+
     .container {
         padding: 0;
-    }
-    main {
-        padding: 0;
-    }
-    nav .container {
-        padding-right: 10px !important;
-        padding-left: 5px !important;
     }
 }
 
