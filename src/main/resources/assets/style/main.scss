@@ -106,13 +106,9 @@ main {
     background-color: var(--dropdown-bg);
 }
 
-.dropdown-menu > li > :not(ul,div):hover, .dropdown-menu > :hover {
+.dropdown-menu > li:hover > :is(a, button) {
     background-color: var(--bs-primary);
     color: white;
-}
-
-.dropdown-menu > li:hover > button {
-    color: white !important;
 }
 
 .toast-container {
