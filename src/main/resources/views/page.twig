@@ -23,7 +23,7 @@
                 <div class="navbar-collapse collapse order-1 order-md-0">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Links</a>
+                            <button class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">Links</button>
                             <ul class="dropdown-menu">
                                 {% if currentSpace %}
                                     <li><a class="dropdown-item" href="/space/{{ currentSpace.id }}/all-meals">{% trans %}all-meals.title{% endtrans %}</a></li>
@@ -39,13 +39,13 @@
                 <div class="navbar-collapse collapse order-3">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item dropdown" id="space-dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <button class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
                                 {% if currentSpace %}
                                     {{ currentSpace.name }}
                                 {% else %}
                                     {% trans %}select-space{% endtrans %}
                                 {% endif %}
-                            </a>
+                            </button>
                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end">
                                 {% for space in globals.spaces|default([]) %}
                                     {% if startDate|default(null) %}
