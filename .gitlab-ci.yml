@@ -4,11 +4,11 @@
 # Mentioned here: https://blog.callr.tech/building-docker-images-with-gitlab-ci-best-practices/
 
 # do not use "latest" here, if you want this to work in the future
-image: docker:18.09.7
+image: docker:23.0.4
 
 # Use this if your GitLab runner does not use socket binding
 services:
-  - docker:18.09.7-dind
+  - docker:23.0.4-dind
 
 before_script:
   # docker login asks for the password to be passed through stdin for security
