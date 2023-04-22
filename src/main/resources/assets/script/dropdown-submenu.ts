@@ -1,21 +1,35 @@
-class TouchDropdownSubmenu {
+class DropdownSubmenu {
     constructor() {
-        document.querySelectorAll(".navbar .dropdown").forEach((dropdownElement) => {
+        document.querySelectorAll(".navbar .dropdown").forEach((dropdownElement: HTMLElement) => {
             dropdownElement.addEventListener("hidden.bs.dropdown", () => {
-                // after dropdown is hidden, then find all submenus
-                dropdownElement.querySelectorAll(".submenu").forEach((dropdownSubmenuElement: HTMLElement) => {
-                    // hide every submenu as well
-                    dropdownSubmenuElement.style.display = "";
-                });
+                this.handleDropdownMenuHideEvent(dropdownElement);
             });
         });
 
         document.querySelectorAll(".dropdown-menu button").forEach((dropdownMenuElement) => {
-            dropdownMenuElement.addEventListener("click", this.handleDropdownMenuEvent.bind(this));
+            dropdownMenuElement.addEventListener("click", this.handleDropdownMenuTouchEvent.bind(this));
         });
     }
 
-    handleDropdownMenuEvent(event: Event) {
+    handleDropdownMenuHideEvent(dropdownMenuElement: HTMLElement) {
+        // Only do on a touch-enabled device
+        if (navigator.maxTouchPoints === 0) {
+            return;
+        }
+
+        // after dropdown is hidden, then find all submenus
+        dropdownMenuElement.querySelectorAll(".submenu").forEach((dropdownSubmenuElement: HTMLElement) => {
+            // hide every submenu as well
+            dropdownSubmenuElement.style.display = "";
+        });
+    }
+
+    handleDropdownMenuTouchEvent(event: Event) {
+        // Only do on a touch-enabled device
+        if (navigator.maxTouchPoints === 0) {
+            return;
+        }
+
         event.stopPropagation();
 
         let dropdownMenuElement = event.target as HTMLElement;
@@ -45,9 +59,5 @@ class TouchDropdownSubmenu {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    if (navigator.maxTouchPoints === 0) {
-        return;
-    }
-
-    new TouchDropdownSubmenu();
+    new DropdownSubmenu();
 });
