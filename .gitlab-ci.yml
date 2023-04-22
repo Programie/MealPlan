@@ -1,41 +1,6 @@
-image: docker:23.0.4
+include:
+  - project: "Programie/Common"
+    file: "docker-images/gitlab-ci.yml"
 
-services:
-  - docker:23.0.4-dind
-
-before_script:
-  - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
-  - echo -n $DOCKER_HUB_TOKEN | docker login -u programie --password-stdin
-
-Build-Main:
-  stage: build
-  only:
-    - main
-  script:
-    - if [[ -z $BUILD_SKIP_DOCKER_PULL ]]; then docker pull $CI_REGISTRY_IMAGE:latest || true; fi
-    - >
-      docker build
-      --pull
-      --build-arg VCS_REF=$CI_COMMIT_SHA
-      --build-arg VCS_URL=$CI_PROJECT_URL
-      --cache-from $CI_REGISTRY_IMAGE:latest
-      --tag $CI_REGISTRY_IMAGE:latest
-      --tag programie/mealplan:latest
-      --push
-      .
-
-Build-Release:
-  stage: build
-  only:
-    - tags
-  script:
-    - >
-      docker build
-      --pull
-      --build-arg VCS_REF=$CI_COMMIT_SHA
-      --build-arg VCS_URL=$CI_PROJECT_URL
-      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
-      --tag programie/mealplan:$CI_COMMIT_REF_NAME
-      --push
-      .
+variables:
+  DOCKER_HUB_REPO: mealplan
