@@ -5,6 +5,7 @@ services:
 
 before_script:
   - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+  - echo -n $DOCKER_HUB_TOKEN | docker login -u programie --password-stdin
 
 Build-Main:
   stage: build
