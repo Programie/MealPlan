@@ -10,7 +10,11 @@
         <div class="col-auto"><a href="/space/{{ currentSpace.id }}/week/{{ previousWeek.formatForUrl }}" class="btn btn-primary" title="{% trans %}goto-week.previous{% endtrans %}"><i class="fa-solid fa-caret-left"></i></a></div>
         <div class="col-auto mx-auto d-flex">
             <div id="week-current-date-container" class="align-self-center" role="button">
-                <span class="align-middle bold" id="week-current-date">{{ startDate.formatForDisplay }}<span class="d-none d-lg-inline-block"> - {{ endDate.formatForDisplay }}</span></span>
+                <span class="align-middle bold" id="week-current-date">
+                    <span class="start-date">{{ startDate.formatForDisplay }}</span>
+                    <span class="d-none d-lg-inline-block">-</span>
+                    <span class="d-none d-lg-inline-block">{{ endDate.formatForDisplay }}</span>
+                </span>
                 <a href="/space/{{ currentSpace.id }}/week/{{ nowWeek.formatForUrl }}" class="btn btn-primary" title="{% trans %}goto-week.current{% endtrans %}"><i class="fa fa-calendar-week"></i></a>
                 <input type="date" id="week-date-selection"/>
             </div>

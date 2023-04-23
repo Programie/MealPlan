@@ -8,7 +8,11 @@
     <div class="row mx-auto order-0" id="week-date-container">
         <div class="col-auto mx-auto d-flex">
             <div id="week-current-date-container" class="align-self-center">
-                <span class="align-middle bold" id="week-current-date">{{ startDate.formatForDisplay }}<span class="d-none d-lg-inline-block"> - {{ endDate.formatForDisplay }}</span></span>
+                <span class="align-middle bold" id="week-current-date">
+                    <span class="start-date">{{ startDate.formatForDisplay }}</span>
+                    <span class="d-none d-lg-inline-block">-</span>
+                    <span class="d-none d-lg-inline-block">{{ endDate.formatForDisplay }}</span>
+                </span>
             </div>
         </div>
     </div>
@@ -134,6 +138,8 @@
             "notificationText": "{{ notificationText }}",
             "useState": false
         } only %}
+
+
     </script>
 {% endblock %}
 
