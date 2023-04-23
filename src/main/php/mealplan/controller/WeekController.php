@@ -90,13 +90,8 @@ class WeekController extends AbstractController
 
         $date = new Date($date);
 
-        $days = $request->query->get("days");
-        if ($days !== null) {
-            $days = (int)$days;
-            if ($days <= 0) {
-                throw new BadRequestHttpException("Days must be > 0");
-            }
-
+        $days = $request->query->getInt("days");
+        if ($days > 0) {
             $startDate = $date;
             $endDate = clone $startDate;
             $endDate->add(new DateInterval(sprintf("P%dD", $days - 1)));
