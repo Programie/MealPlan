@@ -44,4 +44,5 @@ COPY bin /app/bin
 COPY config /app/config
 COPY public /app/public
 COPY src /app/src
+COPY templates /app/templates
 COPY .env /app
