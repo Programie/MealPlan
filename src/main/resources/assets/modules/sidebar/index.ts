@@ -1,3 +1,5 @@
+import "./style.scss";
+
 export class Sidebar {
     private rootElement: HTMLElement;
 

@@ -1,4 +1,5 @@
-import * as bootstrap from "bootstrap";
+import {Dropdown} from "bootstrap";
+import "./style.scss";
 
 class Item {
     public value: string;
@@ -14,7 +15,7 @@ class Item {
     }
 }
 
-class Autocomplete {
+export class Autocomplete {
     private readonly inputElement;
     private readonly onSelect;
     private readonly dropdown;
@@ -40,7 +41,7 @@ class Autocomplete {
         dropdownElement.classList.add("dropdown-menu", "autocomplete-dropdown");
         inputElement.parentNode.insertBefore(dropdownElement, inputElement.nextSibling);
 
-        this.dropdown = new bootstrap.Dropdown(inputElement);
+        this.dropdown = new Dropdown(inputElement);
 
         inputElement.addEventListener("click", (event) => {
             if (this.createItems() === 0) {
@@ -125,5 +126,3 @@ class Autocomplete {
         return items.childNodes.length;
     }
 }
-
-export {Autocomplete};

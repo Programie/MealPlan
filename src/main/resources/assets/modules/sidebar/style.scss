@@ -1,5 +1,4 @@
 @use "sass:map";
-@import "~bootstrap/scss/bootstrap";
 
 :root {
     @media (prefers-color-scheme: light) {
@@ -11,6 +10,23 @@
     }
 
     --container-width: 0px;
+
+    $grid-breakpoints: (
+            xs: 0,
+            sm: 576px,
+            md: 768px,
+            lg: 992px,
+            xl: 1200px,
+            xxl: 1400px
+    );
+
+    $container-max-widths: (
+            sm: 540px,
+            md: 720px,
+            lg: 960px,
+            xl: 1140px,
+            xxl: 1320px
+    );
 
     @each $key, $width in $grid-breakpoints {
         @if map.has-key($container-max-widths, $key) {

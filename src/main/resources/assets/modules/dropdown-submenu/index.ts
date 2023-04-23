@@ -1,3 +1,5 @@
+import "./style.scss";
+
 class DropdownSubmenu {
     constructor() {
         document.querySelectorAll(".navbar .dropdown").forEach((dropdownElement: HTMLElement) => {

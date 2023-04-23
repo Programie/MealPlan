@@ -1,5 +1,6 @@
-import "../style/main.scss";
-import "../images/favicon.svg";
-
 import "bootstrap";
-import "./dropdown-submenu";
+
+import "../modules/dropdown-submenu";
+
+import "../images/favicon.svg";
+import "../style/main.scss";

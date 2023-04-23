@@ -15,13 +15,9 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 
 @import "~datatables.net-bs5/css/dataTables.bootstrap5.css";
 
-@import "dropdown-submenu";
-
-@import "sidebar";
 @import "all-meals";
 @import "week-view";
 @import "week-edit";
-@import "autocomplete";
 @import "floating-buttons";
 
 :root {

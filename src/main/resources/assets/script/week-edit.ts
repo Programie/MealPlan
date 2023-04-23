@@ -1,11 +1,10 @@
 import "./common";
 
-import {Dropdown, Modal, Toast} from "bootstrap";
+import {Modal, Toast} from "bootstrap";
 import * as Mustache from "mustache";
 import {highlightTodayRow} from "./utils";
-import "./autocomplete";
-import {Autocomplete} from "./autocomplete";
-import {Sidebar} from "./sidebar";
+import {Autocomplete} from "../modules/autocomplete";
+import {Sidebar} from "../modules/sidebar";
 
 class MealNotification {
     public time: Date;
