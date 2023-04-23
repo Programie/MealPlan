@@ -284,7 +284,6 @@ class Editor {
 
         let tableDataset = (document.querySelector("#week-table") as HTMLElement).dataset;
         let spaceId = tableDataset.spaceId;
-        let date = tableDataset.date;
         let notes = (document.querySelector("#notes-sidebar-text") as HTMLTextAreaElement).value;
 
         try {
