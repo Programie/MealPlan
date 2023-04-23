@@ -70,6 +70,7 @@ class Editor {
     configureMealElement(containerElement: Element) {
         let inputElement = containerElement.querySelector("input");
         new Autocomplete(inputElement, document.querySelector("#meal-autocompletion-source"), (item) => {
+            this.dataChanged = true;
             inputElement.dataset.url = item.data.url;
             this.updateOptionButtons(inputElement);
         });
