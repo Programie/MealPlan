@@ -204,11 +204,11 @@ main {
 }
 
 @media screen and (max-width: 991px) {
-    table * {
+    #week-table :is(tbody, tr, th, td) {
         display: block;
     }
 
-    table thead {
+    #week-table thead {
         display: none;
     }
 
