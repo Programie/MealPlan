@@ -3,6 +3,7 @@ namespace mealplan\controller;
 
 use DateInterval;
 use DatePeriod;
+use mealplan\Config;
 use mealplan\datasource\Manager as DatasourceManager;
 use mealplan\datetime\Date;
 use mealplan\GroupedMealBuilder;
@@ -20,13 +21,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WeekController extends AbstractController
 {
+    private int $maxDays;
+
     public function __construct(
         private readonly SpaceRepository     $spaceRepository,
         private readonly MealTypeRepository  $mealTypeRepository,
         private readonly MealRepository      $mealRepository,
-        private readonly TranslatorInterface $translator
+        private readonly TranslatorInterface $translator,
+        private readonly Config              $config
     )
     {
+        $this->maxDays = (int)$this->config->get("app.max-days");
     }
 
     #[Route("/space/{spaceId}/week/{date}", name: "getWeekPage", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
@@ -92,6 +97,8 @@ class WeekController extends AbstractController
 
         $days = $request->query->getInt("days");
         if ($days > 0) {
+            $days = min($days, $this->maxDays);
+
             $startDate = $date;
             $endDate = clone $startDate;
             $endDate->add(new DateInterval(sprintf("P%dD", $days - 1)));

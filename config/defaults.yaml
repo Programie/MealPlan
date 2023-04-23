@@ -1,5 +1,6 @@
 parameters:
   app.datasources.provider: default
+  app.max-days: 30
   app.custom-links: [ ]
   app.grouped-meals.exclude-patterns: [ ]
   app.grouped-meals.remove-patterns: [ ]
