@@ -49,9 +49,9 @@
                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end">
                                 {% for space in globals.spaces|default([]) %}
                                     {% if startDate|default(null) %}
-                                        {% set url = "/space/#{space.id}/week/#{startDate.formatForUrl}" %}
+                                        {% set url = path("getWeekPage", {"spaceId": space.id, "date": startDate.formatForUrl} + app.request.query.all) %}
                                     {% else %}
-                                        {% set url = "/space/#{space.id}" %}
+                                        {% set url = path("redirectToWeekWithSpaceId", {"spaceId": space.id} + app.request.query.all) %}
                                     {% endif %}
 
                                     <li><a class="dropdown-item" href="{{ url }}">{{ space.name }}</a></li>

@@ -52,7 +52,7 @@
 
     <div class="floating-button-container">
         <button class="btn btn-success floating-button" id="week-edit-save-button" title="{% trans %}edit.save{% endtrans %}"><i class="fa fa-check"></i></button>
-        <a href="/space/{{ currentSpace.id }}/week/{{ startDate.formatForUrl }}" class="btn btn-danger floating-button" title="{% trans %}edit.cancel{% endtrans %}"><i class="fa fa-xmark"></i></a>
+        <a href="{{ viewUrl }}" class="btn btn-danger floating-button goto-view" title="{% trans %}edit.cancel{% endtrans %}"><i class="fa fa-xmark"></i></a>
     </div>
 
     {% embed "modal.twig" with {"id": "week-edit-url-modal", "title": "edit.link.title"|trans} only %}
@@ -122,6 +122,7 @@
             "notificationText": "{{ notificationText }}",
             "useState": false
         } only %}
+
 
 
     </script>

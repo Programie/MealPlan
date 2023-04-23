@@ -302,7 +302,7 @@ class Editor {
 
             if (response.ok) {
                 this.dataChanged = false;
-                document.location.href = `/space/${spaceId}/week/${date}`;
+                document.location.href = (document.querySelector(".goto-view") as HTMLLinkElement).href;
             } else {
                 let responseText = (await response.text()).trim();
                 if (responseText !== "") {
