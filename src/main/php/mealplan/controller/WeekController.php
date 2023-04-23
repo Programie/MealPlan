@@ -19,45 +19,35 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WeekController extends AbstractController
 {
-    #[Route("/space/{spaceId}/week/{date}", name: "getWeekPage", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
-    public function getPage(int $spaceId, string $date, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, TranslatorInterface $translator): Response
+    public function __construct(
+        private readonly SpaceRepository     $spaceRepository,
+        private readonly MealTypeRepository  $mealTypeRepository,
+        private readonly MealRepository      $mealRepository,
+        private readonly TranslatorInterface $translator
+    )
     {
-        $date = new Date($date);
+    }
 
-        $currentSpace = $spaceRepository->findById($spaceId);
+    #[Route("/space/{spaceId}/week/{date}", name: "getWeekPage", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
+    public function getPage(int $spaceId, string $date): Response
+    {
+        $currentSpace = $this->spaceRepository->findById($spaceId);
         if ($currentSpace === null) {
             throw new NotFoundHttpException;
         }
 
-        $startDate = $date->getStartOfWeek();
-        $endDate = $date->getEndOfWeek();
-
-        return $this->render("week.twig", [
-            "currentSpace" => $currentSpace,
-            "nowWeek" => (new Date)->getStartOfWeek(),
-            "previousWeek" => $date->getPreviousWeek()->getStartOfWeek(),
-            "nextWeek" => $date->getNextWeek()->getStartOfWeek(),
-            "startDate" => $startDate,
-            "endDate" => $endDate,
-            "mealTypes" => $mealTypeRepository->findBySpace($currentSpace),
-            "days" => $this->getPerDayMeals($mealRepository, $currentSpace, $startDate, $endDate, $translator)
-        ]);
+        return $this->render("week.twig", $this->getWeekData($currentSpace, $date, "getWeekPage"));
     }
 
     #[Route("/space/{spaceId}/week/{date}/edit", name: "getWeekEditPage", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
-    public function getEditPage(int $spaceId, string $date, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, DatasourceManager $datasourceManager, GroupedMealBuilder $groupedMealBuilder, TranslatorInterface $translator): Response
+    public function getEditPage(int $spaceId, string $date, DatasourceManager $datasourceManager, GroupedMealBuilder $groupedMealBuilder): Response
     {
-        $date = new Date($date);
-
-        $currentSpace = $spaceRepository->findById($spaceId);
+        $currentSpace = $this->spaceRepository->findById($spaceId);
         if ($currentSpace === null) {
             throw new NotFoundHttpException;
         }
 
-        $startDate = $date->getStartOfWeek();
-        $endDate = $date->getEndOfWeek();
-
-        $allMeals = $mealRepository->findBySpace($currentSpace, ["id" => "desc"]);
+        $allMeals = $this->mealRepository->findBySpace($currentSpace, ["id" => "desc"]);
         $groupedMeals = $groupedMealBuilder->buildFromMeals($allMeals);
 
         foreach ($groupedMeals as $groupedMeal) {
@@ -83,24 +73,16 @@ class WeekController extends AbstractController
             $notes .= "\n";
         }
 
-        return $this->render("week-edit.twig", [
-            "currentSpace" => $currentSpace,
-            "nowWeek" => (new Date)->getStartOfWeek(),
-            "previousWeek" => $date->getPreviousWeek()->getStartOfWeek(),
-            "nextWeek" => $date->getNextWeek()->getStartOfWeek(),
-            "startDate" => $startDate,
-            "endDate" => $endDate,
-            "notes" => $notes,
-            "mealTypes" => $mealTypeRepository->findBySpace($currentSpace),
-            "autocompletionItems" => array_values($autocompletionItems),
-            "days" => $this->getPerDayMeals($mealRepository, $currentSpace, $startDate, $endDate, $translator)
-        ]);
+        return $this->render("week-edit.twig", $this->getWeekData($currentSpace, $date, "getWeekEditPage") + [
+                "notes" => $notes,
+                "autocompletionItems" => array_values($autocompletionItems)
+            ]);
     }
 
     #[Route("/space/{spaceId}/week/{date}.json", name: "getWeekJson", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
-    public function getJson(int $spaceId, string $date, SpaceRepository $spaceRepository, MealRepository $mealRepository, TranslatorInterface $translator): Response
+    public function getJson(int $spaceId, string $date): Response
     {
-        $space = $spaceRepository->findById($spaceId);
+        $space = $this->spaceRepository->findById($spaceId);
         if ($space === null) {
             throw new NotFoundHttpException;
         }
@@ -121,12 +103,35 @@ class WeekController extends AbstractController
             $endDate = $date->getEndOfWeek();
         }
 
-        return $this->json($this->getPerDayMeals($mealRepository, $space, $startDate, $endDate, $translator));
+        return $this->json($this->getPerDayMeals($space, $startDate, $endDate));
     }
 
-    private function getPerDayMeals(MealRepository $mealRepository, Space $space, Date $startDate, Date $endDate, TranslatorInterface $translator): array
+    private function getWeekData(Space $space, string $date, string $route): array
     {
-        $meals = $mealRepository->findBySpaceAndDateRange($space, $startDate, $endDate);
+        $date = new Date($date);
+
+        $startDate = $date->getStartOfWeek();
+        $endDate = $date->getEndOfWeek();
+
+        $nowWeek = (new Date)->getStartOfWeek();
+        $previousWeek = $date->getPreviousWeek()->getStartOfWeek();
+        $nextWeek = $date->getNextWeek()->getStartOfWeek();
+
+        return [
+            "currentSpace" => $space,
+            "previousWeekUrl" => $this->generateUrl($route, ["spaceId" => $space->getId(), "date" => $previousWeek->formatForUrl()]),
+            "nextWeekUrl" => $this->generateUrl($route, ["spaceId" => $space->getId(), "date" => $nextWeek->formatForUrl()]),
+            "nowWeekUrl" => $this->generateUrl($route, ["spaceId" => $space->getId(), "date" => $nowWeek->formatForUrl()]),
+            "startDate" => $startDate,
+            "endDate" => $endDate,
+            "mealTypes" => $this->mealTypeRepository->findBySpace($space),
+            "days" => $this->getPerDayMeals($space, $startDate, $endDate)
+        ];
+    }
+
+    private function getPerDayMeals(Space $space, Date $startDate, Date $endDate): array
+    {
+        $meals = $this->mealRepository->findBySpaceAndDateRange($space, $startDate, $endDate);
 
         $perDayAndTypeMeals = [];
 
@@ -151,7 +156,7 @@ class WeekController extends AbstractController
             $date = new Date($date->format("c"));
 
             $days[$date->formatForKey()] = [
-                "title" => $translator->trans(sprintf("weekday.long.%d", $date->format("N") - 1)),
+                "title" => $this->translator->trans(sprintf("weekday.long.%d", $date->format("N") - 1)),
                 "date" => $date,
                 "meals" => $perDayAndTypeMeals[$date->formatForKey()] ?? []
             ];

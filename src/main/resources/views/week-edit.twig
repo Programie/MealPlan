@@ -1,22 +1,6 @@
 {% set assetEntryPoint = "week-edit" %}
 
-{% extends "page.twig" %}
-
-{% block title %}{% trans with {"%startDate%": startDate.formatForDisplay, "%endDate%": endDate.formatForDisplay} %}week-page.title{% endtrans %}{% endblock %}
-
-{% block navbar %}
-    <div class="row mx-auto order-0" id="week-date-container">
-        <div class="col-auto mx-auto d-flex">
-            <div id="week-current-date-container" class="align-self-center">
-                <span class="align-middle bold" id="week-current-date">
-                    <span class="start-date">{{ startDate.formatForDisplay }}</span>
-                    <span class="d-none d-lg-inline-block">-</span>
-                    <span class="d-none d-lg-inline-block">{{ endDate.formatForDisplay }}</span>
-                </span>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+{% extends "week-base.twig" %}
 
 {% block content %}
     <div class="container">
