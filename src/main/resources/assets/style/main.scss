@@ -18,6 +18,11 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "dropdown-submenu";
 
 @import "sidebar";
+@import "all-meals";
+@import "week-view";
+@import "week-edit";
+@import "autocomplete";
+@import "floating-buttons";
 
 :root {
     @media (prefers-color-scheme: light) {
@@ -41,61 +46,12 @@ main {
     font-size: $header-font-size;
 }
 
-#week-current-date-container {
-    position: relative;
-    font-size: $header-font-size;
-    color: white;
-}
-
-#week-date-selection {
-    position: absolute;
-    left: 0;
-    margin: 0 auto;
-    visibility: hidden;
-}
-
-.week-meal-type, .week-day {
-    font-size: 1.5rem;
-}
-
-.week-edit-meal {
-    background-color: var(--bs-body-bg);
-}
-
-.week-edit-meal > input {
-    border: none;
-}
-
-.week-edit-meal > button:hover {
-    background-color: var(--week-edit-meal-button-hover-bg-color);
-}
-
-.week-edit-meal-button-link .active {
-    color: $blue;
-}
-
-.week-edit-meal-button-notification .active {
-    color: orange;
-}
-
-.meal-notification {
-    color: orange;
-}
-
 .table thead {
     background-color: var(--table-header-bg-color);
 }
 
 .table tr.active {
     background-color: rgba($blue, 0.1);
-}
-
-#week-table th, #week-table td {
-    padding: 1.5rem;
-}
-
-.week-day-date {
-    font-size: 12px;
 }
 
 .navbar-nav .dropdown-menu {
@@ -117,101 +73,17 @@ main {
     right: 32px;
 }
 
-.floating-button-container {
-    position: fixed;
-    bottom: 32px;
-    right: 32px;
-    z-index: 1030;
-}
-
-.floating-button {
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    padding: 0;
-    border-radius: 50%;
-    font-size: 16px;
-    transition: font-size 500ms;
-}
-
-.floating-button:hover {
-    font-size: 26px;
-}
-
-.autocomplete-dropdown {
-    overflow-y: auto;
-    max-height: 200px;
-}
-
 .dropdown-item:not(:hover) > .autocomplete-highlight {
     color: var(--bs-primary);
 }
 
-.autocomplete-highlight {
-    font-weight: bold;
-}
-
-.datatable-child-expanded {
-    background-color: #313539 !important;
-}
-
-.datatable-child-expanded td:first-child {
-    border-left: 5px solid $primary;
-}
-
-.highlight-meal {
-    animation: highlight 3s ease-out;
-    animation-iteration-count: 1;
-}
-
-#notes-sidebar-text {
-    padding: 10px 40px;
-    width: 100%;
-    height: 100%;
-    resize: none;
-    outline: none;
-    white-space: pre;
-    background-color: transparent;
-}
-
-@keyframes highlight {
-    0% {
-        background-color: rgba($yellow, 0.5);
-        color: $black;
-    }
-    50% {
-        background-color: rgba($yellow, 0.5);
-        color: $black;
-    }
-    100% {
-        background-color: transparent;
-        color: inherit;
-    }
-}
-
 @media screen and (max-width: 575px) {
-    #week-current-date {
-        font-size: 1rem;
-    }
-
-    #week-date-container > .col-auto {
-        padding: 0.1rem;
-    }
-
     .navbar-brand {
         margin: 0;
     }
 }
 
 @media screen and (max-width: 991px) {
-    #week-table :is(tbody, tr, th, td) {
-        display: block;
-    }
-
-    #week-table thead {
-        display: none;
-    }
-
     .container {
         padding: 0;
     }

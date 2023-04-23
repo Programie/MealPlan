@@ -1,0 +1,68 @@
+#week-current-date-container {
+    position: relative;
+    font-size: $header-font-size;
+    color: white;
+}
+
+#week-date-selection {
+    position: absolute;
+    left: 0;
+    margin: 0 auto;
+    visibility: hidden;
+}
+
+.week-day-date {
+    font-size: 12px;
+}
+
+.week-meal-type, .week-day {
+    font-size: 1.5rem;
+}
+
+.meal-notification {
+    color: orange;
+}
+
+.highlight-meal {
+    animation: highlight 3s ease-out;
+    animation-iteration-count: 1;
+}
+
+@keyframes highlight {
+    0% {
+        background-color: rgba($yellow, 0.5);
+        color: black;
+    }
+    50% {
+        background-color: rgba($yellow, 0.5);
+        color: black;
+    }
+    100% {
+        background-color: transparent;
+        color: inherit;
+    }
+}
+
+#week-table th, #week-table td {
+    padding: 1.5rem;
+}
+
+@media screen and (max-width: 575px) {
+    #week-current-date {
+        font-size: 1rem;
+    }
+
+    #week-date-container > .col-auto {
+        padding: 0.1rem;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    #week-table :is(tbody, tr, th, td) {
+        display: block;
+    }
+
+    #week-table thead {
+        display: none;
+    }
+}

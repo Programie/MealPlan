@@ -1,0 +1,7 @@
+.datatable-child-expanded {
+    background-color: #313539 !important;
+}
+
+.datatable-child-expanded td:first-child {
+    border-left: 5px solid $primary;
+}

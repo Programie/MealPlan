@@ -1,0 +1,29 @@
+.week-edit-meal {
+    background-color: var(--bs-body-bg);
+}
+
+.week-edit-meal > input {
+    border: none;
+}
+
+.week-edit-meal > button:hover {
+    background-color: var(--week-edit-meal-button-hover-bg-color);
+}
+
+.week-edit-meal-button-link .active {
+    color: $blue;
+}
+
+.week-edit-meal-button-notification .active {
+    color: orange;
+}
+
+#notes-sidebar-text {
+    padding: 10px 40px;
+    width: 100%;
+    height: 100%;
+    resize: none;
+    outline: none;
+    white-space: pre;
+    background-color: transparent;
+}
