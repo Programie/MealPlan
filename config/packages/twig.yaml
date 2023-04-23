@@ -1,5 +1,4 @@
 twig:
-  default_path: "%kernel.project_dir%/src/main/resources/views"
   globals:
     globals: '@mealplan\TwigGlobals'
 
