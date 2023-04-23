@@ -11,6 +11,7 @@ use mealplan\model\Space;
 use mealplan\orm\MealRepository;
 use mealplan\orm\MealTypeRepository;
 use mealplan\orm\SpaceRepository;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,20 +35,22 @@ class WeekController extends AbstractController
     }
 
     #[Route("/space/{spaceId}/week/{date}", name: "getWeekPage", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
-    public function getPage(int $spaceId, string $date, Request $request): Response
+    #[Template("week.twig")]
+    public function getPage(int $spaceId, string $date, Request $request): array
     {
         $currentSpace = $this->spaceRepository->findById($spaceId);
         if ($currentSpace === null) {
             throw new NotFoundHttpException;
         }
 
-        return $this->render("week.twig", $this->getWeekData($currentSpace, $date, "getWeekPage", $request) + [
+        return $this->getWeekData($currentSpace, $date, "getWeekPage", $request) + [
                 "editUrl" => $this->generateUrl("getWeekEditPage", ["spaceId" => $spaceId, "date" => $date] + $request->query->all())
-            ]);
+            ];
     }
 
     #[Route("/space/{spaceId}/week/{date}/edit", name: "getWeekEditPage", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
-    public function getEditPage(int $spaceId, string $date, DatasourceManager $datasourceManager, GroupedMealBuilder $groupedMealBuilder, Request $request): Response
+    #[Template("week-edit.twig")]
+    public function getEditPage(int $spaceId, string $date, DatasourceManager $datasourceManager, GroupedMealBuilder $groupedMealBuilder, Request $request): array
     {
         $currentSpace = $this->spaceRepository->findById($spaceId);
         if ($currentSpace === null) {
@@ -80,11 +83,11 @@ class WeekController extends AbstractController
             $notes .= "\n";
         }
 
-        return $this->render("week-edit.twig", $this->getWeekData($currentSpace, $date, "getWeekEditPage", $request) + [
+        return $this->getWeekData($currentSpace, $date, "getWeekEditPage", $request) + [
                 "notes" => $notes,
                 "autocompletionItems" => array_values($autocompletionItems),
                 "viewUrl" => $this->generateUrl("getWeekPage", ["spaceId" => $spaceId, "date" => $date] + $request->query->all())
-            ]);
+            ];
     }
 
     #[Route("/space/{spaceId}/week/{date}.json", name: "getWeekJson", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
