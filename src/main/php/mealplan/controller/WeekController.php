@@ -34,6 +34,13 @@ class WeekController extends AbstractController
         $this->maxDays = (int)$this->config->get("app.max-days");
     }
 
+    #[Route("/space/{spaceId}/week/current", name: "getCurrentWeekPage", requirements: ["spaceId" => "\d+"], methods: ["GET"])]
+    #[Template("week.twig")]
+    public function getCurrentWeekPage(int $spaceId, Request $request): array
+    {
+        return $this->getPage($spaceId, (new Date)->formatForUrl(), $request);
+    }
+
     #[Route("/space/{spaceId}/week/{date}", name: "getWeekPage", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
     #[Template("week.twig")]
     public function getPage(int $spaceId, string $date, Request $request): array
