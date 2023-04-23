@@ -1,5 +1,4 @@
 <?php
-
 namespace mealplan\controller;
 
 use mealplan\datetime\Date;
