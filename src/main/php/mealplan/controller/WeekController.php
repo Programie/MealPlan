@@ -11,6 +11,7 @@ use mealplan\orm\MealRepository;
 use mealplan\orm\MealTypeRepository;
 use mealplan\orm\SpaceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -80,7 +81,7 @@ class WeekController extends AbstractController
     }
 
     #[Route("/space/{spaceId}/week/{date}.json", name: "getWeekJson", requirements: ["spaceId" => "\d+", "date" => "\d{4}-\d{2}-\d{2}"], methods: ["GET"])]
-    public function getJson(int $spaceId, string $date): Response
+    public function getJson(int $spaceId, string $date, Request $request): Response
     {
         $space = $this->spaceRepository->findById($spaceId);
         if ($space === null) {
@@ -89,8 +90,9 @@ class WeekController extends AbstractController
 
         $date = new Date($date);
 
-        if (isset($_GET["days"])) {
-            $days = (int)$_GET["days"];
+        $days = $request->query->get("days");
+        if ($days !== null) {
+            $days = (int)$days;
             if ($days <= 0) {
                 throw new BadRequestHttpException("Days must be > 0");
             }
