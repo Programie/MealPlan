@@ -316,7 +316,7 @@ class Editor {
     }
 }
 
-window.onload = () => {
+window.addEventListener("DOMContentLoaded", () => {
     new Editor();
     new Sidebar(document.querySelector("#notes-sidebar"), () => {
         let textareaElement = document.querySelector("#notes-sidebar-text") as HTMLTextAreaElement;
@@ -325,4 +325,4 @@ window.onload = () => {
     });
 
     highlightTodayRow();
-};
+});

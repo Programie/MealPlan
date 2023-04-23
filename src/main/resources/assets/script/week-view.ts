@@ -16,7 +16,7 @@ function highlightMealFromQueryParam() {
     }
 }
 
-window.onload = () => {
+window.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#week-current-date").addEventListener("click", () => {
         (document.querySelector("#week-date-selection") as HTMLInputElement).showPicker();
     });
@@ -43,4 +43,4 @@ window.onload = () => {
 
     highlightTodayRow();
     highlightMealFromQueryParam();
-};
+});

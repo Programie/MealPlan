@@ -222,7 +222,8 @@ class Table {
     }
 }
 
-window.onload = () => {
+window.addEventListener("DOMContentLoaded", () => {
     let tableElement = (document.querySelector("#all-meals-table") as HTMLElement);
+
     new Table(tableElement.dataset.spaceId);
-};
+});
