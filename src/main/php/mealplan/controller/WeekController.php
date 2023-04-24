@@ -139,6 +139,8 @@ class WeekController extends AbstractController
             $nextDate = clone $endDate;
             $nextDate->add(new DateInterval("P1D"));
         } else {
+            $days = 0;
+
             $startDate = $date->getStartOfWeek();
             $endDate = $date->getEndOfWeek();
 
@@ -150,6 +152,7 @@ class WeekController extends AbstractController
         $queryParameters = $request->query->all();
 
         return [
+            "numDays" => $days,
             "currentSpace" => $space,
             "urls" => [
                 "previous" => $this->generateUrl($route, ["spaceId" => $space->getId(), "date" => $previousDate->formatForUrl()] + $queryParameters),

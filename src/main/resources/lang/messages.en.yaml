@@ -8,10 +8,14 @@ error-page:
 
 week-page.title: "Week %startDate% - %endDate%"
 select-space: "Select space"
-goto-week:
-  previous: "Goto previous week"
-  current: "Goto current week"
-  next: "Goto next week"
+
+go:
+  days-back: "Go back %days% days"
+  previous-week: "Goto previous week"
+  days-forward: "Go forward %days% days"
+  next-week: "Goto next week"
+  today: "Goto today"
+  current-week: "Goto current week"
 
 week:
   nothing-planed: Nothing planed

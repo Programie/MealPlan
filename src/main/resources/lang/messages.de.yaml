@@ -8,10 +8,14 @@ error-page:
 
 week-page.title: "Woche %startDate% - %endDate%"
 select-space: "Space auswählen"
-goto-week:
-  previous: "Zur vorherigen Woche springen"
-  current: "Zur aktuellen Woche springen"
-  next: "Zur nächsten Woche springen"
+
+go:
+  days-back: "%days% Tage zurück springen"
+  previous-week: "Zur vorherigen Woche springen"
+  days-forward: "%days% Tage weiter springen"
+  next-week: "Zur nächsten Woche springen"
+  today: "Zum heutigen Tag springen"
+  current-week: "Zur aktuellen Woche springen"
 
 week:
   nothing-planed: Nichts geplant
