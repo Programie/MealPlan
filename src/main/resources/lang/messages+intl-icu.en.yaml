@@ -6,16 +6,27 @@ error-page:
     title: "Page not found"
     message: "The requested page could not be found!"
 
-week-page.title: "Week %startDate% - %endDate%"
+week-page.title: "Week {startDate} - {endDate}"
 select-space: "Select space"
 
 go:
-  days-back: "Go back %days% days"
-  previous-week: "Goto previous week"
-  days-forward: "Go forward %days% days"
-  next-week: "Goto next week"
-  today: "Goto today"
-  current-week: "Goto current week"
+  back: >-
+    {days, plural,
+      =0    {Goto previous week}
+      =1    {Goto previous day}
+      other {Go back # days}
+    }
+  forward: >-
+    {days, plural,
+      =0    {Goto next week}
+      =1    {Goto next day}
+      other {Go forward # days}
+    }
+  now: >-
+    {days, plural,
+      =0    {Goto current week}
+      other {Goto today}
+    }
 
 week:
   nothing-planed: Nothing planed

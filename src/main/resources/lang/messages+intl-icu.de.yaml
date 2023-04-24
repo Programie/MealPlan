@@ -6,16 +6,27 @@ error-page:
     title: "Seite nicht gefunden"
     message: "Die angeforderte Seite konnte nicht gefunden werden!"
 
-week-page.title: "Woche %startDate% - %endDate%"
+week-page.title: "Woche {startDate} - {endDate}"
 select-space: "Space auswählen"
 
 go:
-  days-back: "%days% Tage zurück springen"
-  previous-week: "Zur vorherigen Woche springen"
-  days-forward: "%days% Tage weiter springen"
-  next-week: "Zur nächsten Woche springen"
-  today: "Zum heutigen Tag springen"
-  current-week: "Zur aktuellen Woche springen"
+  back: >-
+    {days, plural,
+      =0    {Zur vorherigen Woche springen}
+      =1    {Zum vorherigen Tag springen}
+      other {# Tage zurück springen}
+    }
+  forward: >-
+    {days, plural,
+      =0    {Zur nächsten Woche springen}
+      =1    {Zum nächsten Tag springen}
+      other {# Tage weiter springen}
+    }
+  now: >-
+    {days, plural,
+      =0    {Zur aktuellen Woche springen}
+      other {Zum heutigen Tag springen}
+    }
 
 week:
   nothing-planed: Nichts geplant
