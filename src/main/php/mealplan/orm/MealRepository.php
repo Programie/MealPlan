@@ -1,7 +1,9 @@
 <?php
+
 namespace mealplan\orm;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\OrderBy;
 use Doctrine\Persistence\ManagerRegistry;
 use mealplan\datetime\Date;
 use mealplan\model\Meal;
@@ -23,20 +25,28 @@ class MealRepository extends ServiceEntityRepository
      * @param Space $space
      * @param Date $startDate
      * @param Date $endDate
+     * @param OrderBy|null $orderBy
      * @return Meal[]
      */
-    public function findBySpaceAndDateRange(Space $space, Date $startDate, Date $endDate): array
+    public function findBySpaceAndDateRange(Space $space, Date $startDate, Date $endDate, ?array $orderBy = null): array
     {
         $queryBuilder = $this->createQueryBuilder("meal");
 
-        return $queryBuilder
+        $queryBuilder
             ->select("meal")
             ->where("meal.space = :space")
             ->andWhere($queryBuilder->expr()->between("meal.date", ":startDate", ":endDate"))
             ->setParameter(":space", $space->getId())
             ->setParameter(":startDate", $startDate->formatForDB())
-            ->setParameter(":endDate", $endDate->formatForDB())
-            ->getQuery()
+            ->setParameter(":endDate", $endDate->formatForDB());
+
+        if ($orderBy !== null) {
+            foreach ($orderBy as $sort => $order) {
+                $queryBuilder->addOrderBy(sprintf("meal.%s", $sort), $order);
+            }
+        }
+
+        return $queryBuilder->getQuery()
             ->getResult();
     }
 

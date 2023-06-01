@@ -82,9 +82,11 @@ class GroupedMeal {
 
 class Table {
     dataTable: Api<any>;
+    dataUrl: string;
     spaceId: string;
 
-    constructor(spaceId: string) {
+    constructor(dataUrl: string, spaceId: string) {
+        this.dataUrl = dataUrl;
         this.spaceId = spaceId;
 
         this.dataTable = new DataTable("#all-meals-table", {
@@ -162,7 +164,7 @@ class Table {
     }
 
     fetchData(data: object, callback: ((data: any) => void), settings: any) {
-        fetch(`/space/${this.spaceId}/all-meals.json`)
+        fetch(this.dataUrl)
             .then((response) => response.json())
             .then((response) => {
                 let groupedMeals: GroupedMeal[] = [];
@@ -223,7 +225,27 @@ class Table {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+    let startDateInputElement = document.querySelector("#all-meals-date-selection-start") as HTMLInputElement;
+    let endDateInputElement = document.querySelector("#all-meals-date-selection-end") as HTMLInputElement;
+
+    document.querySelector("#week-current-date").addEventListener("click", () => {
+        startDateInputElement.showPicker();
+    });
+
+    startDateInputElement.addEventListener("change", () => {
+        endDateInputElement.min = startDateInputElement.value;
+        endDateInputElement.value = startDateInputElement.value;
+
+        window.setTimeout(() => {
+            endDateInputElement.showPicker();
+        }, 1);
+    });
+
+    endDateInputElement.addEventListener("change", () => {
+        document.location.search = `?start=${startDateInputElement.value}&end=${endDateInputElement.value}`;
+    });
+
     let tableElement = (document.querySelector("#all-meals-table") as HTMLElement);
 
-    new Table(tableElement.dataset.spaceId);
+    new Table(tableElement.dataset.url, tableElement.dataset.spaceId);
 });

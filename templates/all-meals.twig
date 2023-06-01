@@ -13,9 +13,25 @@
 
 {% block title %}{% trans %}all-meals.title{% endtrans %}{% endblock %}
 
+{% block navbar %}
+    <div class="row ms-auto me-auto" id="week-date-container">
+        <div class="col-auto mx-auto d-flex">
+            <div id="week-current-date-container" class="align-self-center" role="button">
+                <span class="align-middle bold" id="week-current-date">
+                    <span class="all-meals-date-range" data-target="#all-meals-date-selection-start">{{ startDate.formatForDisplay }}</span>
+                    <span>-</span>
+                    <span class="all-meals-date-range" data-target="#all-meals-date-selection-end">{{ endDate.formatForDisplay }}</span>
+                </span>
+                <input type="date" class="hidden-date-selection-input" id="all-meals-date-selection-start" value="{{ startDate.formatForKey }}"/>
+                <input type="date" class="hidden-date-selection-input" id="all-meals-date-selection-end" value="{{ endDate.formatForKey }}"/>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block content %}
     <div class="container">
-        <table class="table table-striped" id="all-meals-table" data-space-id="{{ currentSpace.id }}">
+        <table class="table table-striped" id="all-meals-table" data-space-id="{{ currentSpace.id }}" data-url="{{ path("getAllMealsJson", {"spaceId": currentSpace.id} + app.request.query.all) }}">
             <thead>
                 <tr>
                     <th>{% trans %}all-meals.table-header.text{% endtrans %}</th>

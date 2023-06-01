@@ -15,7 +15,7 @@
                     {% endif %}
                 </span>
                 <a href="{{ urls.now }}" class="btn btn-primary" title="{% trans with {"days": numDays} %}go.now{% endtrans %}"><i class="fa fa-calendar-week"></i></a>
-                <input type="date" id="week-date-selection"/>
+                <input type="date" class="hidden-date-selection-input" id="week-date-selection"/>
             </div>
         </div>
         <div class="col-auto"><a href="{{ urls.next }}" class="btn btn-primary" title="{% trans with {"days": numDays} %}go.forward{% endtrans %}"><i class="fa-solid fa-caret-right"></i></a></div>
