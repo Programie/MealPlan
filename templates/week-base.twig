@@ -2,11 +2,10 @@
 
 {% block title %}{% trans with {"startDate": startDate.formatForDisplay, "endDate": endDate.formatForDisplay} %}week-page.title{% endtrans %}{% endblock %}
 
-{% block navbar %}
-    <div class="row ms-auto me-auto" id="week-date-container">
-        <div class="col-auto"><a href="{{ urls.previous }}" class="btn btn-primary" title="{% trans with {"days": numDays} %}go.back{% endtrans %}"><i class="fa-solid fa-caret-left"></i></a></div>
-        <div class="col-auto mx-auto d-flex">
-            <div id="week-current-date-container" class="align-self-center" role="button">
+{% block navDateContainer %}
+    <div class="col-auto"><a href="{{ urls.previous }}" class="btn btn-primary" title="{% trans with {"days": numDays} %}go.back{% endtrans %}"><i class="fa-solid fa-caret-left"></i></a></div>
+    <div class="col-auto mx-auto d-flex">
+        <div class="align-self-center nav-date-container-inner" role="button">
                 <span class="align-middle bold" id="week-current-date">
                     <span class="start-date">{{ startDate.formatForDisplay }}</span>
                     {% if endDate > startDate %}
@@ -14,10 +13,9 @@
                         <span class="d-none d-lg-inline-block">{{ endDate.formatForDisplay }}</span>
                     {% endif %}
                 </span>
-                <a href="{{ urls.now }}" class="btn btn-primary" title="{% trans with {"days": numDays} %}go.now{% endtrans %}"><i class="fa fa-calendar-week"></i></a>
-                <input type="date" class="hidden-date-selection-input" id="week-date-selection"/>
-            </div>
+            <a href="{{ urls.now }}" class="btn btn-primary" title="{% trans with {"days": numDays} %}go.now{% endtrans %}"><i class="fa fa-calendar-week"></i></a>
+            <input type="date" class="hidden-date-selection-input" id="week-date-selection"/>
         </div>
-        <div class="col-auto"><a href="{{ urls.next }}" class="btn btn-primary" title="{% trans with {"days": numDays} %}go.forward{% endtrans %}"><i class="fa-solid fa-caret-right"></i></a></div>
     </div>
+    <div class="col-auto"><a href="{{ urls.next }}" class="btn btn-primary" title="{% trans with {"days": numDays} %}go.forward{% endtrans %}"><i class="fa-solid fa-caret-right"></i></a></div>
 {% endblock %}

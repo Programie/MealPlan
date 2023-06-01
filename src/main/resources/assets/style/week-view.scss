@@ -1,9 +1,3 @@
-#week-current-date-container {
-    position: relative;
-    font-size: $header-font-size;
-    color: white;
-}
-
 .week-day-date {
     font-size: 12px;
 }
@@ -38,16 +32,6 @@
 
 #week-table th, #week-table td {
     padding: 1.5rem;
-}
-
-@media screen and (max-width: 575px) {
-    #week-current-date {
-        font-size: 1rem;
-    }
-
-    #week-date-container > .col-auto {
-        padding: 0.1rem;
-    }
 }
 
 @media screen and (max-width: 991px) {

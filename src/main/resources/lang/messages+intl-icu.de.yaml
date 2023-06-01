@@ -70,6 +70,16 @@ modal:
 
 sidebar.header: "Notizen"
 
+date-ranges:
+  last-7-days: "Letzte 7 Tage"
+  last-30-days: "Letzte 30 Tage"
+  this-month: "Aktueller Monat"
+  last-month: "Letzter Monat"
+  this-year: "Aktuelles Jahr"
+  last-year: "Letztes Jahr"
+  all: "Alles"
+  custom: "Benutzerdefiniert"
+
 datatables:
   empty-table: "Keine Daten in der Tabelle vorhanden"
   info: "_TOTAL_ Einträge"

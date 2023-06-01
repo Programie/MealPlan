@@ -2,10 +2,14 @@ import "./common";
 
 import * as $ from "jquery";
 import * as Mustache from "mustache";
+import * as moment from "moment";
+import "moment/locale/de";
+import * as DateRangePicker from "daterangepicker";
 import DataTable, {Api, ApiRowMethods} from "datatables.net-dt";
 import "datatables.net-bs5";
 import {DateHelper} from "./date";
 import {tr} from "./utils";
+import {DateOrString} from "daterangepicker";
 
 class MealType {
     id: number;
@@ -225,24 +229,44 @@ class Table {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    let startDateInputElement = document.querySelector("#all-meals-date-selection-start") as HTMLInputElement;
-    let endDateInputElement = document.querySelector("#all-meals-date-selection-end") as HTMLInputElement;
+    moment.locale(window.navigator.language);
 
-    document.querySelector("#week-current-date").addEventListener("click", () => {
-        startDateInputElement.showPicker();
+    let dateRangeContainer = document.querySelector("#all-meals-date-selection") as HTMLElement;
+
+    let rangesMap: { [name: string]: [DateOrString, DateOrString] } = {
+        "date-ranges.last-7-days": [moment().subtract(6, "days"), moment()],
+        "date-ranges.last-30-days": [moment().subtract(29, "days"), moment()],
+        "date-ranges.this-month": [moment().startOf("month"), moment().endOf("month")],
+        "date-ranges.last-month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")],
+        "date-ranges.this-year": [moment().startOf("year"), moment().endOf("year")],
+        "date-ranges.last-year": [moment().subtract(1, "year").startOf("year"), moment().subtract(1, "year").endOf("year")],
+        "date-ranges.all": [null, null]
+    };
+
+    let ranges: { [name: string]: [DateOrString, DateOrString] } = {};
+
+    Object.entries(rangesMap).forEach(([key, range]: [string, [DateOrString, DateOrString]]) => {
+        ranges[tr(key)] = range;
     });
 
-    startDateInputElement.addEventListener("change", () => {
-        endDateInputElement.min = startDateInputElement.value;
-        endDateInputElement.value = startDateInputElement.value;
-
-        window.setTimeout(() => {
-            endDateInputElement.showPicker();
-        }, 1);
-    });
-
-    endDateInputElement.addEventListener("change", () => {
-        document.location.search = `?start=${startDateInputElement.value}&end=${endDateInputElement.value}`;
+    new DateRangePicker(dateRangeContainer, {
+        startDate: moment(dateRangeContainer.dataset.startdate),
+        endDate: moment(dateRangeContainer.dataset.enddate),
+        opens: "center",
+        ranges: ranges,
+        alwaysShowCalendars: true,
+        cancelButtonClasses: "btn btn-sm btn-secondary",
+        locale: {
+            customRangeLabel: tr("date-ranges.custom"),
+            applyLabel: tr("modal.ok"),
+            cancelLabel: tr("modal.cancel")
+        }
+    }, (startDate, endDate) => {
+        if (startDate.isValid() && endDate.isValid()) {
+            document.location.search = `?start=${startDate.format("YYYY-MM-DD")}&end=${endDate.format("YYYY-MM-DD")}`;
+        } else {
+            document.location.search = "";
+        }
     });
 
     let tableElement = (document.querySelector("#all-meals-table") as HTMLElement);

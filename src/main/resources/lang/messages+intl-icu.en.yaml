@@ -70,6 +70,16 @@ modal:
 
 sidebar.header: "Notes"
 
+date-ranges:
+  last-7-days: "Last 7 Days"
+  last-30-days: "Last 30 Days"
+  this-month: "This Month"
+  last-month: "Last Month"
+  this-year: "This Year"
+  last-year: "Last Year"
+  all: "All"
+  custom: "Custom"
+
 datatables:
   empty-table: "No data available in table"
   info: "_TOTAL_ entries"

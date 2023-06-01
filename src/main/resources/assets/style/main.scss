@@ -14,11 +14,20 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
 @import "~datatables.net-bs5/css/dataTables.bootstrap5.css";
+@import "~daterangepicker";
 
 @import "all-meals";
 @import "week-view";
 @import "week-edit";
 @import "floating-buttons";
+
+.daterangepicker::before, .daterangepicker::after {
+    content: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    @import "daterangepicker-dark";
+}
 
 :root {
     @media (prefers-color-scheme: light) {
@@ -63,6 +72,12 @@ main {
     color: white;
 }
 
+.nav-date-container-inner {
+    position: relative;
+    font-size: $header-font-size;
+    color: white;
+}
+
 .hidden-date-selection-input {
     position: absolute;
     left: 0;
@@ -83,6 +98,14 @@ main {
 @media screen and (max-width: 575px) {
     .navbar-brand {
         margin: 0;
+    }
+
+    .nav-date-container > .col-auto {
+        padding: 0.1rem;
+    }
+
+    .nav-date-container-inner {
+        font-size: 1rem;
     }
 }
 

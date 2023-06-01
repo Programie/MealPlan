@@ -6,25 +6,31 @@
     "datatables.info-filtered",
     "datatables.loading-records",
     "datatables.search",
-    "datatables.zero-records"
+    "datatables.zero-records",
+    "date-ranges.last-7-days",
+    "date-ranges.last-30-days",
+    "date-ranges.this-month",
+    "date-ranges.last-month",
+    "date-ranges.this-year",
+    "date-ranges.last-year",
+    "date-ranges.all",
+    "date-ranges.custom",
+    "modal.ok",
+    "modal.cancel"
 ] %}
 
 {% extends "page.twig" %}
 
 {% block title %}{% trans %}all-meals.title{% endtrans %}{% endblock %}
 
-{% block navbar %}
-    <div class="row ms-auto me-auto" id="week-date-container">
-        <div class="col-auto mx-auto d-flex">
-            <div id="week-current-date-container" class="align-self-center" role="button">
-                <span class="align-middle bold" id="week-current-date">
-                    <span class="all-meals-date-range" data-target="#all-meals-date-selection-start">{{ startDate.formatForDisplay }}</span>
+{% block navDateContainer %}
+    <div class="col-auto mx-auto d-flex">
+        <div id="all-meals-date-selection" class="align-self-center nav-date-container-inner" role="button" data-startdate="{{ startDate.formatForKey }}" data-enddate="{{ endDate.formatForKey }}">
+                <span class="align-middle bold">
+                    <span>{{ startDate.formatForDisplay }}</span>
                     <span>-</span>
-                    <span class="all-meals-date-range" data-target="#all-meals-date-selection-end">{{ endDate.formatForDisplay }}</span>
+                    <span>{{ endDate.formatForDisplay }}</span>
                 </span>
-                <input type="date" class="hidden-date-selection-input" id="all-meals-date-selection-start" value="{{ startDate.formatForKey }}"/>
-                <input type="date" class="hidden-date-selection-input" id="all-meals-date-selection-end" value="{{ endDate.formatForKey }}"/>
-            </div>
         </div>
     </div>
 {% endblock %}
