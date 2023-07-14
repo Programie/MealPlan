@@ -11,6 +11,7 @@ use mealplan\datetime\Date;
 use mealplan\datetime\DateTime;
 use mealplan\model\Meal;
 use mealplan\model\Notification;
+use mealplan\model\NotificationPattern;
 use mealplan\model\Space;
 use mealplan\orm\MealRepository;
 use mealplan\orm\MealTypeRepository;
@@ -92,7 +93,7 @@ class WeekEditController extends AbstractController
     private function saveItem($mealData, int $itemIndex, Space $space): ?Meal
     {
         $id = Sanitize::cleanInt($mealData["id"] ?? null);
-        $date = Sanitize::cleanString($mealData["date"] ?? null);
+        $dateString = Sanitize::cleanString($mealData["date"] ?? null);
 
         try {
             $text = Sanitize::cleanString($mealData["text"] ?? null, 200);
@@ -122,8 +123,21 @@ class WeekEditController extends AbstractController
             return null;
         }
 
-        if ($date === null) {
+        if ($dateString === null) {
             throw new BadRequestHttpException(sprintf("Missing date in entry %d", $itemIndex));
+        }
+
+        try {
+            $date = new Date($dateString);
+        } catch (Exception) {
+            throw new BadRequestHttpException(sprintf("Unable to parse date '%s' in entry %d", $dateString, $itemIndex));
+        }
+
+        $type = Sanitize::cleanInt($mealData["type"] ?? null);
+
+        $mealType = $this->mealTypeRepository->findBySpaceAndId($space, $type);
+        if ($mealType === null) {
+            throw new BadRequestHttpException(sprintf("Invalid meal type %d in entry %d", $type, $itemIndex));
         }
 
         $notificationData = $mealData["notification"] ?? [];
@@ -137,19 +151,24 @@ class WeekEditController extends AbstractController
 
         if ($notificationTime === null) {
             $notificationDateTime = null;
+
+            $mealTypeNotificationTime = $mealType->getNotificationTime();
+            if ($mealTypeNotificationTime !== null) {
+
+                // Get the notification time by trying to match the notification pattern from the config
+                $notificationPattern = $this->getNotificationPatternConfig($space, $text);
+                if ($notificationPattern !== null) {
+                    $notificationDateTime = new DateTime(sprintf("%s %s", $date->format("Y-m-d"), $mealTypeNotificationTime->format("H:i:s")));
+                    $notificationDateTime->sub($notificationPattern->getDateInterval());
+                    $notificationText = $notificationPattern->getText();
+                }
+            }
         } else {
             try {
                 $notificationDateTime = new DateTime($notificationTime);
             } catch (Exception) {
                 throw new BadRequestHttpException(sprintf("Unable to parse notification time '%s' in entry %d", $notificationTime, $itemIndex));
             }
-        }
-
-        $type = Sanitize::cleanInt($mealData["type"] ?? null);
-
-        $mealType = $this->mealTypeRepository->findBySpaceAndId($space, $type);
-        if ($mealType === null) {
-            throw new BadRequestHttpException(sprintf("Invalid meal type %d in entry %d", $type, $itemIndex));
         }
 
         if ($id === null) {
@@ -165,12 +184,7 @@ class WeekEditController extends AbstractController
             $notification = $meal->getNotification();
         }
 
-        try {
-            $meal->setDate(new Date($date));
-        } catch (Exception) {
-            throw new BadRequestHttpException(sprintf("Unable to parse date '%s' in entry %d", $date, $itemIndex));
-        }
-
+        $meal->setDate($date);
         $meal->setSpace($space);
         $meal->setType($mealType);
         $meal->setText($text);
@@ -221,5 +235,21 @@ class WeekEditController extends AbstractController
                 "week" => $savedWeek?->formatForKey()
             ]
         ]);
+    }
+
+    private function getNotificationPatternConfig(Space $space, string $textToMatch): ?NotificationPattern
+    {
+        $notificationConfig = $this->config->get("app.notification") ?? [];
+        $notificationPatternTimes = $notificationConfig["pattern-times"] ?? [];
+
+        foreach ($notificationPatternTimes as $patternConfig) {
+            $notificationPattern = NotificationPattern::fromConfig($this->spaceRepository, $patternConfig);
+
+            if ($notificationPattern->checkMatch($space, $textToMatch)) {
+                return $notificationPattern;
+            }
+        }
+
+        return null;
     }
 }

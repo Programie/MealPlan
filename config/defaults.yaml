@@ -9,3 +9,4 @@ parameters:
     webhook-timeout: 10
   app.notification:
     webhook-url: null
+    pattern-times: [ ]
