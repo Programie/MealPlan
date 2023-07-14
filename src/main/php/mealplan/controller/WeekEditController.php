@@ -27,8 +27,19 @@ use Throwable;
 
 class WeekEditController extends AbstractController
 {
+    public function __construct(
+        private readonly SpaceRepository        $spaceRepository,
+        private readonly MealTypeRepository     $mealTypeRepository,
+        private readonly MealRepository         $mealRepository,
+        private readonly Config                 $config,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly LoggerInterface        $logger
+    )
+    {
+    }
+
     #[Route("/space/{spaceId}", name: "saveWeek", requirements: ["spaceId" => "\d+"], methods: ["POST"])]
-    public function save(int $spaceId, EntityManagerInterface $entityManager, SpaceRepository $spaceRepository, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, Config $config, LoggerInterface $logger): Response
+    public function save(int $spaceId): Response
     {
         $inputData = json_decode(file_get_contents("php://input"), true);
 
@@ -47,17 +58,17 @@ class WeekEditController extends AbstractController
         /**
          * @var $space Space
          */
-        $space = $spaceRepository->find($spaceId);
+        $space = $this->spaceRepository->find($spaceId);
         if ($space === null) {
             throw new NotFoundHttpException;
         }
 
-        $entityManager->beginTransaction();
+        $this->entityManager->beginTransaction();
 
         $savedWeek = null;
 
         foreach ($allMealData as $index => $mealData) {
-            $meal = $this->saveItem($mealData, $index, $space, $mealTypeRepository, $mealRepository, $entityManager);
+            $meal = $this->saveItem($mealData, $index, $space);
 
             if ($meal !== null) {
                 $savedWeek = $meal->getDate()->getStartOfWeek();
@@ -66,19 +77,19 @@ class WeekEditController extends AbstractController
 
         $space->setNotes($notes ?? "");
 
-        $entityManager->flush();
-        $entityManager->commit();
+        $this->entityManager->flush();
+        $this->entityManager->commit();
 
         try {
-            $this->triggerSaveWebhook($config, $space, $savedWeek);
+            $this->triggerSaveWebhook($space, $savedWeek);
         } catch (Throwable $exception) {
-            $logger->error($exception);
+            $this->logger->error($exception);
         }
 
         return $this->json(["status" => "ok"]);
     }
 
-    private function saveItem($mealData, int $itemIndex, Space $space, MealTypeRepository $mealTypeRepository, MealRepository $mealRepository, EntityManagerInterface $entityManager): ?Meal
+    private function saveItem($mealData, int $itemIndex, Space $space): ?Meal
     {
         $id = Sanitize::cleanInt($mealData["id"] ?? null);
         $date = Sanitize::cleanString($mealData["date"] ?? null);
@@ -102,10 +113,10 @@ class WeekEditController extends AbstractController
 
         // ID specified but no text -> delete item
         if ($id !== null and $text === null) {
-            $meal = $mealRepository->findBySpaceAndId($space, $id);
+            $meal = $this->mealRepository->findBySpaceAndId($space, $id);
 
             if ($meal !== null) {
-                $entityManager->remove($meal);
+                $this->entityManager->remove($meal);
             }
 
             return null;
@@ -136,7 +147,7 @@ class WeekEditController extends AbstractController
 
         $type = Sanitize::cleanInt($mealData["type"] ?? null);
 
-        $mealType = $mealTypeRepository->findBySpaceAndId($space, $type);
+        $mealType = $this->mealTypeRepository->findBySpaceAndId($space, $type);
         if ($mealType === null) {
             throw new BadRequestHttpException(sprintf("Invalid meal type %d in entry %d", $type, $itemIndex));
         }
@@ -145,7 +156,7 @@ class WeekEditController extends AbstractController
             $meal = new Meal;
             $notification = null;
         } else {
-            $meal = $mealRepository->findBySpaceAndId($space, $id);
+            $meal = $this->mealRepository->findBySpaceAndId($space, $id);
 
             if ($meal === null) {
                 throw new BadRequestHttpException(sprintf("Meal entry with ID %d does not exist", $id));
@@ -165,11 +176,11 @@ class WeekEditController extends AbstractController
         $meal->setText($text);
         $meal->setUrl($url);
 
-        $entityManager->persist($meal);
+        $this->entityManager->persist($meal);
 
         if ($notificationDateTime === null) {
             if ($notification !== null) {
-                $entityManager->remove($notification);
+                $this->entityManager->remove($notification);
             }
         } else {
             if ($notification === null) {
@@ -184,7 +195,7 @@ class WeekEditController extends AbstractController
                 $notification->setTriggered(false);
             }
 
-            $entityManager->persist($notification);
+            $this->entityManager->persist($notification);
         }
 
         return $meal;
@@ -193,9 +204,9 @@ class WeekEditController extends AbstractController
     /**
      * @throws GuzzleException
      */
-    private function triggerSaveWebhook(Config $config, Space $space, ?Date $savedWeek): void
+    private function triggerSaveWebhook(Space $space, ?Date $savedWeek): void
     {
-        $saveConfig = $config->get("app.save") ?? [];
+        $saveConfig = $this->config->get("app.save") ?? [];
         $webhookUrl = $saveConfig["webhook-url"] ?? null;
 
         if ($webhookUrl === null) {
