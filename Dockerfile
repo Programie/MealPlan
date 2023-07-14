@@ -30,6 +30,7 @@ RUN sed -ri -e 's!/var/www/html!/app/public!g' /etc/apache2/sites-available/*.co
     apt-get install -y libicu-dev && \
     docker-php-ext-install intl pdo_mysql && \
     mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
+    echo "[Date]\ndate.timezone = \${TZ}" > "$PHP_INI_DIR/conf.d/date.ini" && \
     mkdir -p /app/var && \
     chown www-data: /app/var
 
