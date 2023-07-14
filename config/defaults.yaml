@@ -3,10 +3,21 @@ parameters:
   app.max-days: 30
   app.custom-links: [ ]
   app.grouped-meals.exclude-patterns: [ ]
+  #    - '/^Some meal to exclude from meal groups/'
   app.grouped-meals.remove-patterns: [ ]
+  #    - '/^Some prefix to remove from meal groups/'
   app.save:
     webhook-url: null
     webhook-timeout: 10
   app.notification:
     webhook-url: null
     pattern-times: [ ]
+#      - patterns:
+#          - '/some meal/'
+#          - '/another meal/'
+#        time: '1H'
+#        text: 'some notification text'
+#      - patterns:
+#          - '/part of a meal text/'
+#        time: '12H'
+#        text: 'another notification'
