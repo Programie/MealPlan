@@ -286,7 +286,11 @@ class Editor {
         let spaceId = tableDataset.spaceId;
         let notes = (document.querySelector("#notes-sidebar-text") as HTMLTextAreaElement).value;
 
+        let saveButtonElement = document.querySelector("#week-edit-save-button");
+
         try {
+            saveButtonElement.setAttribute("disabled", "disabled");
+
             let response = await fetch(`/space/${spaceId}`, {
                 method: "POST",
                 headers: {
@@ -303,6 +307,8 @@ class Editor {
                 this.dataChanged = false;
                 document.location.href = (document.querySelector(".goto-view") as HTMLLinkElement).href;
             } else {
+                saveButtonElement.removeAttribute("disabled");
+
                 let responseText = (await response.text()).trim();
                 if (responseText !== "") {
                     this.showError(responseText);
@@ -311,6 +317,8 @@ class Editor {
                 }
             }
         } catch (error) {
+            saveButtonElement.removeAttribute("disabled");
+
             this.showError(error);
         }
     }
