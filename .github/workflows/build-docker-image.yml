@@ -1,0 +1,13 @@
+name: Build Docker image
+
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * SUN'
+
+jobs:
+  build:
+    uses: programie/Workflows/.github/workflows/build-docker-image.yml
+    with:
+      image: programie/mealplan
+    secrets: inherit
