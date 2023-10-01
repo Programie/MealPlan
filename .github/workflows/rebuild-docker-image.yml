@@ -8,6 +8,6 @@ jobs:
   build:
     uses: programie/Workflows/.github/workflows/build-docker-image.yml@main
     with:
-      image: programie/test
+      image: programie/mealplan
       use_latest_release: true
     secrets: inherit
