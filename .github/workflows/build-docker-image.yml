@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    uses: programie/Workflows/.github/workflows/build-docker-image.yml
+    uses: programie/Workflows/.github/workflows/build-docker-image.yml@main
     with:
       image: programie/mealplan
     secrets: inherit
