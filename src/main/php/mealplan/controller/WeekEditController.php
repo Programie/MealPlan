@@ -161,6 +161,11 @@ class WeekEditController extends AbstractController
                     $notificationDateTime = new DateTime(sprintf("%s %s", $date->format("Y-m-d"), $mealTypeNotificationTime->format("H:i:s")));
                     $notificationDateTime->sub($notificationPattern->getDateInterval());
                     $notificationText = $notificationPattern->getText();
+
+                    // Prevent adding pattern based notifications if date is in the past
+                    if ($notificationDateTime->isInThePast()) {
+                        $notificationDateTime = null;
+                    }
                 }
             }
         } else {
