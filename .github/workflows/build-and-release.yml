@@ -2,6 +2,9 @@ name: Build and Release
 
 on: push
 
+permissions:
+  contents: write
+
 jobs:
   build-docker-image:
     uses: programie/Workflows/.github/workflows/build-docker-image.yml@main
