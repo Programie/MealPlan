@@ -132,6 +132,8 @@ The `space` property can be used to restrict the patterns to a specific space. I
 
 **Note:** As of now, a notification only requests the notification webhook URL (see the [Webhooks](#webhooks) section).
 
+**Note:** To trigger notifications, you must configure a cronjob or something similar to regularly execute `bin/console trigger-notifications`.
+
 ### All Meals
 
 To exclude specific parts of meals or whole meals from the "All Meals" list, you might use the following configuration in your `config.yaml`:
