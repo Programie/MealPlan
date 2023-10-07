@@ -13,6 +13,14 @@ A webapp for managing meal plans.
 * Autocomplete meal entries from previous created meal plans
   * Integrate [Tandoor Recipes](https://docs.tandoor.dev) to autocomplete meal entries from recipes in your cookbook
 
+## Security notice
+
+As of now, there is no authentication implementation available. Everyone able to access the application can see and modify your meal plans!
+
+You should not make this application reachable from the internet without configuring authentication on the webserver level (i.e. htaccess/htpasswd on Apache).
+
+A proper authentication system might be implemented in the future.
+
 ## Installation
 
 Download the [latest release](https://github.com/Programie/MealPlan/releases/latest) and extract it into your webserver directory. Change the document root to the `public` directory.
