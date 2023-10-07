@@ -150,3 +150,17 @@ parameters:
   app.grouped-meals.exclude-patterns:
     - /meal to exclude/
 ```
+
+### Tandoor Recipes
+
+To enable the Tandoor Recipes integration for autocompleting meals from your recipes, add the following configuration to your `config.yaml`:
+
+```yaml
+parameters:
+  app.datasources.provider: tandoor-recipes
+  app.datasources.tandoor-recipes:
+    base-url: https://your-tandoor-instance.example.com
+    api-token: your-api-key
+```
+
+You can get the API key in the account settings of your Tandoor Recipes instance.
