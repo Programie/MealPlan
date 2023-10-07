@@ -5,6 +5,14 @@ A webapp for managing meal plans.
 [![DockerHub](https://img.shields.io/badge/download-DockerHub-blue?logo=docker)](https://hub.docker.com/r/programie/mealplan)
 [![GitHub release](https://img.shields.io/github/v/release/Programie/MealPlan)](https://github.com/Programie/MealPlan/releases/latest)
 
+## Features
+
+* Create weekly meal plans
+* Get an overview of your most or least cooked meals
+* Get notified to prepare your meals before actually cooking the meal (i.e. for marinade)
+* Autocomplete meal entries from previous created meal plans
+  * Integrate [Tandoor Recipes](https://docs.tandoor.dev) to autocomplete meal entries from recipes in your cookbook
+
 ## Installation
 
 Download the [latest release](https://github.com/Programie/MealPlan/releases/latest) and extract it into your webserver directory. Change the document root to the `public` directory.
