@@ -20,3 +20,4 @@ jobs:
       image: programie/mealplan
       path: /app
       zip_name: MealPlan
+    secrets: inherit
