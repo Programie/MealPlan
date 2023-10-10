@@ -20,17 +20,12 @@ RUN composer install --no-dev --ignore-platform-reqs && \
     rm /app/composer.json /app/composer.lock
 
 
-FROM php:8.2-apache
+FROM ghcr.io/programie/dockerimages/php
 
-RUN sed -ri -e 's!/var/www/html!/app/public!g' /etc/apache2/sites-available/*.conf && \
-    sed -ri -e 's!/var/www/!/app/public!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf && \
-    echo "ServerTokens Prod" > /etc/apache2/conf-enabled/z-server-tokens.conf && \
+ENV WEB_ROOT=/app/public
+
+RUN install-php 8.2 dom intl pdo-mysql && \
     a2enmod rewrite && \
-    apt-get -y update && \
-    apt-get install -y libicu-dev && \
-    docker-php-ext-install intl pdo_mysql && \
-    mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
-    echo "[Date]\ndate.timezone = \${TZ}" > "$PHP_INI_DIR/conf.d/date.ini" && \
     mkdir -p /app/var && \
     chown www-data: /app/var
 
