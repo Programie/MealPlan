@@ -1,5 +1,9 @@
 # Changelog
 
+# [1.2.0] - pending
+
+* Retry sending failed notifications with the next trigger
+
 ## [1.1.0] - 2023-10-02
 
 * Prevent adding pattern based notifications if date is in the past

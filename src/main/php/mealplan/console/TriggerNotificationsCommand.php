@@ -46,14 +46,14 @@ class TriggerNotificationsCommand extends Command
                 $client->post($webhookUrl, [
                     RequestOptions::JSON => $notification->getMeal()
                 ]);
+
+                $notification->setTriggered(true);
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
             } catch (Throwable $exception) {
                 $this->logger->error($exception);
                 $result = Command::FAILURE;
             }
-
-            $notification->setTriggered(true);
-            $this->entityManager->persist($notification);
-            $this->entityManager->flush();
         }
 
         return $result;
