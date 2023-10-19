@@ -11,6 +11,7 @@ parameters:
     webhook-timeout: 10
   app.notification:
     webhook-url: null
+    webhook-timeout: 10
     pattern-times: [ ]
 #      - patterns:
 #          - '/some meal/'

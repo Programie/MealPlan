@@ -3,6 +3,7 @@
 # [1.2.0] - pending
 
 * Retry sending failed notifications with the next trigger
+* Add timeout for notification requests (default to 10 seconds)
 
 ## [1.1.0] - 2023-10-02
 

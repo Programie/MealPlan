@@ -44,6 +44,7 @@ class TriggerNotificationsCommand extends Command
             try {
                 $client = new Client;
                 $client->post($webhookUrl, [
+                    RequestOptions::TIMEOUT => $this->config["webhook-timeout"] ?? 0,
                     RequestOptions::JSON => $notification->getMeal()
                 ]);
 
