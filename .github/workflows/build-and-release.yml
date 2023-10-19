@@ -20,4 +20,5 @@ jobs:
     with:
       path: /app
       zip_name: MealPlan
+      additional_files: database.sql database-sample.sql
     secrets: inherit
