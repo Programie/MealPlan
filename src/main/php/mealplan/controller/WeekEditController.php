@@ -234,7 +234,7 @@ class WeekEditController extends AbstractController
 
         $client = new Client;
         $client->post($webhookUrl, [
-            RequestOptions::TIMEOUT => $saveConfig["webhook-timeout"] ?? 0,
+            RequestOptions::TIMEOUT => $saveConfig["webhook-timeout"] ?? 10,
             RequestOptions::JSON => [
                 "space" => $space,
                 "week" => $savedWeek?->formatForKey()
