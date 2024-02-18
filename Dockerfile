@@ -20,7 +20,7 @@ RUN composer install --no-dev --ignore-platform-reqs && \
     rm /app/composer.json /app/composer.lock
 
 
-FROM ghcr.io/programie/dockerimages/php
+FROM ghcr.io/programie/php-docker
 
 ENV WEB_ROOT=/app/public
 
