@@ -1,5 +1,9 @@
 # Changelog
 
+# [1.3.0] - 2024-10-15
+
+* Include URL from entry while moving to notes
+
 # [1.2.0] - 2023-10-19
 
 * Retry sending failed notifications with the next trigger

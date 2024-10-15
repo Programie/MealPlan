@@ -93,6 +93,11 @@ class Editor {
                 return;
             }
 
+            let url = inputElement.dataset.url.trim();
+            if (url !== "") {
+                text = `${text}: ${url}`;
+            }
+
             let textareaElement = document.querySelector("#notes-sidebar-text") as HTMLTextAreaElement;
             textareaElement.value = `${textareaElement.value.trim()}\n${text}\n`;
 
