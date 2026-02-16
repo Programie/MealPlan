@@ -1,5 +1,9 @@
 # Changelog
 
+# [1.4.0] - 2026-02-16
+
+* Allow to extend auto-completion list for meal entries using custom items (#4)
+
 # [1.3.0] - 2024-10-15
 
 * Include URL from entry while moving to notes

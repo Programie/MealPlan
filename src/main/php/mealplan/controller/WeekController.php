@@ -83,6 +83,25 @@ class WeekController extends AbstractController
             ];
         }
 
+        foreach ($this->config->get("app.extend-auto-completion") as $pattern) {
+            if (!str_contains($pattern, "{text}")) {
+                continue;
+            }
+
+            foreach ($autocompletionItems as $item) {
+                $text = str_replace("{text}", $item["text"], $pattern);
+
+                if (in_array($text, $autocompletionItems)) {
+                    continue;
+                }
+
+                $autocompletionItems[$text] = [
+                    "text" => $text,
+                    "url" => $item["url"] ?? null
+                ];
+            }
+        }
+
         ksort($autocompletionItems);
 
         $notes = trim($currentSpace->getNotes());

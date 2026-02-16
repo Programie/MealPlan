@@ -6,6 +6,8 @@ parameters:
   #    - '/^Some meal to exclude from meal groups/'
   app.grouped-meals.remove-patterns: [ ]
   #    - '/^Some prefix to remove from meal groups/'
+  app.extend-auto-completion: []
+  #    - 'Leftovers of {text}'
   app.save:
     webhook-url: null
     webhook-timeout: 10
