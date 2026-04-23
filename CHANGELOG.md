@@ -1,5 +1,9 @@
 # Changelog
 
+# [1.4.1] - 2026-04-23
+
+* Fixed datetime validation in "Configure notification" modal (fixes #10)
+
 # [1.4.0] - 2026-02-16
 
 * Allow to extend auto-completion list for meal entries using custom items (#4)

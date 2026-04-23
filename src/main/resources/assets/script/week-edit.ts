@@ -219,7 +219,7 @@ class Editor {
         let dateTimeElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-time");
         let textElement: HTMLInputElement = modalElement.querySelector("#week-edit-notification-text");
 
-        if (enableElement.checked && dateTimeElement.valueAsDate === null) {
+        if (enableElement.checked && isNaN(dateTimeElement.valueAsNumber)) {
             (modalElement.querySelector("#week-edit-notification-invalid") as HTMLElement).style.display = "block";
             return false;
         }
